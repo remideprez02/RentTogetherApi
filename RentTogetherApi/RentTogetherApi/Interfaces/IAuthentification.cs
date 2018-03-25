@@ -1,10 +1,8 @@
 ﻿using System;
 namespace RentTogetherApi.Interfaces
 {
-    public class IAuthentification
+    public interface IAuthentification
     {
-        public IAuthentification()
-        {
-        }
+        void GetToken();
     }
 }

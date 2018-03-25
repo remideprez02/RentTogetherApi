@@ -1,0 +1,17 @@
+﻿<Properties StartupConfiguration="{9B673C3C-0D90-486C-BF43-FBD5E5F4EECB}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="RentTogetherApi/Models/AuthentificationViewModel.cs">
+    <Files>
+      <File FileName="RentTogetherApi/Controllers/ValuesController.cs" Line="1" Column="1" />
+      <File FileName="RentTogetherApi/Services/Authentification.cs" Line="6" Column="5" />
+      <File FileName="RentTogetherApi/Interfaces/IAuthentification.cs" Line="6" Column="25" />
+      <File FileName="RentTogetherApi/Models/AuthentificationViewModel.cs" Line="5" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.RentTogetherApi PreferredExecutionTarget="MonoDevelop.Default" FirstBuild="True" />
+  <MultiItemStartupConfigurations />
+</Properties>
