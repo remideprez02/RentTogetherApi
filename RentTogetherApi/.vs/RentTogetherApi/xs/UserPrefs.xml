@@ -1,17 +1,36 @@
 ﻿<Properties StartupConfiguration="{9B673C3C-0D90-486C-BF43-FBD5E5F4EECB}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="RentTogetherApi/Models/AuthentificationViewModel.cs">
+  <MonoDevelop.Ide.ItemProperties.RentTogetherApi.Api PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="RentTogetherApi.Interfaces/Program.cs">
     <Files>
-      <File FileName="RentTogetherApi/Controllers/ValuesController.cs" Line="1" Column="1" />
-      <File FileName="RentTogetherApi/Services/Authentification.cs" Line="6" Column="5" />
-      <File FileName="RentTogetherApi/Interfaces/IAuthentification.cs" Line="6" Column="25" />
-      <File FileName="RentTogetherApi/Models/AuthentificationViewModel.cs" Line="5" Column="1" />
+      <File FileName="RentTogetherApi.Entities/Dto/UserDto.cs" Line="16" Column="42" />
+      <File FileName="RentTogetherApi.Entities/Dto/UserRegisterDto.cs" Line="14" Column="42" />
+      <File FileName="RentTogetherApi.Interfaces/Helpers/IMapperHelper.cs" Line="8" Column="6" />
+      <File FileName="RentTogetherApi.Common/Helpers/Mapper.cs" Line="12" Column="10" />
+      <File FileName="RentTogetherApi/Startup.cs" Line="52" Column="26" />
+      <File FileName="RentTogetherApi.Business/Services/AuthentificationService.cs" Line="9" Column="37" />
+      <File FileName="RentTogetherApi.Interfaces/Business/IAuthentificationService.cs" Line="1" Column="1" />
+      <File FileName="RentTogetherApi.Business/Services/UserService.cs" Line="19" Column="24" />
+      <File FileName="RentTogetherApi.Interfaces/Business/IUserService.cs" Line="11" Column="29" />
+      <File FileName="RentTogetherApi.Entities/Business/UserBusinessObject.cs" Line="20" Column="49" />
+      <File FileName="RentTogetherApi/Controllers/UsersController.cs" Line="45" Column="11" />
+      <File FileName="RentTogetherApi.Dal/SqlService.cs" Line="28" Column="1" />
+      <File FileName="RentTogetherApi/Program.cs" Line="32" Column="1" />
+      <File FileName="RentTogetherApi.Entities/RentTogetherDbContext.cs" Line="29" Column="59" />
+      <File FileName="RentTogetherApi.Entities/Roomer.cs" Line="1" Column="1" />
+      <File FileName="RentTogetherApi.Entities/RoomMate.cs" Line="1" Column="1" />
+      <File FileName="RentTogetherApi.Entities/User.cs" Line="1" Column="1" />
+      <File FileName="RentTogetherApi.Interfaces/Dal/IDal.cs" Line="8" Column="26" />
+      <File FileName="RentTogetherApi.Interfaces/Program.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi/Program.cs" relfile="RentTogetherApi/Program.cs" line="36" column="1" />
+      <Breakpoint file="/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi/Program.cs" relfile="RentTogetherApi/Program.cs" line="32" column="1" />
+      <Breakpoint file="/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi/Program.cs" relfile="RentTogetherApi/Program.cs" line="30" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.RentTogetherApi PreferredExecutionTarget="MonoDevelop.Default" FirstBuild="True" />
   <MultiItemStartupConfigurations />
 </Properties>

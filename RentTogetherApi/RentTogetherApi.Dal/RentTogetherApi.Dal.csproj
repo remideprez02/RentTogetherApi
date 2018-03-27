@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RentTogetherApi.Entities\RentTogetherApi.Entities.csproj" />
+    <ProjectReference Include="..\RentTogetherApi.Interfaces\RentTogetherApi.Interfaces.csproj" />
+  </ItemGroup>
+</Project>

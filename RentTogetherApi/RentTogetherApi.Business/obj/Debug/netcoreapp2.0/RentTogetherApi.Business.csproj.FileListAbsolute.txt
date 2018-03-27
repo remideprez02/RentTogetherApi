@@ -1,0 +1,17 @@
+/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Business/bin/Debug/netcoreapp2.0/RentTogetherApi.Business.deps.json
+/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Business/bin/Debug/netcoreapp2.0/RentTogetherApi.Business.runtimeconfig.json
+/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Business/bin/Debug/netcoreapp2.0/RentTogetherApi.Business.runtimeconfig.dev.json
+/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Business/bin/Debug/netcoreapp2.0/RentTogetherApi.Business.dll
+/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Business/bin/Debug/netcoreapp2.0/RentTogetherApi.Business.pdb
+/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Business/obj/Debug/netcoreapp2.0/RentTogetherApi.Business.csproj.CoreCompileInputs.cache
+/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Business/obj/Debug/netcoreapp2.0/RentTogetherApi.Business.AssemblyInfoInputs.cache
+/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Business/obj/Debug/netcoreapp2.0/RentTogetherApi.Business.AssemblyInfo.cs
+/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Business/obj/Debug/netcoreapp2.0/RentTogetherApi.Business.dll
+/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Business/obj/Debug/netcoreapp2.0/RentTogetherApi.Business.pdb
+/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Business/obj/Debug/netcoreapp2.0/RentTogetherApi.Business.csprojResolveAssemblyReference.cache
+/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Business/bin/Debug/netcoreapp2.0/RentTogetherApi.Dal.dll
+/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Business/bin/Debug/netcoreapp2.0/RentTogetherApi.Entities.dll
+/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Business/bin/Debug/netcoreapp2.0/RentTogetherApi.Interfaces.dll
+/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Business/bin/Debug/netcoreapp2.0/RentTogetherApi.Dal.pdb
+/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Business/bin/Debug/netcoreapp2.0/RentTogetherApi.Entities.pdb
+/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Business/bin/Debug/netcoreapp2.0/RentTogetherApi.Interfaces.pdb
