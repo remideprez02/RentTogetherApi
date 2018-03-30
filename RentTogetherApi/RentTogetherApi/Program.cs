@@ -27,7 +27,7 @@ namespace RentTogetherApi
 
                     //Attention aux données déjà enregistrées, ici on supprimer la Database avant de la créee
                     //context.Database.EnsureDeleted();
-                    context.Database.EnsureCreated();
+                    //context.Database.EnsureCreated();
 
                     context.SaveChanges();
                 }

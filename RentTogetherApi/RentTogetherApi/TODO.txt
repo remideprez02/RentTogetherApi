@@ -1,0 +1,4 @@
+﻿Refresh Token --> KO
+Join sur les appels sql pour limiter les couts de consommation --> KO
+ssl --> KO
+log --> KO

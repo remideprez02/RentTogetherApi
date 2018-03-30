@@ -8,7 +8,11 @@ namespace RentTogetherApi.Interfaces.Dal
     public interface IDal
     {
         Task CreateUserAsync(User user);
-        Task<bool> CheckIfUserIsValideAsync(User newUser);
-
+        Task<bool> CheckIfUserAlreadyExistAsync(User newUser);
+        Task<User> GetUserAsyncById(int id);
+        Task<User> GetUserByBasicAuthenticationAsync(UserLoginDto userLoginDto);
+        Task<DateTime> GetUserTokenExpirationDateAsync(string token);
+        Task<bool> DeleteUserByIdAsync(int userId);
+        Task<UserApiDto> UpdateUserAsync(UserApiDto userApiDto);
     }
 }

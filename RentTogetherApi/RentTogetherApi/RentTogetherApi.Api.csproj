@@ -13,6 +13,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,5 +26,10 @@
     <ProjectReference Include="..\RentTogetherApi.Dal\RentTogetherApi.Dal.csproj" />
     <ProjectReference Include="..\RentTogetherApi.Business\RentTogetherApi.Business.csproj" />
     <ProjectReference Include="..\RentTogetherApi.Common\RentTogetherApi.Common.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Controllers\RegisterController.cs" />
+    <Compile Remove="Controllers\AuthenticationController.cs" />
+    <Compile Remove="Controllers\ValuesController.cs" />
   </ItemGroup>
 </Project>

@@ -15,11 +15,14 @@ namespace RentTogetherApi.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+        public string Password { get; set; }
+        public string Token { get; set; }
         public int PhoneNumber { get; set; }
         public int IsOwner { get; set; }
         public int IsRoomer { get; set; }
         public int IsValideUser { get; set; }
         public DateTime CreateDate { get; set; }
+        public DateTime TokenExpirationDate { get; set; }
         public virtual Roomer Roomer { get; set; }
         public virtual Owner Owner { get; set; }
     }

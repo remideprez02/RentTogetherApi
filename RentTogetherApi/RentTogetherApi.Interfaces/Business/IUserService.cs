@@ -9,5 +9,9 @@ namespace RentTogetherApi.Interfaces.Business
     public interface IUserService
     {
         Task<User> CreateUserAsync(UserRegisterDto userRegisterDto);
+        Task<UserApiDto> GetUserApiDtoAsyncById(int id);
+        Task<UserApiDto> GetUserByBasicAuthenticationAsync(UserLoginDto userRegisterDto);
+        Task<bool> DeleteUserByIdAsync(int userId, string token);
+        Task<UserApiDto> UpdateUserAsync(UserApiDto userApiDto);
     }
 }
