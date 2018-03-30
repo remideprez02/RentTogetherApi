@@ -1,3 +1,4 @@
-# Build results
+# Build
 RentTogetherApi/obj/
+# Configuration
 RentTogetherApi/appsettings.json
