@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using RentTogetherApi.Api.Models;
+using RentTogetherApi.Common.Helpers;
 using RentTogetherApi.Entities;
 using RentTogetherApi.Entities.Dto;
 using RentTogetherApi.Interfaces.Business;
@@ -20,13 +24,17 @@ namespace RentTogetherApi.Api.Controllers
         private readonly IAuthenticationService _authenticationService;
         private readonly ICustomEncoder _customEncoder;
         private readonly IMapperHelper _mapperHelper;
+        private readonly ILogger _logger;
 
-        public UsersController(IUserService userService, IAuthenticationService authenticationService, ICustomEncoder customEncoder, IMapperHelper mapperHelper)
+        public UsersController(IUserService userService, IAuthenticationService authenticationService,
+                               ICustomEncoder customEncoder, IMapperHelper mapperHelper,
+                               ILogger<UsersController> logger)
         {
             _userService = userService;
             _authenticationService = authenticationService;
             _customEncoder = customEncoder;
             _mapperHelper = mapperHelper;
+            _logger = logger;
         }
 
         // GET User
@@ -38,54 +46,56 @@ namespace RentTogetherApi.Api.Controllers
             if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues) && id > -1)
             {
                 var token = _customEncoder.DecodeBearerAuth(headerValues.First());
-
+                _logger.LogInformation(LoggingEvents.BearerAuthInProgress, "BearerAuthInProgress({token}) VERIFY TOKEN", token);
                 if (token != null)
                 {
                     //Verify if the token exist and is not expire
                     if (await _authenticationService.CheckIfTokenIsValidAsync(token, id))
                     {
+                        _logger.LogInformation(LoggingEvents.GetItem, "Getting item {ID}", id);
+
                         //Verify if user exist
                         var userApiDto = await _userService.GetUserApiDtoAsyncById(id);
                         if (userApiDto == null)
-                            return StatusCode(401);
-
+                        {
+                            _logger.LogWarning(LoggingEvents.GetItemNotFound, "GetById({ID}) NOT FOUND", id);
+                            return StatusCode(404);
+                        }
                         return Json(userApiDto);
                     }
                 }
-
+                _logger.LogWarning(LoggingEvents.BearerAuthFailed, "BearerAuthFailed({token}) BAD TOKEN", token);
             }
             return StatusCode(401);
         }
 
-        // Get Authentication
+        // Get Authentication (Basic Auth)
         [Route("api/Users")]
         [HttpGet]
         //[RequireHttps]
         public async Task<IActionResult> Get()
         {
-            var header = Request.Headers;
-            //Get header basic
+            //Get header token
             if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues))
             {
-                var decodedBasicAuth = _customEncoder.DecodeBasicAuth(headerValues.ToString());
-
-                //If not null
-                if (decodedBasicAuth != null && decodedBasicAuth.Item1 != "" && decodedBasicAuth.Item2 != "")
+                var token = _customEncoder.DecodeBearerAuth(headerValues.First());
+                _logger.LogInformation(LoggingEvents.BearerAuthInProgress, "BearerAuthInProgress({token}) VERIFY TOKEN", token);
+                if (token != null)
                 {
-                    var userLoginDto = new UserLoginDto()
+                    var user = _userService.GetUserAsyncByToken(token);
+                    if (user != null)
                     {
-                        Email = decodedBasicAuth.Item1,
-                        Password = decodedBasicAuth.Item2
-                    };
+                        //Verify if the token exist and is not expire
+                        if (await _authenticationService.CheckIfTokenIsValidAsync(token, user.Id))
+                        {
+                            _logger.LogInformation(LoggingEvents.GetItem, "Getting item {ID}", user.Id);
 
-                    var userApiDto = await _userService.GetUserByBasicAuthenticationAsync(userLoginDto);
-                    if (userApiDto == null)
-                    {
-                        return StatusCode(401);
+                            var usersApiDto = _userService.GetAllUsersAsync();
+                            return Json(usersApiDto);
+                        }
                     }
-                    return Json(userApiDto);
                 }
-                return StatusCode(401);
+                _logger.LogWarning(LoggingEvents.BearerAuthFailed, "BearerAuthFailed({token}) BAD TOKEN", token);
             }
             return StatusCode(401);
         }
@@ -93,14 +103,17 @@ namespace RentTogetherApi.Api.Controllers
         //POST User
         [Route("api/Users")]
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Post([FromBody]UserRegisterDto userRegisterDto)
         {
+            _logger.LogInformation(LoggingEvents.InsertItem, "Insert New User({Email})", userRegisterDto.Email);
             var user = await _userService.CreateUserAsync(userRegisterDto);
             if (user != null)
             {
                 var userApiDto = _mapperHelper.MapUserToUserApiDto(user);
                 return Json(userApiDto);
             }
+            _logger.LogWarning(LoggingEvents.InsertItem, "Insert New User({Email}) FAILED, USER ALREADY EXIST", userRegisterDto.Email);
             return StatusCode(500);
         }
 

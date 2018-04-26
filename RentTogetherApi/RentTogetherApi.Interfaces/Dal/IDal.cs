@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using RentTogetherApi.Entities;
 using RentTogetherApi.Entities.Dto;
@@ -14,5 +15,7 @@ namespace RentTogetherApi.Interfaces.Dal
         Task<DateTime> GetUserTokenExpirationDateAsync(string token);
         Task<bool> DeleteUserByIdAsync(int userId);
         Task<UserApiDto> UpdateUserAsync(UserApiDto userApiDto);
+        Task<List<UserApiDto>> GetAllUserAsync();
+        Task<UserApiDto> GetUserAsyncByToken(string token);
     }
 }

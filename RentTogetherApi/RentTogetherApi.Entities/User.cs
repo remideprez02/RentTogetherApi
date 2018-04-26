@@ -21,6 +21,7 @@ namespace RentTogetherApi.Entities
         public int IsOwner { get; set; }
         public int IsRoomer { get; set; }
         public int IsValideUser { get; set; }
+        public int IsAdmin { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime TokenExpirationDate { get; set; }
         public virtual Roomer Roomer { get; set; }

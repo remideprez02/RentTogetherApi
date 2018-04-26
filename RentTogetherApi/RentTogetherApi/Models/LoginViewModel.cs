@@ -6,5 +6,8 @@ namespace RentTogetherApi.Api.Models
         public LoginViewModel()
         {
         }
+
+        public string Login { get; set; }
+        public string PassWord { get; set; }
     }
 }

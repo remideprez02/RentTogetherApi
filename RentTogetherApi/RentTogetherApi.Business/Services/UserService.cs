@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 using RentTogetherApi.Entities;
@@ -69,15 +70,20 @@ namespace RentTogetherApi.Business.Services
         /// <param name="userLoginDto">User login dto.</param>
         public async Task<UserApiDto> GetUserByBasicAuthenticationAsync(UserLoginDto userLoginDto)
         {
+            var user = await _dal.GetUserByBasicAuthenticationAsync(userLoginDto);
 
-            var userApiDto = _mapperHelper.MapUserToUserApiDto(await _dal.GetUserByBasicAuthenticationAsync(userLoginDto));
-            var date = await _dal.GetUserTokenExpirationDateAsync(userApiDto.Token);
+            //Check if user token is not UpToDate
+            if(user.TokenExpirationDate < DateTime.UtcNow){
+                //Update token user
+                var userApiDtoUpdate = _authenticationService.RequestToken(user);
 
-            if (date > DateTime.Now)
-            {
-                return userApiDto;
+                //Update user
+                await _dal.UpdateUserAsync(userApiDtoUpdate);
             }
-            return null;
+
+            var userApiDto = _mapperHelper.MapUserToUserApiDto(user);
+
+            return userApiDto;
         }
 
         /// <summary>
@@ -115,6 +121,27 @@ namespace RentTogetherApi.Business.Services
                     return userUpdatedApiDto;
                 }
                 return null;
+            }
+            return null;
+        }
+
+        public async Task<List<UserApiDto>> GetAllUsersAsync()
+        {
+            var users = await _dal.GetAllUserAsync();
+
+            if (users == null)
+            {
+                return null;
+            }
+            return users;
+        }
+
+        public async Task<UserApiDto> GetUserAsyncByToken(string token)
+        {
+            var user = await _dal.GetUserAsyncByToken(token);
+            if (user != null)
+            {
+                return user;
             }
             return null;
         }

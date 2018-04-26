@@ -1,9 +1,9 @@
 ﻿using System;
 namespace RentTogetherApi.Models
 {
-    public class AuthentificationModel
+    public class AuthenticationModel
     {
-        public AuthentiticationModel()
+        public AuthenticationModel()
         {
         }
 

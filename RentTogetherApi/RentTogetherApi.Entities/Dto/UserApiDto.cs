@@ -16,6 +16,7 @@ namespace RentTogetherApi.Entities.Dto
         public int PhoneNumber { get; set; }
         public int IsOwner { get; set; }
         public int IsRoomer { get; set; }
+        public int IsAdmin { get; set; }
         public DateTime CreateDate { get; set; }
         public string Token { get; set; }
         public DateTime TokenExpirationDate { get; set; }

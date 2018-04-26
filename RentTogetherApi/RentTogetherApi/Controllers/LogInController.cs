@@ -2,45 +2,72 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using RentTogetherApi.Api.Models;
+using RentTogetherApi.Common.Helpers;
+using RentTogetherApi.Entities.Dto;
+using RentTogetherApi.Interfaces.Business;
+using RentTogetherApi.Interfaces.Helpers;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace RentTogetherApi.Api.Controllers
 {
-    [Route("api/[controller]")]
-    public class AccountController : Controller
+    //[Route("api/[controller]")]
+    public class LoginController : Controller
     {
-        // GET: api/values
+        private readonly IUserService _userService;
+        private readonly IAuthenticationService _authenticationService;
+        private readonly ICustomEncoder _customEncoder;
+        private readonly IMapperHelper _mapperHelper;
+        private readonly ILogger _logger;
+
+        public LoginController(IUserService userService, IAuthenticationService authenticationService,
+                               ICustomEncoder customEncoder, IMapperHelper mapperHelper,
+                               ILogger<UsersController> logger)
+        {
+            _userService = userService;
+            _authenticationService = authenticationService;
+            _customEncoder = customEncoder;
+            _mapperHelper = mapperHelper;
+            _logger = logger;
+        }
+
+        // Get Authentication (Basic Auth)
+        [Route("api/Login")]
         [HttpGet]
-        public IEnumerable<string> Get()
+        //[RequireHttps]
+        public async Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
-        }
+            //Get header basic
+            if (Request.Headers.TryGetValue("Authorization", out Microsoft.Extensions.Primitives.StringValues headerValues))
+            {
+                var decodedBasicAuth = _customEncoder.DecodeBasicAuth(headerValues.ToString());
+                //_logger.LogInformation(LoggingEvents.BasicAuthInProgress, "VERIFY BASIC AUTH");
+                //If not null
+                if (decodedBasicAuth != null && decodedBasicAuth.Item1 != "" && decodedBasicAuth.Item2 != "")
+                {
+                    var userLoginDto = new UserLoginDto()
+                    {
+                        Email = decodedBasicAuth.Item1,
+                        Password = decodedBasicAuth.Item2
+                    };
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+                    var userApiDto = await _userService.GetUserByBasicAuthenticationAsync(userLoginDto);
+                    if (userApiDto == null)
+                    {
+                        //_logger.LogWarning(LoggingEvents.GetItem, "GetById({ID}) NOT FOUND", userApiDto.UserId);
+                        return StatusCode(401);
+                    }
+                    return Json(userApiDto);
+                }
+                //_logger.LogWarning(LoggingEvents.BasicAuthFailed, "BASIC AUTH FAILED");
+                return StatusCode(401);
+            }
+            return StatusCode(401);
         }
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using RentTogetherApi.Entities.Dto;
 using RentTogetherApi.Interfaces.Helpers;
 using System.Globalization;
+using System.Collections.Generic;
 
 namespace RentTogetherApi.Dal
 {
@@ -164,6 +165,47 @@ namespace RentTogetherApi.Dal
                     await _rentTogetherDbContext.SaveChangesAsync();
 
                     return _mapperHelper.MapUserToUserApiDto(updateUser);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<List<UserApiDto>> GetAllUserAsync()
+        {
+            try
+            {
+
+                var users = await _rentTogetherDbContext.Users.ToListAsync();
+
+                var usersApiDto = new List<UserApiDto>();
+
+                foreach (var usr in users)
+                {
+                    usersApiDto.Add(_mapperHelper.MapUserToUserApiDto(usr));
+                }
+
+                return usersApiDto;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<UserApiDto> GetUserAsyncByToken(string token)
+        {
+
+            try
+            {
+                var user = await _rentTogetherDbContext.Users.SingleOrDefaultAsync(x => x.Token == token && x.IsAdmin == 1);
+                if (user != null)
+                {
+                    return _mapperHelper.MapUserToUserApiDto(user);
                 }
                 return null;
             }

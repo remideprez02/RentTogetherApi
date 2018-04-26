@@ -22,6 +22,7 @@ namespace RentTogetherApi.Common.Mapper
                 Password = userRegisterDto.Password,
                 IsOwner = userRegisterDto.IsOwner,
                 IsRoomer = userRegisterDto.IsRoomer,
+                IsAdmin = userRegisterDto.IsAdmin,
                 Owner = new Owner(),
                 PhoneNumber = userRegisterDto.PhoneNumber,
                 Roomer = new Roomer(),
@@ -40,6 +41,7 @@ namespace RentTogetherApi.Common.Mapper
                 Password = user.Password,
                 IsOwner = user.IsOwner,
                 IsRoomer = user.IsRoomer,
+                IsAdmin = user.IsAdmin,
                 PhoneNumber = user.PhoneNumber,
                 Token = user.Token,
                 UserId = user.UserId,
@@ -55,6 +57,7 @@ namespace RentTogetherApi.Common.Mapper
             user.LastName = userApiDto.LastName;
             user.IsOwner = userApiDto.IsOwner;
             user.IsRoomer = userApiDto.IsRoomer;
+            user.IsAdmin = userApiDto.IsAdmin;
             user.Password = userApiDto.Password;
             user.PhoneNumber = userApiDto.PhoneNumber;
 

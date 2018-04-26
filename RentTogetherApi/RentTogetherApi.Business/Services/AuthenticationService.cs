@@ -68,8 +68,6 @@ public class AuthenticationService : IAuthenticationService
         }
     }
 
-
-
     /// <summary>
     /// Checks if token is valid.
     /// </summary>

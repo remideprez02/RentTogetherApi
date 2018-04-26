@@ -15,6 +15,7 @@ namespace RentTogetherApi.Entities
         public DbSet<Personnality> Personnalities { get; set; }
         public DbSet<Building> Buildings { get; set; }
         public DbSet<Owner> Owners { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -53,6 +54,9 @@ namespace RentTogetherApi.Entities
 
             modelBuilder.Entity<Personnality>().HasKey(x => x.PersonnalityId);
             modelBuilder.Entity<Personnality>().HasMany(x => x.Roomers).WithOne(x => x.Personnality);
+
+            modelBuilder.Entity<Message>().HasKey(x => x.MessageId);
+
 
         }
     }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace RentTogetherApi.Entities
 {
     public class Message
@@ -6,5 +8,8 @@ namespace RentTogetherApi.Entities
         public Message()
         {
         }
+        [Key]
+        public int MessageId { get; set; }
+        public User User { get; set; }
     }
 }

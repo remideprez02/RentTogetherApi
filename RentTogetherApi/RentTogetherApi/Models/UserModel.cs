@@ -16,6 +16,7 @@ namespace RentTogetherApi.Api.Models
         public int PhoneNumber { get; set; }
         public int IsOwner { get; set; }
         public int IsRoomer { get; set; }
+        public int IsAdmin { get; set; }
         public int IsValideUser { get; set; }
         public DateTime CreateDate { get; set; }
         public virtual Roomer Roomer { get; set; }

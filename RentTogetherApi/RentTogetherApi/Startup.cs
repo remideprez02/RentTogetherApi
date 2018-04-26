@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -44,6 +45,19 @@ namespace RentTogetherApi
 
             //ssl
             //services.Configure<MvcOptions>(options => options.Filters.Add(new RequireHttpsAttribute();
+
+            //CORS
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllHeaders",
+                      builder =>
+                      {
+                          builder.AllowAnyOrigin()
+                                 .AllowAnyHeader()
+                                 .AllowAnyMethod()
+                                 .AllowCredentials();
+                      });
+            });
 
             //Dependency Injection
             services.AddTransient<IDal, SqlService>();
@@ -85,6 +99,8 @@ namespace RentTogetherApi
                 app.UseDeveloperExceptionPage();
             }
 
+
+
             //ssl
             //var options = new RewriteOptions().AddRedirectToHttps();
             //app.UseRewriter(options);
@@ -97,6 +113,23 @@ namespace RentTogetherApi
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "RentTogether API V1");
             });
+
+            app.UseCors(
+                options => options.WithOrigins("http://renttogetherapi-api.azurewebsites.net")
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+            );
+
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                context.Response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+                context.Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type");
+                await next();
+            });
+
 
             app.UseAuthentication();
             app.UseMvc();
