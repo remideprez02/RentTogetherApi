@@ -113,20 +113,16 @@ namespace RentTogetherApi
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "RentTogether API V1");
             });
-
-            app.UseCors(
-                options => options.WithOrigins("http://renttogetherapi-api.azurewebsites.net")
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials()
-            );
-
+            app.UseCors(builder => builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials());  
             app.Use(async (context, next) =>
             {
                 context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
                 context.Response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
-                context.Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type");
+                context.Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
                 await next();
             });
 

@@ -29,7 +29,7 @@ namespace RentTogetherApi
                     //context.Database.EnsureDeleted();
                     //context.Database.EnsureCreated();
 
-                    context.SaveChanges();
+                    //context.SaveChanges();
                 }
                 catch (Exception ex)
                 {

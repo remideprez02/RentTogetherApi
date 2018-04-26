@@ -27,7 +27,8 @@ namespace RentTogetherApi.Entities
             modelBuilder.Entity<User>()
                         .HasOne(x => x.Roomer)
                         .WithOne(x => x.User)
-                        .HasForeignKey<Roomer>("UserRoomerForeignKey");;
+                        .HasForeignKey<Roomer>("UserRoomerForeignKey");
+            modelBuilder.Entity<User>().HasMany(x => x.Messages).WithOne(x => x.User);
 
 
             modelBuilder.Entity<Roomer>().HasKey(x => x.RoomerId);
@@ -56,7 +57,7 @@ namespace RentTogetherApi.Entities
             modelBuilder.Entity<Personnality>().HasMany(x => x.Roomers).WithOne(x => x.Personnality);
 
             modelBuilder.Entity<Message>().HasKey(x => x.MessageId);
-
+            modelBuilder.Entity<Message>().HasOne(x => x.User).WithMany(x => x.Messages);
 
         }
     }

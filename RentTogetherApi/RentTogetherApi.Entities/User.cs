@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace RentTogetherApi.Entities
@@ -26,5 +27,6 @@ namespace RentTogetherApi.Entities
         public DateTime TokenExpirationDate { get; set; }
         public virtual Roomer Roomer { get; set; }
         public virtual Owner Owner { get; set; }
+        public List<Message> Messages { get; set; }
     }
 }
