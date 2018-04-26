@@ -3,7 +3,7 @@ namespace RentTogetherApi.Models
 {
     public class AuthentificationModel
     {
-        public AuthentificationModel()
+        public AuthentiticationModel()
         {
         }
 
