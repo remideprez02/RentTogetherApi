@@ -16,7 +16,7 @@ namespace RentTogetherApi.Entities.Dto
         public int IsRoomer { get; set; }
         public int IsAdmin { get; set; }
         public DateTime CreateDate { get; set; }
-        public virtual Roomer Roomer { get; set; }
-        public virtual Owner Owner { get; set; }
+        public Roomer Roomer { get; set; }
+        public Owner Owner { get; set; }
     }
 }

@@ -69,7 +69,7 @@ namespace RentTogetherApi.Api.Controllers
             return StatusCode(401);
         }
 
-        // Get Authentication (Basic Auth)
+        // Get All Users if IsAdmin
         [Route("api/Users")]
         [HttpGet]
         //[RequireHttps]
@@ -82,18 +82,19 @@ namespace RentTogetherApi.Api.Controllers
                 _logger.LogInformation(LoggingEvents.BearerAuthInProgress, "BearerAuthInProgress({token}) VERIFY TOKEN", token);
                 if (token != null)
                 {
-                    var user = _userService.GetUserAsyncByToken(token);
-                    if (user != null)
+                    var user = await _userService.GetUserAsyncByToken(token);
+                    if (user != null && user.IsAdmin == 1)
                     {
                         //Verify if the token exist and is not expire
-                        if (await _authenticationService.CheckIfTokenIsValidAsync(token, user.Id))
+                        if (await _authenticationService.CheckIfTokenIsValidAsync(token, user.UserId))
                         {
-                            _logger.LogInformation(LoggingEvents.GetItem, "Getting item {ID}", user.Id);
+                            _logger.LogInformation(LoggingEvents.GetItem, "Getting item {ID}", user.UserId);
 
-                            var usersApiDto = _userService.GetAllUsersAsync();
+                            var usersApiDto = await _userService.GetAllUsersAsync();
                             return Json(usersApiDto);
                         }
                     }
+                    return StatusCode(401);
                 }
                 _logger.LogWarning(LoggingEvents.BearerAuthFailed, "BearerAuthFailed({token}) BAD TOKEN", token);
             }

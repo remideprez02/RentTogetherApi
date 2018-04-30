@@ -10,6 +10,8 @@ namespace RentTogetherApi.Entities
         }
         [Key]
         public int MessageId { get; set; }
+
         public User User { get; set; }
+        public string MessageText { get; set; }
     }
 }

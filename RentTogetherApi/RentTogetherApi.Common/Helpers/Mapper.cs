@@ -1,6 +1,7 @@
 ﻿using System;
 using RentTogetherApi.Entities;
 using RentTogetherApi.Entities.Dto;
+using RentTogetherApi.Entities.Dto.Message;
 using RentTogetherApi.Interfaces.Helpers;
 
 namespace RentTogetherApi.Common.Mapper
@@ -10,6 +11,7 @@ namespace RentTogetherApi.Common.Mapper
         public Mapper()
         {
         }
+        #region User
 
         public User MapUserRegisterDtoToUser(UserRegisterDto userRegisterDto)
         {
@@ -63,5 +65,7 @@ namespace RentTogetherApi.Common.Mapper
 
             return user;
         }
+        #endregion
+
     }
 }

@@ -13,8 +13,8 @@ namespace RentTogetherApi.Entities
         [Key]
         public int RoomerId { get; set; }
 
-        public virtual RoomMate RoomMate { get; set; }
-        public virtual User User { get; set; }
-        public virtual Personnality Personnality { get; set; }
+        public RoomMate RoomMate { get; set; }
+        public User User { get; set; }
+        public Personnality Personnality { get; set; }
     }
 }

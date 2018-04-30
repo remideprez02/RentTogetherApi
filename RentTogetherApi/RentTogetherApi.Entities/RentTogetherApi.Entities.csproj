@@ -15,5 +15,6 @@
   <ItemGroup>
     <Folder Include="Dto\" />
     <Folder Include="Business\" />
+    <Folder Include="Dto\Message\" />
   </ItemGroup>
 </Project>

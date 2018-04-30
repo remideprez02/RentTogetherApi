@@ -49,14 +49,11 @@ namespace RentTogetherApi
             //CORS
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowAllHeaders",
-                      builder =>
-                      {
-                          builder.AllowAnyOrigin()
-                                 .AllowAnyHeader()
-                                 .AllowAnyMethod()
-                                 .AllowCredentials();
-                      });
+                options.AddPolicy("CorsPolicy",
+                builder => builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
             });
 
             //Dependency Injection
@@ -65,6 +62,7 @@ namespace RentTogetherApi
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IMapperHelper, Mapper>();
             services.AddTransient<ICustomEncoder, CustomEncoder>();
+            services.AddTransient<IMessageService, MessageService>();
 
             // Register the Swagger generator, defining one or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -87,6 +85,8 @@ namespace RentTogetherApi
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtSecretKey"]))
                 };
             });
+
+            services.BuildServiceProvider().GetService<RentTogetherDbContext>().Database.Migrate();
 
             services.AddMvc();
         }
@@ -113,11 +113,9 @@ namespace RentTogetherApi
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "RentTogether API V1");
             });
-            app.UseCors(builder => builder
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials());  
+
+              
+            
             app.Use(async (context, next) =>
             {
                 context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
@@ -126,7 +124,7 @@ namespace RentTogetherApi
                 await next();
             });
 
-
+            app.UseCors("CorsPolicy");
             app.UseAuthentication();
             app.UseMvc();
         }

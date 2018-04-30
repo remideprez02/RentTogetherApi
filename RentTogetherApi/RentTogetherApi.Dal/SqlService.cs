@@ -8,6 +8,7 @@ using RentTogetherApi.Entities.Dto;
 using RentTogetherApi.Interfaces.Helpers;
 using System.Globalization;
 using System.Collections.Generic;
+using RentTogetherApi.Entities.Dto.Message;
 
 namespace RentTogetherApi.Dal
 {
@@ -199,7 +200,6 @@ namespace RentTogetherApi.Dal
 
         public async Task<UserApiDto> GetUserAsyncByToken(string token)
         {
-
             try
             {
                 var user = await _rentTogetherDbContext.Users.SingleOrDefaultAsync(x => x.Token == token && x.IsAdmin == 1);
@@ -214,5 +214,62 @@ namespace RentTogetherApi.Dal
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<List<MessageApiDto>> GetMessagesAsyncByUserId(int userId)
+        {
+            try
+            {
+                var user = await _rentTogetherDbContext.Users
+                                                       .Include(x => x.Messages)
+                                                       .SingleOrDefaultAsync(x => x.UserId == userId);
+                if (user != null)
+                {
+                    var messages = user.Messages.Select(x => new MessageApiDto
+                    {
+                        MessageId = x.MessageId,
+                        MessageText = x.MessageText,
+                        UserId = x.User.UserId
+
+                    }).ToList();
+
+                    return messages;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task AddMessageAsync(MessageDto messageDto)
+        {
+            try
+            {
+                var user = await _rentTogetherDbContext.Users
+                                                       .Include(x => x.Messages)
+                                                       .SingleOrDefaultAsync(x => x.UserId == messageDto.UserId);
+
+                if (user != null)
+                {
+                    var message = new Message
+                    {
+                        MessageText = messageDto.MessageText,
+                        User = new User { UserId = messageDto.UserId }
+                    };
+                    if(user.Messages == null){
+                        user.Messages = new List<Message>();
+                    }
+                    user.Messages.Add(message);
+                    _rentTogetherDbContext.Users.Update(user);
+                    await _rentTogetherDbContext.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }
