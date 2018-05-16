@@ -54,6 +54,7 @@ namespace RentTogether
             services.AddTransient<IMapperHelper, Mapper>();
             services.AddTransient<ICustomEncoder, CustomEncoder>();
             services.AddTransient<IMessageService, MessageService>();
+			services.AddTransient<IConversationService, ConversationService>();
 
             // Register the Swagger generator, defining one or more Swagger documents
 			services.AddSwaggerGen(c =>
