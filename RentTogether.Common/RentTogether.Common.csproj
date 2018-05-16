@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Class1.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RentTogether.Entities\RentTogether.Entities.csproj" />
+    <ProjectReference Include="..\RentTogether.Interfaces\RentTogether.Interfaces.csproj" />
+  </ItemGroup>
+</Project>
