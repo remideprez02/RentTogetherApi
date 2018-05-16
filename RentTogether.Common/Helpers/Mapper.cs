@@ -22,6 +22,8 @@ namespace RentTogether.Common.Mapper
                 FirstName = userRegisterDto.FirstName,
                 LastName = userRegisterDto.LastName,
                 Password = userRegisterDto.Password,
+				City = userRegisterDto.City,
+				PostalCode = userRegisterDto.PostalCode,
                 IsOwner = userRegisterDto.IsOwner,
                 IsRoomer = userRegisterDto.IsRoomer,
                 IsAdmin = userRegisterDto.IsAdmin,
@@ -39,6 +41,8 @@ namespace RentTogether.Common.Mapper
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Password = user.Password,
+				City = user.City,
+				PostalCode = user.PostalCode,
                 IsOwner = user.IsOwner,
                 IsRoomer = user.IsRoomer,
                 IsAdmin = user.IsAdmin,
@@ -60,6 +64,8 @@ namespace RentTogether.Common.Mapper
             user.IsAdmin = userApiDto.IsAdmin;
             user.Password = userApiDto.Password;
             user.PhoneNumber = userApiDto.PhoneNumber;
+			user.City = userApiDto.City;
+			user.PostalCode = userApiDto.PostalCode;
 
             return user;
         }

@@ -191,13 +191,23 @@ namespace RentTogether.Dal
 					default: 
 						break;
                 }
+
 				var users = new List<User>();
-				if(!String.IsNullOrEmpty(userFilters.CityFilter){
-					users = usersIQ.AsTracking().Where(x => x.)
+				var usersApiDto = new List<UserApiDto>();
+                
+                //If CityFilter
+				if(!String.IsNullOrEmpty(userFilters.CityFilter)){
+					users = await usersIQ.AsTracking().Where(x => x.City == userFilters.CityFilter).ToListAsync();
+
+                    foreach (var usr in users)
+                    {
+                        usersApiDto.Add(_mapperHelper.MapUserToUserApiDto(usr));
+                    }
+
+                    return usersApiDto;
 				}
                    
-
-                var usersApiDto = new List<UserApiDto>();
+				users = await usersIQ.AsTracking().ToListAsync();
 
                 foreach (var usr in users)
                 {
