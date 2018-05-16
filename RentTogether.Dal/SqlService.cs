@@ -192,6 +192,8 @@ namespace RentTogether.Dal
 						break;
                 }
 
+
+
 				var users = new List<User>();
 				var usersApiDto = new List<UserApiDto>();
                 
@@ -204,6 +206,10 @@ namespace RentTogether.Dal
                         usersApiDto.Add(_mapperHelper.MapUserToUserApiDto(usr));
                     }
 
+					if (!String.IsNullOrEmpty(userFilters.CityFilter))
+                    {
+						usersApiDto = usersApiDto.Where(x => x.CreateDate == DateTime.Now.AddDays(double.Parse(userFilters.DateFilter))).ToList();
+                    }
                     return usersApiDto;
 				}
                    
@@ -212,6 +218,11 @@ namespace RentTogether.Dal
                 foreach (var usr in users)
                 {
                     usersApiDto.Add(_mapperHelper.MapUserToUserApiDto(usr));
+                }
+
+				if (!String.IsNullOrEmpty(userFilters.CityFilter))
+                {
+					usersApiDto = usersApiDto.Where(x => x.CreateDate == DateTime.Now.AddDays(double.Parse(userFilters.DateFilter))).ToList();
                 }
 
                 return usersApiDto;
