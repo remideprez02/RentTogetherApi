@@ -49,6 +49,7 @@ namespace RentTogetherApi.Api.Controllers
                 _logger.LogInformation(LoggingEvents.BearerAuthInProgress, "BearerAuthInProgress({token}) VERIFY TOKEN", token);
                 if (token != null)
                 {
+
                     //Verify if the token exist and is not expire
                     if (await _authenticationService.CheckIfTokenIsValidAsync(token, id))
                     {

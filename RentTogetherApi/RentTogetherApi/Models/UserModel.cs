@@ -19,7 +19,6 @@ namespace RentTogetherApi.Api.Models
         public int IsAdmin { get; set; }
         public int IsValideUser { get; set; }
         public DateTime CreateDate { get; set; }
-        public virtual Roomer Roomer { get; set; }
-        public virtual Owner Owner { get; set; }
-    }
+
+	}
 }

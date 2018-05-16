@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -27,8 +28,8 @@ namespace RentTogetherApi
 
                     //Attention aux données déjà enregistrées, ici on supprimer la Database avant de la créee
                     //context.Database.EnsureDeleted();
-                    //context.Database.EnsureCreated();
-
+                    //context.Database.EnsureCreated()
+                    //context.Database.Migrate();
                     context.SaveChanges();
                 }
                 catch (Exception ex)

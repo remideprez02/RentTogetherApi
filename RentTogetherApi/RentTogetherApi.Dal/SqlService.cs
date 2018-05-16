@@ -133,8 +133,6 @@ namespace RentTogetherApi.Dal
             {
                 var user = await _rentTogetherDbContext
                     .Users
-                    .Include(x => x.Roomer)
-                    .Include(x => x.Owner)
                     .FirstOrDefaultAsync(x => x.UserId == userId);
 
                 if (user != null)
@@ -228,7 +226,7 @@ namespace RentTogetherApi.Dal
                     {
                         MessageId = x.MessageId,
                         MessageText = x.MessageText,
-                        UserId = x.User.UserId
+                        UserId = x.Editor.UserId
 
                     }).ToList();
 
@@ -255,7 +253,7 @@ namespace RentTogetherApi.Dal
                     var message = new Message
                     {
                         MessageText = messageDto.MessageText,
-                        User = new User { UserId = messageDto.UserId }
+						Editor = new User { UserId = messageDto.UserId }
                     };
                     if(user.Messages == null){
                         user.Messages = new List<Message>();

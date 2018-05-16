@@ -25,9 +25,7 @@ namespace RentTogetherApi.Common.Mapper
                 IsOwner = userRegisterDto.IsOwner,
                 IsRoomer = userRegisterDto.IsRoomer,
                 IsAdmin = userRegisterDto.IsAdmin,
-                Owner = new Owner(),
                 PhoneNumber = userRegisterDto.PhoneNumber,
-                Roomer = new Roomer(),
             };
         }
 

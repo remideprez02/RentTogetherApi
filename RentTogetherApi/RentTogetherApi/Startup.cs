@@ -86,8 +86,6 @@ namespace RentTogetherApi
                 };
             });
 
-            services.BuildServiceProvider().GetService<RentTogetherDbContext>().Database.Migrate();
-
             services.AddMvc();
         }
 
@@ -98,8 +96,6 @@ namespace RentTogetherApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
-
 
             //ssl
             //var options = new RewriteOptions().AddRedirectToHttps();
