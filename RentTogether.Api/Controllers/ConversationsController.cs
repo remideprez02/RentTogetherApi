@@ -77,8 +77,11 @@ namespace RentTogether.Api.Controllers
                         if (await _authenticationService.CheckIfTokenIsValidAsync(token, user.UserId))
                         {
                             //Verify if messages for this userId exist
-                            await _conversationService.AddConversationAsync(conversationDto);
-                            return StatusCode(201);
+                            var conversation = await _conversationService.AddConversationAsync(conversationDto);
+							if(conversation == null){
+								return StatusCode(404);
+							}
+							return Json(conversation);
                         }
                     }
                     return StatusCode(401);

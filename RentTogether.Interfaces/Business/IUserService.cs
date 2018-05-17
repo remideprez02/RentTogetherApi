@@ -13,7 +13,7 @@ namespace RentTogether.Interfaces.Business
         Task<UserApiDto> GetUserApiDtoAsyncById(int id);
         Task<UserApiDto> GetUserByBasicAuthenticationAsync(UserLoginDto userRegisterDto);
         Task<bool> DeleteUserByIdAsync(int userId, string token);
-        Task<UserApiDto> UpdateUserAsync(UserApiDto userApiDto);
+        Task<UserApiDto> UpdateUserAsync(UserApiDto userApiDto, string token);
 		Task<List<UserApiDto>> GetAllUsersAsync(UserFilters userFilters);
         Task<UserApiDto> GetUserAsyncByToken(string token);
     }

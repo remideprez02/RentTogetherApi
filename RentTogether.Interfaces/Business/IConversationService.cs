@@ -7,6 +7,6 @@ namespace RentTogether.Interfaces.Business
     public interface IConversationService
     {
         Task<ConversationApiDto> GetConversationAsyncById(int conversationId);
-        Task AddConversationAsync(ConversationDto conversationDto);
+		Task<ConversationApiDto> AddConversationAsync(ConversationDto conversationDto);
     }
 }

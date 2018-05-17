@@ -94,9 +94,11 @@ namespace RentTogether.Business.Services
         /// <param name="token">Token.</param>
         public async Task<bool> DeleteUserByIdAsync(int userId, string token)
         {
-            var isValid = await _authenticationService.CheckIfTokenIsValidAsync(token, userId);
-
-            if (isValid)
+			var isValid = await _authenticationService.CheckIfTokenIsValidAsync(token, userId);
+			var user = await _dal.GetUserAsyncByToken(token);
+            
+            
+			if (user.IsAdmin == 1 || isValid)
             {
                 var userDeleted = await _dal.DeleteUserByIdAsync(userId);
 
@@ -109,10 +111,12 @@ namespace RentTogether.Business.Services
             return false;
         }
 
-        public async Task<UserApiDto> UpdateUserAsync(UserApiDto userApiDto)
+        public async Task<UserApiDto> UpdateUserAsync(UserApiDto userApiDto, string token)
         {
             var isValid = await _authenticationService.CheckIfTokenIsValidAsync(userApiDto.Token, userApiDto.UserId);
-            if (isValid)
+			var user = await _dal.GetUserAsyncByToken(token);
+
+            if (user.IsAdmin == 1 || isValid)
             {
                 var userUpdatedApiDto = await _dal.UpdateUserAsync(userApiDto);
 

@@ -317,7 +317,7 @@ namespace RentTogether.Dal
 		#endregion
 
 		#region Conversations
-		public async Task AddConversationAsync(ConversationDto conversationDto)
+		public async Task<ConversationApiDto> AddConversationAsync(ConversationDto conversationDto)
         {
             try
             {
@@ -329,6 +329,14 @@ namespace RentTogether.Dal
 
 				await _rentTogetherDbContext.Conversations.AddAsync(conversation);
                 await _rentTogetherDbContext.SaveChangesAsync();
+
+				var conversationApiDto = new ConversationApiDto()
+                {
+                    ConversationId = conversation.ConversationId,
+                    CreatedDate = conversation.CreatedDate,
+                    Type = conversation.Type,
+                };
+				return conversationApiDto;
             }
             catch (Exception ex)
             {
@@ -349,7 +357,7 @@ namespace RentTogether.Dal
 				{
 					ConversationId = conversation.ConversationId,
 					CreatedDate = conversation.CreatedDate,
-					Type = conversation.Type
+					Type = conversation.Type,
 				};
 
 				return conversationApiDto;

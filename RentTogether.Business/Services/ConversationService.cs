@@ -20,9 +20,10 @@ namespace RentTogether.Business.Services
             _authenticationService = authenticationService;
         }
 
-		public async Task AddConversationAsync(ConversationDto conversationDto)
+		public async Task<ConversationApiDto> AddConversationAsync(ConversationDto conversationDto)
         {
-			await _dal.AddConversationAsync(conversationDto);
+			var conversationApiDto = await _dal.AddConversationAsync(conversationDto);
+			return conversationApiDto;
         }
 
         public async Task<ConversationApiDto> GetConversationAsyncById(int conversationId)

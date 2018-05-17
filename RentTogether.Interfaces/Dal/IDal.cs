@@ -30,7 +30,7 @@ namespace RentTogether.Interfaces.Dal
 
 		#region Conversation
 		Task<ConversationApiDto> GetConversationAsyncById(int conversationId);
-		Task AddConversationAsync(ConversationDto conversationDto);
+		Task<ConversationApiDto> AddConversationAsync(ConversationDto conversationDto);
         #endregion
 	}
 }

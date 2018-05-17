@@ -138,16 +138,19 @@ namespace RentTogether.Api.Controllers
 
                 if (token != null)
                 {
-                    userApiDto.Token = token;
-                    var userApiDtoUpdated = await _userService.UpdateUserAsync(userApiDto);
-                    if (userApiDtoUpdated != null)
-                    {
-                        return Json(userApiDtoUpdated);
-                    }
-                    return StatusCode(404);
+						
+						var userApiDtoUpdated = await _userService.UpdateUserAsync(userApiDto, token);
+
+                        if (userApiDtoUpdated != null)
+                        {
+                            return Json(userApiDtoUpdated);
+                        }
+                        return StatusCode(404);
+					}
+				return StatusCode(403);
+                
                 }
-                return StatusCode(403);
-            }
+               
             return StatusCode(401);
         }
 
