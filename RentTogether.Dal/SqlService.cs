@@ -209,7 +209,7 @@ namespace RentTogether.Dal
 						usersApiDto.Add(_mapperHelper.MapUserToUserApiDto(usr));
 					}
 
-					if (!String.IsNullOrEmpty(userFilters.CityFilter))
+					if (!String.IsNullOrEmpty(userFilters.DateFilter))
 					{
 						usersApiDto = usersApiDto.Where(x => x.CreateDate == DateTime.Now.AddDays(double.Parse(userFilters.DateFilter))).ToList();
 					}
