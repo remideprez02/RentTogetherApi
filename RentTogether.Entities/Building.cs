@@ -18,6 +18,14 @@ namespace RentTogether.Entities
         public string City { get; set; }
 		public List<BuildingUser> BuildingUsers { get; set; }
 		public User Owner { get; set; }
-
+		public List<BuildingPicture> BuildingPictures { get; set; }
+		public int Type { get; set; }
+		public int NbRoom { get; set; }
+		public int NbPiece { get; set; }
+		public int Status { get; set; }
+		public int Area { get; set; }
+		public int Price { get; set; }
+		public int Parking { get; set; }
+		public string Description { get; set; }
     }
 }

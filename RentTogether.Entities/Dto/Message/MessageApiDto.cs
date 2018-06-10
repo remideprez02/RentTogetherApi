@@ -9,6 +9,6 @@ namespace RentTogether.Entities.Dto.Message
         public string MessageText { get; set; }
         public DateTime CreatedDate { get; set; }
         public int UserId { get; set; }
-        public int ConversationId { get; set; }
+        public int IsReport { get; set; }
     }
 }

@@ -14,7 +14,8 @@ namespace RentTogether.Interfaces.Business
         Task<UserApiDto> GetUserByBasicAuthenticationAsync(UserLoginDto userRegisterDto);
         Task<bool> DeleteUserByIdAsync(int userId, string token);
         Task<UserApiDto> UpdateUserAsync(UserApiDto userApiDto, string token);
-		Task<List<UserApiDto>> GetAllUsersAsync(UserFilters userFilters);
+		Task<List<UserApiDto>> GetAllUsersAsync();
         Task<UserApiDto> GetUserAsyncByToken(string token);
+		Tuple<bool, string> CheckIfUserModelIsValid(UserRegisterDto userRegisterDto);
     }
 }

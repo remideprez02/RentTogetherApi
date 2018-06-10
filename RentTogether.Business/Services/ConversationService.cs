@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using RentTogether.Entities.Dto.Conversation;
 using RentTogether.Interfaces.Business;
@@ -26,9 +27,13 @@ namespace RentTogether.Business.Services
 			return conversationApiDto;
         }
 
-        public async Task<ConversationApiDto> GetConversationAsyncById(int conversationId)
+        public async Task<ConversationApiDto> GetConversationAsyncByUserId(int userId)
         {
-			return await _dal.GetConversationAsyncById(conversationId);
+			return await _dal.GetConversationAsyncByUserId(userId);
         }
+
+		public async Task<List<ConversationApiDto>> GetAllConversationsAsync(){
+			return await _dal.GetAllConversationsAsync();
+		}
     }
 }

@@ -10,6 +10,7 @@ using System.Linq;
 using RentTogether.Entities.Dto.Message;
 using RentTogether.Entities.Filters.Users;
 using RentTogether.Entities.Dto.Conversation;
+using RentTogether.Entities.Dto.Participant;
 
 namespace RentTogether.Dal
 {
@@ -175,61 +176,20 @@ namespace RentTogether.Dal
 			}
 		}
 
-		public async Task<List<UserApiDto>> GetAllUserAsync(UserFilters userFilters)
+		public async Task<List<UserApiDto>> GetAllUserAsync()
 		{
 			try
 			{
+				var users = await _rentTogetherDbContext.Users.ToListAsync();
 
-				var usersIQ = _rentTogetherDbContext.Users.Select(u => u);
-
-				switch (userFilters.DateSort)
-				{
-					case "date_desc":
-						usersIQ = usersIQ.OrderByDescending(s => s.CreateDate);
-						break;
-					case "date_asc":
-						usersIQ = usersIQ.OrderBy(s => s.CreateDate);
-						break;
-					default:
-						break;
-				}
-
-
-
-				var users = new List<User>();
 				var usersApiDto = new List<UserApiDto>();
-
-				//If CityFilter
-				if (!String.IsNullOrEmpty(userFilters.CityFilter))
-				{
-					users = await usersIQ.AsTracking().Where(x => x.City == userFilters.CityFilter).ToListAsync();
-
-					foreach (var usr in users)
-					{
-						usersApiDto.Add(_mapperHelper.MapUserToUserApiDto(usr));
-					}
-
-					if (!String.IsNullOrEmpty(userFilters.DateFilter))
-					{
-						usersApiDto = usersApiDto.Where(x => x.CreateDate == DateTime.Now.AddDays(double.Parse(userFilters.DateFilter))).ToList();
-					}
-					return usersApiDto;
-				}
-
-				users = await usersIQ.AsTracking().ToListAsync();
 
 				foreach (var usr in users)
 				{
 					usersApiDto.Add(_mapperHelper.MapUserToUserApiDto(usr));
 				}
 
-				if (!String.IsNullOrEmpty(userFilters.CityFilter))
-				{
-					usersApiDto = usersApiDto.Where(x => x.CreateDate == DateTime.Now.AddDays(double.Parse(userFilters.DateFilter))).ToList();
-				}
-
 				return usersApiDto;
-
 			}
 			catch (Exception ex)
 			{
@@ -253,7 +213,7 @@ namespace RentTogether.Dal
 				throw new Exception(ex.Message);
 			}
 		}
-        
+
 		#endregion
 
 		#region Messages
@@ -318,9 +278,9 @@ namespace RentTogether.Dal
 
 		#region Conversations
 		public async Task<ConversationApiDto> AddConversationAsync(ConversationDto conversationDto)
-        {
-            try
-            {
+		{
+			try
+			{
 				var conversation = new Conversation()
 				{
 					CreatedDate = DateTime.Now,
@@ -328,28 +288,31 @@ namespace RentTogether.Dal
 				};
 
 				await _rentTogetherDbContext.Conversations.AddAsync(conversation);
-                await _rentTogetherDbContext.SaveChangesAsync();
+				await _rentTogetherDbContext.SaveChangesAsync();
 
 				var conversationApiDto = new ConversationApiDto()
-                {
-                    ConversationId = conversation.ConversationId,
-                    CreatedDate = conversation.CreatedDate,
-                    Type = conversation.Type,
-                };
+				{
+					ConversationId = conversation.ConversationId,
+					CreatedDate = conversation.CreatedDate,
+					Type = conversation.Type,
+				};
 				return conversationApiDto;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-		public async Task<ConversationApiDto> GetConversationAsyncById(int conversationId)
-        {
-            try
-            {
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+		}
+		public async Task<ConversationApiDto> GetConversationAsyncByUserId(int userId)
+		{
+			try
+			{
 				var conversation = await _rentTogetherDbContext.Conversations
-				                                               .FirstOrDefaultAsync(x => x.ConversationId == conversationId);
-				if(conversation == null){
+															   .Include(x => x.Messages)
+															   .Include(x => x.Participants)
+															   .FirstOrDefaultAsync(x => x.Participants.Any(p => p.User.UserId == userId));
+				if (conversation == null)
+				{
 					return null;
 				}
 
@@ -358,43 +321,125 @@ namespace RentTogether.Dal
 					ConversationId = conversation.ConversationId,
 					CreatedDate = conversation.CreatedDate,
 					Type = conversation.Type,
+					Messages = new List<MessageApiDto>(),
+					Participants = new List<ParticipantApiDto>()
 				};
 
-				return conversationApiDto;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+				foreach (var message in conversation.Messages)
+				{
+					conversationApiDto.Messages.Add(new MessageApiDto()
+					{
+						UserId = message.Editor.UserId,
+						CreatedDate = message.CreatedDate,
+						IsReport = message.IsReport,
+						MessageId = message.MessageId,
+						MessageText = message.MessageText
+					});
+				}
 
-		//public async Task GetAllConversationsAsync(){
-		//	try
-		//	{
-		//		var messages =  _rentTogetherDbContext.Messages.Select(x => x);
-		//		var result = messages.Join(_rentTogetherDbContext.Conversations,
-		//		                           m => m.Conversation.ConversationId,
-		//		                           c => c.ConversationId, (m, c) => new ConversationCompleteApiDto {
-		//			ConversationId = m.Conversation.ConversationId,
-		//			CreatedDate = m.CreatedDate,
-		//			Messages = m,
-		//			Type = m.Conversation.Type
-					
-		//		})
-		//		var conversations = new List<ConversationCompleteApiDto>();
-		//		foreach (var message in messages)
-		//		{
-		//			conversations.Add(new ConversationCompleteApiDto(){
-		//				ConversationId
-		//			})
-		//		}
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		throw new Exception(ex.Message);
-		//	}
-		//}
-        #endregion
+				foreach (var participant in conversation.Participants)
+				{
+					conversationApiDto.Participants.Add(new ParticipantApiDto()
+					{
+						UserId = participant.User.UserId,
+						ConversationId = participant.Conversation.ConversationId,
+						EndDate = participant.EndDate,
+						StartDate = participant.StartDate,
+						ParticipantId = participant.ParticipantId
+					});
+				}
+
+				return conversationApiDto;
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+		}
+
+		public async Task<List<ConversationApiDto>> GetAllConversationsAsync()
+		{
+			try
+			{
+				var conversations = await _rentTogetherDbContext.Conversations
+															.Include(x => x.Messages)
+															.Include(x => x.Participants)
+															.ToListAsync();
+				if (conversations == null)
+					return null;
+
+				var conversationsApiDto = new List<ConversationApiDto>();
+
+				foreach (var conversation in conversations)
+				{
+					conversationsApiDto.Add(new ConversationApiDto()
+					{
+						ConversationId = conversation.ConversationId,
+						CreatedDate = conversation.CreatedDate,
+						Messages = new List<MessageApiDto>(),
+						Participants = new List<ParticipantApiDto>(),
+						Type = conversation.Type
+					});
+				}
+
+				foreach (var conversationApiDto in conversationsApiDto)
+				{
+					foreach (var message in conversations.SelectMany(x => x.Messages))
+					{
+						conversationApiDto.Messages.Add(new MessageApiDto()
+						{
+							UserId = message.Editor.UserId,
+							CreatedDate = message.CreatedDate,
+							IsReport = message.IsReport,
+							MessageId = message.MessageId,
+							MessageText = message.MessageText
+						});
+					}
+
+					foreach (var participant in conversations.SelectMany(x => x.Participants))
+					{
+						conversationApiDto.Participants.Add(new ParticipantApiDto()
+						{
+							UserId = participant.User.UserId,
+							ConversationId = participant.Conversation.ConversationId,
+							EndDate = participant.EndDate,
+							StartDate = participant.StartDate,
+							ParticipantId = participant.ParticipantId
+						});
+					}
+				}
+
+				return conversationsApiDto;
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+		}
+		#endregion
+
+		#region Participant
+		public async Task<ParticipantApiDto> GetParticipantAsyncByUserId(int userId){
+
+            try
+			{
+				var participant = await _rentTogetherDbContext.Participants
+				                                              .Include(x => x.User)
+				                                              .Include(x => x.Conversation)
+				                                              .SingleOrDefaultAsync(x => x.User.UserId == userId);
+				if (participant == null)
+					return null;
+				
+				var participantApiDto = _mapperHelper.MapParticipantToParticipantApiDto(participant);
+				return participantApiDto;
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+		}
+
+		#endregion
 
 	}
 

@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,6 +34,9 @@ namespace RentTogether
             //EF
             services.AddDbContext<RentTogetherDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("RentTogetherBdd")));
+            //ODATA
+			services.AddOData();
+			services.AddTransient<RentTogetherModelBuilder>();
 
             //ssl
             //services.Configure<MvcOptions>(options => options.Filters.Add(new RequireHttpsAttribute();
@@ -61,7 +65,7 @@ namespace RentTogether
             {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
-
+         
             //JWT
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(jwtBearerOptions =>
@@ -82,12 +86,14 @@ namespace RentTogether
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, RentTogetherModelBuilder rentTogetherModelBuilder)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+                     
+
 
             //ssl
             //var options = new RewriteOptions().AddRedirectToHttps();
@@ -95,13 +101,14 @@ namespace RentTogether
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
-
+            
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "RentTogether API V1");
+                
             });
-
+           
             app.Use(async (context, next) =>
             {
                 context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
@@ -112,7 +119,13 @@ namespace RentTogether
 
             app.UseCors("CorsPolicy");
             app.UseAuthentication();
-            app.UseMvc();
+			//ODATA
+            app.UseMvc(routeBuilder =>
+            {
+                routeBuilder.Count().Filter().OrderBy().Expand().Select().MaxTop(null);
+                routeBuilder.EnableDependencyInjection();
+                routeBuilder.MapODataServiceRoute("ODataRoutes", "api", rentTogetherModelBuilder.GetEdmModel(app.ApplicationServices));
+            });
         }
     }
 }

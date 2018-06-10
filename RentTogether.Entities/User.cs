@@ -29,22 +29,21 @@ namespace RentTogether.Entities
         public DateTime CreateDate { get; set; }
         public DateTime TokenExpirationDate { get; set; }
 
-        public List<BuildingUser> BuildingUsers { get; set; }
-		public List<Building> Buildings { get; set; }
-
+		public List<FavoriteUser> FavoriteUsers { get; set; }
+		public List<Message> Messages { get; set; }
+		public UserPicture UserPicture { get; set; }
+		public int? UserPictureFk { get; set; }
+		public List<Match> Matches { get; set; }
+		public Personality Personality { get; set; }
+		public DesiredPersonality DesiredPersonality { get; set; }
+		public int? DesiredPersonalityFk { get; set; }
+		public List<DesiredBuilding> DesiredBuildings { get; set; }
+		public List<FavoriteBuilding> FavoriteBuildings { get; set; }
+		public List<BuildingUser> BuildingUsers { get; set; }
+        
         public Vote Vote { get; set; }
 
-        public Personality Personality { get; set; }
-
-        public List<Match> Matches { get; set; }
-        public List<PotentialMatch> PotentialMatches { get; set; }
-
-        public List<Message> Messages { get; set; }
-
-        public List<Demand> Demands { get; set; }
-        public List<Validation> Validations { get; set; }
-
-        public List<Historic> Historics { get; set; }
+		public List<BuildingMessage> BuildingMessages { get; set; }
 
 		public int? PersonalityFk { get; set; }
 		public int? Vote1Fk { get; set; }

@@ -56,14 +56,14 @@ namespace RentTogether.Api.Controllers
                     if (userApiDto == null)
                     {
                         //_logger.LogWarning(LoggingEvents.GetItem, "GetById({ID}) NOT FOUND", userApiDto.UserId);
-                        return StatusCode(401);
+                        return StatusCode(404, "LogIn Not Found.");
                     }
                     return Json(userApiDto);
                 }
                 //_logger.LogWarning(LoggingEvents.BasicAuthFailed, "BASIC AUTH FAILED");
-                return StatusCode(401);
+                return StatusCode(401, "Invalid authorization.");
             }
-            return StatusCode(401);
+			return StatusCode(401, "Invalid authorization.");
         }
     }
 }

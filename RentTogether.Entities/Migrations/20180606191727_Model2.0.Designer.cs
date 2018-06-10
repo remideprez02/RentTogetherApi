@@ -11,9 +11,10 @@ using System;
 namespace RentTogether.Entities.Migrations
 {
     [DbContext(typeof(RentTogetherDbContext))]
-    partial class RentTogetherDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180606191727_Model2.0")]
+    partial class Model20
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -187,6 +188,28 @@ namespace RentTogether.Entities.Migrations
                     b.ToTable("FavoriteUsers");
                 });
 
+            modelBuilder.Entity("RentTogether.Entities.Historic", b =>
+                {
+                    b.Property<int>("HistoricId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("ConversationId");
+
+                    b.Property<DateTime>("EndDate");
+
+                    b.Property<DateTime>("StartDate");
+
+                    b.Property<int?>("UserId");
+
+                    b.HasKey("HistoricId");
+
+                    b.HasIndex("ConversationId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Historics");
+                });
+
             modelBuilder.Entity("RentTogether.Entities.Match", b =>
                 {
                     b.Property<int>("MatchId")
@@ -239,28 +262,6 @@ namespace RentTogether.Entities.Migrations
                     b.HasIndex("EditorUserId");
 
                     b.ToTable("Messages");
-                });
-
-            modelBuilder.Entity("RentTogether.Entities.Participant", b =>
-                {
-                    b.Property<int>("ParticipantId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("ConversationId");
-
-                    b.Property<DateTime>("EndDate");
-
-                    b.Property<DateTime>("StartDate");
-
-                    b.Property<int?>("UserId");
-
-                    b.HasKey("ParticipantId");
-
-                    b.HasIndex("ConversationId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Participants");
                 });
 
             modelBuilder.Entity("RentTogether.Entities.Personality", b =>
@@ -461,6 +462,17 @@ namespace RentTogether.Entities.Migrations
                         .HasForeignKey("VoteUserUserId");
                 });
 
+            modelBuilder.Entity("RentTogether.Entities.Historic", b =>
+                {
+                    b.HasOne("RentTogether.Entities.Conversation", "Conversation")
+                        .WithMany()
+                        .HasForeignKey("ConversationId");
+
+                    b.HasOne("RentTogether.Entities.User", "User")
+                        .WithMany("Historics")
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("RentTogether.Entities.Match", b =>
                 {
                     b.HasOne("RentTogether.Entities.User", "InterestedUser")
@@ -479,23 +491,12 @@ namespace RentTogether.Entities.Migrations
             modelBuilder.Entity("RentTogether.Entities.Message", b =>
                 {
                     b.HasOne("RentTogether.Entities.Conversation", "Conversation")
-                        .WithMany("Messages")
+                        .WithMany()
                         .HasForeignKey("ConversationId");
 
                     b.HasOne("RentTogether.Entities.User", "Editor")
                         .WithMany("Messages")
                         .HasForeignKey("EditorUserId");
-                });
-
-            modelBuilder.Entity("RentTogether.Entities.Participant", b =>
-                {
-                    b.HasOne("RentTogether.Entities.Conversation", "Conversation")
-                        .WithMany("Participants")
-                        .HasForeignKey("ConversationId");
-
-                    b.HasOne("RentTogether.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("RentTogether.Entities.PersonalityReferencial", b =>

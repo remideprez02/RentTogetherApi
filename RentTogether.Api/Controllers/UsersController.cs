@@ -11,75 +11,76 @@ using RentTogether.Interfaces.Helpers;
 using RentTogether.Common.Helpers;
 using RentTogether.Entities.Dto;
 using RentTogether.Entities.Filters.Users;
+using Microsoft.AspNet.OData;
+using RentTogether.Entities;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 namespace RentTogether.Api.Controllers
 {
     //[RequireHttps]
-    public class UsersController : Controller
+    public class UsersController : ODataController
     {
         private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
         private readonly ICustomEncoder _customEncoder;
         private readonly IMapperHelper _mapperHelper;
         private readonly ILogger _logger;
+		private readonly RentTogetherDbContext _rentTogetherDbContext;
 
         public UsersController(IUserService userService, IAuthenticationService authenticationService,
                                ICustomEncoder customEncoder, IMapperHelper mapperHelper,
-                               ILogger<UsersController> logger)
+		                       ILogger<UsersController> logger, RentTogetherDbContext rentTogetherDbContext)
         {
             _userService = userService;
             _authenticationService = authenticationService;
             _customEncoder = customEncoder;
             _mapperHelper = mapperHelper;
             _logger = logger;
+			_rentTogetherDbContext = rentTogetherDbContext;
         }
 
         // GET User
-        [Route("api/Users/{id}")]
+		[Route("api/Users/{id}")]
         [HttpGet]
-		public async Task<IActionResult> Get(int id)
+		[EnableQuery]
+		public async Task<IActionResult> Get([FromODataUri]int id)
         {
             //Get header token
             if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues) && id > -1)
             {
                 var token = _customEncoder.DecodeBearerAuth(headerValues.First());
-                _logger.LogInformation(LoggingEvents.BearerAuthInProgress, "BearerAuthInProgress({token}) VERIFY TOKEN", token);
                 if (token != null)
                 {
 
                     //Verify if the token exist and is not expire
                     if (await _authenticationService.CheckIfTokenIsValidAsync(token, id))
                     {
-                        _logger.LogInformation(LoggingEvents.GetItem, "Getting item {ID}", id);
-                                          
 						//Verify if user exist
-						var userApiDto = await _userService.GetUserApiDtoAsyncById(id);
-                        
-                        if (userApiDto == null)
-                        {
-                            _logger.LogWarning(LoggingEvents.GetItemNotFound, "GetById({ID}) NOT FOUND", id);
-                            return StatusCode(404);
-                        }
-                        return Json(userApiDto);
+						var user =  _userService.GetUserApiDtoAsyncById(id);
+						if(user == null){
+							return StatusCode(404, "User Not Found.");
+						}
+						return Ok(user);
                     }
+					return StatusCode(401, "Invalid Token.");
                 }
-                _logger.LogWarning(LoggingEvents.BearerAuthFailed, "BearerAuthFailed({token}) BAD TOKEN", token);
+				return StatusCode(401, "Invalid Authorization.");
             }
-            return StatusCode(401);
+			return StatusCode(401, "Invalid Authorization.");
         }
 
         // Get All Users if IsAdmin
         [Route("api/Users")]
         [HttpGet]
+		[EnableQuery]
         //[RequireHttps]
-		public async Task<IActionResult> Get(string city, string sortOrder, string date)
+		public async Task<IActionResult> Get()
         {
             //Get header token
             if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues))
             {
                 var token = _customEncoder.DecodeBearerAuth(headerValues.First());
-                _logger.LogInformation(LoggingEvents.BearerAuthInProgress, "BearerAuthInProgress({token}) VERIFY TOKEN", token);
                 if (token != null)
                 {
                     var user = await _userService.GetUserAsyncByToken(token);
@@ -88,42 +89,40 @@ namespace RentTogether.Api.Controllers
                         //Verify if the token exist and is not expire
                         if (await _authenticationService.CheckIfTokenIsValidAsync(token, user.UserId))
                         {
-                            _logger.LogInformation(LoggingEvents.GetItem, "Getting item {ID}", user.UserId);
-
-							//Filters/Sorts
-                            var filters = new UserFilters
-                            {
-                                DateSort = sortOrder == "Date" ? "date_desc" : "Date",
-                                CityFilter = city,
-                                DateFilter = date
-                            };
-
-							var usersApiDto = await _userService.GetAllUsersAsync(filters);
-                            return Json(usersApiDto);
+							var users = await _userService.GetAllUsersAsync();
+							if(users == null){
+								return StatusCode(404, "Users not found.");
+							}
+							return Ok(users);
                         }
+						return StatusCode(401, "Invalid Token.");
                     }
-                    return StatusCode(401);
+					return StatusCode(403, "Invalid User.");
                 }
-                _logger.LogWarning(LoggingEvents.BearerAuthFailed, "BearerAuthFailed({token}) BAD TOKEN", token);
+				return StatusCode(401, "Invalid Authorization.");
             }
-            return StatusCode(401);
+			return StatusCode(401, "Invalid Authorization.");
         }
 
         //POST User
         [Route("api/Users")]
         [HttpPost]
+		[EnableQuery]
         [AllowAnonymous]
         public async Task<IActionResult> Post([FromBody]UserRegisterDto userRegisterDto)
         {
-            _logger.LogInformation(LoggingEvents.InsertItem, "Insert New User({Email})", userRegisterDto.Email);
-            var user = await _userService.CreateUserAsync(userRegisterDto);
-            if (user != null)
-            {
-                var userApiDto = _mapperHelper.MapUserToUserApiDto(user);
-                return Json(userApiDto);
-            }
-            _logger.LogWarning(LoggingEvents.InsertItem, "Insert New User({Email}) FAILED, USER ALREADY EXIST", userRegisterDto.Email);
-            return StatusCode(500);
+			var isValid = _userService.CheckIfUserModelIsValid(userRegisterDto);
+			if (isValid.Item1 == true)
+			{
+				var user = await _userService.CreateUserAsync(userRegisterDto);
+				if (user != null)
+				{
+					var userApiDto = _mapperHelper.MapUserToUserApiDto(user);
+					return Ok(userApiDto);
+				}
+				return StatusCode(500, "Unable to create user.");
+			}
+			return StatusCode(400, isValid.Item2);
         }
 
         //PUT User
@@ -143,7 +142,7 @@ namespace RentTogether.Api.Controllers
 
                         if (userApiDtoUpdated != null)
                         {
-                            return Json(userApiDtoUpdated);
+						return Ok(userApiDtoUpdated);
                         }
                         return StatusCode(404);
 					}
@@ -169,7 +168,7 @@ namespace RentTogether.Api.Controllers
                     var userDeleted = await _userService.DeleteUserByIdAsync(id, token);
                     if (userDeleted)
                     {
-                        return StatusCode(204, Json("User supprimé ! "));
+                        return StatusCode(204, "The user has been deleted.");
                     }
                     return StatusCode(403);
                 }

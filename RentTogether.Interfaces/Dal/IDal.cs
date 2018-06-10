@@ -5,6 +5,7 @@ using RentTogether.Entities;
 using RentTogether.Entities.Dto;
 using RentTogether.Entities.Dto.Conversation;
 using RentTogether.Entities.Dto.Message;
+using RentTogether.Entities.Dto.Participant;
 using RentTogether.Entities.Filters.Users;
 
 namespace RentTogether.Interfaces.Dal
@@ -19,7 +20,7 @@ namespace RentTogether.Interfaces.Dal
 		Task<DateTime> GetUserTokenExpirationDateAsync(string token);
 		Task<bool> DeleteUserByIdAsync(int userId);
 		Task<UserApiDto> UpdateUserAsync(UserApiDto userApiDto);
-		Task<List<UserApiDto>> GetAllUserAsync(UserFilters userFilters);
+		Task<List<UserApiDto>> GetAllUserAsync();
 		Task<UserApiDto> GetUserAsyncByToken(string token);
 		#endregion
 
@@ -29,8 +30,13 @@ namespace RentTogether.Interfaces.Dal
 		#endregion
 
 		#region Conversation
-		Task<ConversationApiDto> GetConversationAsyncById(int conversationId);
+		Task<ConversationApiDto> GetConversationAsyncByUserId(int conversationId);
 		Task<ConversationApiDto> AddConversationAsync(ConversationDto conversationDto);
-        #endregion
+		Task<List<ConversationApiDto>> GetAllConversationsAsync();
+		#endregion
+
+		#region Participant 
+		Task<ParticipantApiDto> GetParticipantAsyncByUserId(int userId);
+		#endregion
 	}
 }

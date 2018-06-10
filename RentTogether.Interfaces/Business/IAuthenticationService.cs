@@ -8,6 +8,6 @@ namespace RentTogether.Interfaces.Business
     public interface IAuthenticationService
     {
         UserApiDto RequestToken(User user);
-        Task<bool> CheckIfTokenIsValidAsync(string token, int userId);
+        Task<bool> CheckIfTokenIsValidAsync(string token, int userId = 0);
     }
 }

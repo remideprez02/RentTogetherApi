@@ -60,7 +60,7 @@ namespace RentTogether.Business.Services
                 var userAPiDto = _mapperHelper.MapUserToUserApiDto(await _dal.GetUserAsyncById(id));
                 return userAPiDto;
             }
-            throw new Exception("Cannot Get User By Id");
+			return null;
         }
 
         /// <summary>
@@ -129,9 +129,9 @@ namespace RentTogether.Business.Services
             return null;
         }
 
-		public async Task<List<UserApiDto>> GetAllUsersAsync(UserFilters userFilters)
+		public async Task<List<UserApiDto>> GetAllUsersAsync()
         {
-			var users = await _dal.GetAllUserAsync(userFilters);
+			var users = await _dal.GetAllUserAsync();
 
             if (users == null)
             {
@@ -149,5 +149,24 @@ namespace RentTogether.Business.Services
             }
             return null;
         }
-    }
+
+		public Tuple<bool, string> CheckIfUserModelIsValid(UserRegisterDto userRegisterDto)
+		{
+			if (userRegisterDto.Email == "" || userRegisterDto.Password == "")
+				return new Tuple<bool, string>(false, "Invalid UserEmail or Password");
+
+			if (userRegisterDto.City == "" || userRegisterDto.PostalCode == "")
+				return new Tuple<bool, string>(false, "Invalid City or PostalCode");
+
+			if (userRegisterDto.PhoneNumber == "" || userRegisterDto.PhoneNumber.Length < 10)
+				return new Tuple<bool, string>(false, "Invalid UserEmail or Password");
+
+			if ((userRegisterDto.IsAdmin < 0 || userRegisterDto.IsAdmin > 1) ||
+				(userRegisterDto.IsOwner < 0 || userRegisterDto.IsOwner > 1) ||
+				(userRegisterDto.IsRoomer < 0 || userRegisterDto.IsRoomer > 1))
+				return new Tuple<bool, string>(false, "Invalid User Type");
+
+			return new Tuple<bool, string>(true, "");
+		}
+	}
 }

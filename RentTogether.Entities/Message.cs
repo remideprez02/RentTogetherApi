@@ -14,6 +14,7 @@ namespace RentTogether.Entities
         public string MessageText { get; set; }
         public DateTime CreatedDate { get; set; }
         public User Editor { get; set; }
-        public Conversation Conversation { get; set; }
+		public int IsReport { get; set; }
+		public Conversation Conversation { get; set; }
     }
 }
