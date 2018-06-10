@@ -37,6 +37,8 @@ namespace RentTogether.Interfaces.Dal
 
 		#region Participant 
 		Task<ParticipantApiDto> GetParticipantAsyncByUserId(int userId);
+		Task<List<ParticipantApiDto>> GetAllParticipantAsync();
+		Task<ParticipantApiDto> PostAsyncParticipantToExistingConversation(ParticipantDto participantDto);
 		#endregion
 	}
 }

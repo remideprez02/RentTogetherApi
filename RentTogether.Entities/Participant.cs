@@ -11,7 +11,7 @@ namespace RentTogether.Entities
         [Key]
 		public int ParticipantId { get; set; }
 		public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public Conversation Conversation { get; set; }
         public User User { get; set; }
     }

@@ -153,6 +153,11 @@ namespace RentTogether.Dal
 			}
 		}
 
+        /// <summary>
+        /// Updates the user async.
+        /// </summary>
+        /// <returns>The user async.</returns>
+        /// <param name="userApiDto">User API dto.</param>
 		public async Task<UserApiDto> UpdateUserAsync(UserApiDto userApiDto)
 		{
 			try
@@ -176,6 +181,10 @@ namespace RentTogether.Dal
 			}
 		}
 
+        /// <summary>
+        /// Gets all user async.
+        /// </summary>
+        /// <returns>The all user async.</returns>
 		public async Task<List<UserApiDto>> GetAllUserAsync()
 		{
 			try
@@ -197,6 +206,11 @@ namespace RentTogether.Dal
 			}
 		}
 
+        /// <summary>
+        /// Gets the user async by token.
+        /// </summary>
+        /// <returns>The user async by token.</returns>
+        /// <param name="token">Token.</param>
 		public async Task<UserApiDto> GetUserAsyncByToken(string token)
 		{
 			try
@@ -217,7 +231,11 @@ namespace RentTogether.Dal
 		#endregion
 
 		#region Messages
-
+        /// <summary>
+        /// Gets the messages async by user identifier.
+        /// </summary>
+        /// <returns>The messages async by user identifier.</returns>
+        /// <param name="userId">User identifier.</param>
 		public async Task<List<MessageApiDto>> GetMessagesAsyncByUserId(int userId)
 		{
 			try
@@ -245,6 +263,11 @@ namespace RentTogether.Dal
 			}
 		}
 
+        /// <summary>
+        /// Adds the message async.
+        /// </summary>
+        /// <returns>The message async.</returns>
+        /// <param name="messageDto">Message dto.</param>
 		public async Task AddMessageAsync(MessageDto messageDto)
 		{
 			try
@@ -277,6 +300,12 @@ namespace RentTogether.Dal
 		#endregion
 
 		#region Conversations
+
+        /// <summary>
+        /// Adds the conversation async.
+        /// </summary>
+        /// <returns>The conversation async.</returns>
+        /// <param name="conversationDto">Conversation dto.</param>
 		public async Task<ConversationApiDto> AddConversationAsync(ConversationDto conversationDto)
 		{
 			try
@@ -303,6 +332,12 @@ namespace RentTogether.Dal
 				throw new Exception(ex.Message);
 			}
 		}
+
+        /// <summary>
+        /// Gets the conversation async by user identifier.
+        /// </summary>
+        /// <returns>The conversation async by user identifier.</returns>
+        /// <param name="userId">User identifier.</param>
 		public async Task<ConversationApiDto> GetConversationAsyncByUserId(int userId)
 		{
 			try
@@ -357,6 +392,10 @@ namespace RentTogether.Dal
 			}
 		}
 
+        /// <summary>
+        /// Gets all conversations async.
+        /// </summary>
+        /// <returns>The all conversations async.</returns>
 		public async Task<List<ConversationApiDto>> GetAllConversationsAsync()
 		{
 			try
@@ -419,6 +458,12 @@ namespace RentTogether.Dal
 		#endregion
 
 		#region Participant
+
+        /// <summary>
+        /// Gets the participant async by user identifier.
+        /// </summary>
+        /// <returns>The participant async by user identifier.</returns>
+        /// <param name="userId">User identifier.</param>
 		public async Task<ParticipantApiDto> GetParticipantAsyncByUserId(int userId){
 
             try
@@ -431,6 +476,84 @@ namespace RentTogether.Dal
 					return null;
 				
 				var participantApiDto = _mapperHelper.MapParticipantToParticipantApiDto(participant);
+				return participantApiDto;
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+		}
+
+        /// <summary>
+        /// Gets all participant async.
+        /// </summary>
+        /// <returns>The all participant async.</returns>
+		public async Task<List<ParticipantApiDto>> GetAllParticipantAsync(){
+			
+			try
+			{
+				var participants = await _rentTogetherDbContext.Participants
+														 .Include(x => x.Conversation)
+														 .Include(x => x.User)
+														 .ToListAsync();
+
+				if (participants == null)
+					return null;
+
+				var participantsApiDto = new List<ParticipantApiDto>();
+
+				foreach(var participant in participants){
+					participantsApiDto.Add(_mapperHelper.MapParticipantToParticipantApiDto(participant));
+				}
+
+				return participantsApiDto;
+			}
+
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+		}
+
+        /// <summary>
+        /// Posts the async participant to existing conversation.
+        /// </summary>
+        /// <returns>The async participant to existing conversation.</returns>
+        /// <param name="participantDto">Participant dto.</param>
+		public async Task<ParticipantApiDto> PostAsyncParticipantToExistingConversation(ParticipantDto participantDto){
+			try
+			{
+				var conversation = await _rentTogetherDbContext.Conversations
+				                                               .SingleOrDefaultAsync(x => x.ConversationId == participantDto.ConversationId);
+				
+				var user = await _rentTogetherDbContext.Users
+				                                       .SingleOrDefaultAsync(x => x.UserId == participantDto.UserId);
+
+				if (conversation == null || user == null)
+					return null;
+
+				var participant = new Participant()
+				{
+					Conversation = conversation,
+					StartDate = DateTime.Now,
+					EndDate = null,
+					User = user
+				};
+
+				conversation.Participants.Add(participant);
+
+				var updatingConversation = _rentTogetherDbContext.Conversations
+				                                                 .Update(conversation);
+
+				var isSuccess = await _rentTogetherDbContext.SaveChangesAsync();
+				if (isSuccess <= 0)
+					return null;
+
+				var participantApiDto = _mapperHelper.MapParticipantToParticipantApiDto(await _rentTogetherDbContext.Participants
+				                                                                        .SingleOrDefaultAsync(x => x.User.UserId == participantDto.UserId));
+				if (participantApiDto == null)
+					return null;
+
 				return participantApiDto;
 			}
 			catch (Exception ex)

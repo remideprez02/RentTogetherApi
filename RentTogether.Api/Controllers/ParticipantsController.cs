@@ -6,6 +6,7 @@ using RentTogether.Interfaces.Business;
 using RentTogether.Interfaces.Helpers;
 using Microsoft.Extensions.Primitives;
 using System.Linq;
+using RentTogether.Entities.Dto.Participant;
 
 namespace RentTogether.Api.Controllers
 {
@@ -74,12 +75,12 @@ namespace RentTogether.Api.Controllers
                         if (await _authenticationService.CheckIfTokenIsValidAsync(token, user.UserId))
                         {
                             //Verify if messages for this userId exist
-                            var conversations = await _conversationService.GetAllConversationsAsync();
-                            if (conversations == null)
+							var participants = await _participantService.GetAllParticipantsAsync();
+							if (participants == null)
                             {
-                                return StatusCode(404);
+                                return StatusCode(404, "Participants not found.");
                             }
-                            return Ok(conversations);
+							return Ok(participants);
                         }
                         return StatusCode(401, "Invalid Token.");
                     }
@@ -93,7 +94,7 @@ namespace RentTogether.Api.Controllers
         //POST Conversation
         [Route("api/Conversations")]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]ConversationDto conversationDto)
+        public async Task<IActionResult> Post([FromBody]ParticipantDto participantDto)
         {
             //Get header token
             if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues))
@@ -105,12 +106,12 @@ namespace RentTogether.Api.Controllers
                     if (await _authenticationService.CheckIfTokenIsValidAsync(token))
                     {
                         //Verify if messages for this userId exist
-                        var conversation = await _conversationService.AddConversationAsync(conversationDto);
-                        if (conversation == null)
+						var participantApiDto = await _participantService.PostAsyncParticipantToExistingConversation(participantDto);
+						if (participantApiDto == null)
                         {
-                            return StatusCode(404, "Unable to create conversation.");
+                            return StatusCode(404, "Unable to add participant to existing conversation.");
                         }
-                        return Ok(conversation);
+						return Ok(participantApiDto);
                     }
                     return StatusCode(401, "Invalid Token.");
                 }
