@@ -421,7 +421,7 @@ namespace RentTogether.Dal
 					{
 						UserId = participant.User.UserId,
 						ConversationId = participant.Conversation.ConversationId,
-						EndDate = participant.EndDate,
+						EndDate = participant?.EndDate,
 						StartDate = participant.StartDate,
 						ParticipantId = participant.ParticipantId
 					});
@@ -484,7 +484,7 @@ namespace RentTogether.Dal
 						{
 							UserId = participant.User.UserId,
 							ConversationId = participant.Conversation.ConversationId,
-							EndDate = participant.EndDate,
+							EndDate = participant?.EndDate,
 							StartDate = participant.StartDate,
 							ParticipantId = participant.ParticipantId
 						});

@@ -81,7 +81,7 @@ namespace RentTogether.Common.Mapper
 			{
 				ConversationId = participant.Conversation.ConversationId,
 				UserId = participant.User.UserId,
-				EndDate = participant.EndDate,
+				EndDate = participant?.EndDate,
 				ParticipantId = participant.ParticipantId,
 				StartDate = participant.StartDate
 			};
