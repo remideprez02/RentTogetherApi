@@ -71,7 +71,9 @@ namespace RentTogether.Api.Controllers
                 if (token != null)
                 {
 					var user = await _userService.GetUserAsyncByToken(token);
-                    if (user.IsAdmin == 1 && user != null)
+					if (user == null)
+						return StatusCode(401, "Invalid token.");
+                    if (user.IsAdmin == 1)
                     {
                         //Verify if the token exist and is not expire
 						if (await _authenticationService.CheckIfTokenIsValidAsync(token, user.UserId))
