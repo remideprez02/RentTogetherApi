@@ -7,10 +7,11 @@ using System.Linq;
 using RentTogether.Interfaces.Business;
 using RentTogether.Interfaces.Helpers;
 using RentTogether.Entities.Dto.Message;
+using Microsoft.AspNet.OData;
 
 namespace RentTogether.Api.Controllers
 {
-    public class MessagesController : Controller
+    public class MessagesController : ODataController
     {
         private readonly IMessageService _messageService;
         private readonly IUserService _userService;
@@ -46,13 +47,43 @@ namespace RentTogether.Api.Controllers
                         var messages = await _messageService.GetAllMessagesAsyncByUserId(userId);
                         if (messages == null)
                         {
-                            return StatusCode(404);
+                            return StatusCode(404, "Messages not found.");
                         }
-                        return Json(messages);
+						return Ok(messages);
                     }
+					return StatusCode(401, "Invalid token.");
                 }
+				return StatusCode(401, "Invalid authorization.");
             }
-            return StatusCode(401);
+			return StatusCode(401, "Invalid authorization.");
+        }
+
+		[Route("api/Messages/{conversationId}")]
+        [HttpGet]
+        public async Task<IActionResult> GetMessagesByConversationId(int conversationId)
+        {
+            //Get header token
+			if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues) && conversationId > -1)
+            {
+                var token = _customEncoder.DecodeBearerAuth(headerValues.First());
+                if (token != null)
+                {
+                    //Verify if the token exist and is not expire
+                    if (await _authenticationService.CheckIfTokenIsValidAsync(token))
+                    {
+                        //Verify if user exist
+						var messages = await _messageService.GetAllMessagesAsyncFromConversationByConversationId(conversationId);
+                        if (messages == null)
+                        {
+                            return StatusCode(404, "Messages not found.");
+                        }
+                        return Ok(messages);
+                    }
+					return StatusCode(401, "Invalid token.");
+                }
+				return StatusCode(401, "Invalid authorization.");
+            }
+			return StatusCode(401, "Invalid authorization.");
         }
 
         //POST User
@@ -70,12 +101,18 @@ namespace RentTogether.Api.Controllers
                     if (await _authenticationService.CheckIfTokenIsValidAsync(token, messageDto.UserId))
                     {
                         //Verify if messages for this userId exist
-                        await _messageService.CreateMessageAsync(messageDto);
-                        return StatusCode(201);
+						var messageApiDto = await _messageService.AddMessageAsync(messageDto);
+
+						if(messageApiDto == null){
+							return StatusCode(400, "Unable to create message.");
+						}
+						return Ok(messageApiDto);
                     }
+					return StatusCode(401, "Invalid token.");
                 }
+				return StatusCode(401, "Invalid authorization.");
             }
-            return StatusCode(401);
+			return StatusCode(401, "Invalid authorization.");
         }
     }
 }

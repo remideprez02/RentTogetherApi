@@ -92,7 +92,7 @@ namespace RentTogether.Api.Controllers
         }
 
         //POST Conversation
-        [Route("api/Conversations")]
+        [Route("api/Participants")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]ParticipantDto participantDto)
         {
@@ -109,7 +109,7 @@ namespace RentTogether.Api.Controllers
 						var participantApiDto = await _participantService.PostAsyncParticipantToExistingConversation(participantDto);
 						if (participantApiDto == null)
                         {
-                            return StatusCode(404, "Unable to add participant to existing conversation.");
+                            return StatusCode(400, "Unable to add participant to existing conversation.");
                         }
 						return Ok(participantApiDto);
                     }

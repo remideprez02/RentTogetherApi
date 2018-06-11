@@ -78,31 +78,35 @@ namespace RentTogether.Business.Services
         /// <param name="userId">User identifier.</param>
 		public async Task<bool> CheckIfTokenIsValidAsync(string token, int userId )
 		{
-			var user = await _dal.GetUserAsyncById(userId);
-			if (user.Token == token)
+			if (userId > 0)
 			{
-				var date = await _dal.GetUserTokenExpirationDateAsync(token);
-                
-				if (date > DateTime.Now)
+				var user = await _dal.GetUserAsyncById(userId);
+				if (user == null)
+					return false;
+				if (user.Token == token)
 				{
-					return true;
+					var date = await _dal.GetUserTokenExpirationDateAsync(token);
+
+					if (date > DateTime.Now)
+					{
+						return true;
+					}
+					return false;
 				}
 				return false;
 			}
-			return false;
-		}
-		public async Task<bool> CheckIfTokenIsValidAsync(string token)
-        {
-			var user = await _dal.GetUserAsyncByToken(token);
-            if (user != null)
-            {
-				if (user.TokenExpirationDate > DateTime.Now)
+			else{
+				var user = await _dal.GetUserAsyncByToken(token);
+                if (user != null)
                 {
-                    return true;
+                    if (user.TokenExpirationDate > DateTime.Now)
+                    {
+                        return true;
+                    }
+                    return false;
                 }
                 return false;
-            }
-            return false;
-        }
+			}
+		}
 	}
 }

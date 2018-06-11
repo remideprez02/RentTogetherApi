@@ -26,7 +26,8 @@ namespace RentTogether.Interfaces.Dal
 
 		#region Message
 		Task<List<MessageApiDto>> GetMessagesAsyncByUserId(int userId);
-		Task AddMessageAsync(MessageDto messageDto);
+		Task<MessageApiDto> AddMessageAsync(MessageDto messageDto);
+		Task<List<MessageApiDto>> GetAllMessagesAsyncFromConversationByConversationId(int conversationId);
 		#endregion
 
 		#region Conversation

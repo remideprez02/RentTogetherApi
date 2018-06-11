@@ -16,9 +16,9 @@ namespace RentTogether.Business.Services
             _dal = dal;
         }
 
-        public async Task CreateMessageAsync(MessageDto messageDto)
+		public async Task<MessageApiDto> AddMessageAsync(MessageDto messageDto)
         {
-            await _dal.AddMessageAsync(messageDto);
+            return await _dal.AddMessageAsync(messageDto);
         }
 
         public async Task<List<MessageApiDto>> GetAllMessagesAsyncByUserId(int userId)
@@ -26,5 +26,9 @@ namespace RentTogether.Business.Services
             var messages = await _dal.GetMessagesAsyncByUserId(userId);
             return messages;
         }
+
+		public async Task<List<MessageApiDto>> GetAllMessagesAsyncFromConversationByConversationId(int conversationId){
+			return await _dal.GetAllMessagesAsyncFromConversationByConversationId(conversationId);
+		}
     }
 }

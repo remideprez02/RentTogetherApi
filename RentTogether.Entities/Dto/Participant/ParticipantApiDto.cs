@@ -3,9 +3,6 @@ namespace RentTogether.Entities.Dto.Participant
 {
     public class ParticipantApiDto
     {
-        public ParticipantApiDto()
-        {
-        }
 		public int ParticipantId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }

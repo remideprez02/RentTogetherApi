@@ -67,24 +67,39 @@ namespace RentTogether.Common.Mapper
 			user.PhoneNumber = userApiDto.PhoneNumber;
 			user.City = userApiDto.City;
 			user.PostalCode = userApiDto.PostalCode;
-
+			user.Token = userApiDto.Token;
+			user.TokenExpirationDate = userApiDto.TokenExpirationDate;
 			return user;
 		}
 		#endregion
 
 		#region Participant
-		public ParticipantApiDto MapParticipantToParticipantApiDto(Participant participant){
-			
-			return new ParticipantApiDto()
-            {
-                ConversationId = participant.Conversation.ConversationId,
-                UserId = participant.User.UserId,
-                EndDate = participant.EndDate,
-                ParticipantId = participant.ParticipantId,
-                StartDate = participant.StartDate
-            };
-		}
-        #endregion
+		public ParticipantApiDto MapParticipantToParticipantApiDto(Participant participant)
+		{
 
+			return new ParticipantApiDto()
+			{
+				ConversationId = participant.Conversation.ConversationId,
+				UserId = participant.User.UserId,
+				EndDate = participant.EndDate,
+				ParticipantId = participant.ParticipantId,
+				StartDate = participant.StartDate
+			};
+		}
+		#endregion
+
+		#region Message
+		public MessageApiDto MapMessageToMessageApiDto(Message message){
+			return new MessageApiDto()
+			{
+				CreatedDate = message.CreatedDate,
+				IsReport = message.IsReport,
+				MessageId = message.MessageId,
+				MessageText = message.MessageText,
+				UserId = message.Editor.UserId
+			};
+		}
+
+#endregion
 	}
 }

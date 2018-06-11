@@ -59,6 +59,7 @@ namespace RentTogether
             services.AddTransient<ICustomEncoder, CustomEncoder>();
             services.AddTransient<IMessageService, MessageService>();
 			services.AddTransient<IConversationService, ConversationService>();
+			services.AddTransient<IParticipantService, ParticipantService>();
 
             // Register the Swagger generator, defining one or more Swagger documents
 			services.AddSwaggerGen(c =>
@@ -106,7 +107,6 @@ namespace RentTogether
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "RentTogether API V1");
-                
             });
            
             app.Use(async (context, next) =>

@@ -120,7 +120,7 @@ namespace RentTogether.Api.Controllers
 					var userApiDto = _mapperHelper.MapUserToUserApiDto(user);
 					return Ok(userApiDto);
 				}
-				return StatusCode(500, "Unable to create user.");
+				return StatusCode(400, "Unable to create user.");
 			}
 			return StatusCode(400, isValid.Item2);
         }

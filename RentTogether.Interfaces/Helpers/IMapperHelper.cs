@@ -1,6 +1,7 @@
 ﻿using System;
 using RentTogether.Entities;
 using RentTogether.Entities.Dto;
+using RentTogether.Entities.Dto.Message;
 using RentTogether.Entities.Dto.Participant;
 
 namespace RentTogether.Interfaces.Helpers
@@ -12,5 +13,7 @@ namespace RentTogether.Interfaces.Helpers
         User MapUpdateUserApiDtoToUser(UserApiDto userApiDto, User user);
 
 		ParticipantApiDto MapParticipantToParticipantApiDto(Participant participant);
+
+		MessageApiDto MapMessageToMessageApiDto(Message message);
     }
 }

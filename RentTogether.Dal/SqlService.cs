@@ -268,29 +268,72 @@ namespace RentTogether.Dal
         /// </summary>
         /// <returns>The message async.</returns>
         /// <param name="messageDto">Message dto.</param>
-		public async Task AddMessageAsync(MessageDto messageDto)
+		public async Task<MessageApiDto> AddMessageAsync(MessageDto messageDto)
 		{
 			try
 			{
-				var user = await _rentTogetherDbContext.Users
-													   .Include(x => x.Messages)
-													   .SingleOrDefaultAsync(x => x.UserId == messageDto.UserId);
+				var conversation = await _rentTogetherDbContext.Conversations
+				                                               .Include(x => x.Messages)
+				                                               .Include(x => x.Participants)
+				                                               .SingleOrDefaultAsync(x => x.ConversationId == messageDto.ConversationId);
+				var editor = await _rentTogetherDbContext.Users
+														 .SingleOrDefaultAsync(x => x.UserId == messageDto.UserId);
 
-				if (user != null)
+				if (conversation == null || editor == null)
+					return null;
+				
+				var message = new Message()
 				{
-					var message = new Message
-					{
-						MessageText = messageDto.MessageText,
-						Editor = new User { UserId = messageDto.UserId }
-					};
-					if (user.Messages == null)
-					{
-						user.Messages = new List<Message>();
-					}
-					user.Messages.Add(message);
-					_rentTogetherDbContext.Users.Update(user);
-					await _rentTogetherDbContext.SaveChangesAsync();
+					Conversation = conversation,
+					CreatedDate = DateTime.Now,
+					Editor = editor,
+					IsReport = 0,
+					MessageText = messageDto.MessageText
+				};
+
+				conversation.Messages.Add(message);
+				_rentTogetherDbContext.Conversations.Update(conversation);
+
+				var isSuccess = await _rentTogetherDbContext.SaveChangesAsync();
+
+				if (isSuccess <= 0)
+					return null;
+				
+				var messageApiDto = _mapperHelper.MapMessageToMessageApiDto(await _rentTogetherDbContext.Messages
+																			.SingleOrDefaultAsync(x => x.Editor.UserId == messageDto.UserId 
+				                                                                                  && x.Conversation.ConversationId == messageDto.ConversationId));
+				return messageApiDto;
+
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+		}
+
+        /// <summary>
+        /// Gets all messages async from conversation by conversation identifier.
+        /// </summary>
+        /// <returns>The all messages async from conversation by conversation identifier.</returns>
+        /// <param name="conversationId">Conversation identifier.</param>
+		public async Task<List<MessageApiDto>> GetAllMessagesAsyncFromConversationByConversationId(int conversationId){
+			try
+			{
+				var messages = await _rentTogetherDbContext.Messages
+				                                           .Include(x => x.Conversation)
+				                                           .Include(x => x.Editor)
+				                                           .Where(x => x.Conversation.ConversationId == conversationId).ToListAsync();
+				if (messages == null)
+					return null;
+
+				var messagesApiDto = new List<MessageApiDto>();
+				foreach (var message in messages)
+				{
+					messagesApiDto.Add(_mapperHelper.MapMessageToMessageApiDto(message));
 				}
+
+				return messagesApiDto;
+
 			}
 			catch (Exception ex)
 			{
@@ -524,6 +567,8 @@ namespace RentTogether.Dal
 			try
 			{
 				var conversation = await _rentTogetherDbContext.Conversations
+				                                               .Include(x => x.Participants)
+				                                               .Include(x => x.Messages)
 				                                               .SingleOrDefaultAsync(x => x.ConversationId == participantDto.ConversationId);
 				
 				var user = await _rentTogetherDbContext.Users
@@ -550,7 +595,9 @@ namespace RentTogether.Dal
 					return null;
 
 				var participantApiDto = _mapperHelper.MapParticipantToParticipantApiDto(await _rentTogetherDbContext.Participants
-				                                                                        .SingleOrDefaultAsync(x => x.User.UserId == participantDto.UserId));
+				                                                                        .Include(x => x.User)
+				                                                                        .Include(x => x.Conversation)
+				                                                                        .FirstOrDefaultAsync(x => x.User.UserId == participantDto.UserId));
 				if (participantApiDto == null)
 					return null;
 
