@@ -559,7 +559,7 @@ namespace RentTogether.Dal
 		}
 
         /// <summary>
-        /// Posts the async participant to existing conversation.
+        /// Post the async participant to existing conversation.
         /// </summary>
         /// <returns>The async participant to existing conversation.</returns>
         /// <param name="participantDto">Participant dto.</param>
