@@ -1,5 +1,0 @@
-﻿Refresh Token --> KO
-Join sur les appels sql pour limiter les couts de consommation --> KO
-ssl --> KO
-log --> KO
-PUT --> ne pas changer la date de création, numéro de téléphone qui change ? faire un model pour l'update
