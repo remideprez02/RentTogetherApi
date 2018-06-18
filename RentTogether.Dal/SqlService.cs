@@ -597,7 +597,8 @@ namespace RentTogether.Dal
 				var participantApiDto = _mapperHelper.MapParticipantToParticipantApiDto(await _rentTogetherDbContext.Participants
 				                                                                        .Include(x => x.User)
 				                                                                        .Include(x => x.Conversation)
-				                                                                        .FirstOrDefaultAsync(x => x.User.UserId == participantDto.UserId));
+				                                                                        .FirstOrDefaultAsync(x => x.Conversation.ConversationId == participantDto.ConversationId 
+				                                                                                             && x.User.UserId == participantDto.UserId));
 				if (participantApiDto == null)
 					return null;
 
