@@ -3449,11 +3449,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Dal/RentTogetherApi.Dal.csproj",
+      "projectUniqueName": "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Dal/RentTogetherApi.Dal.csproj",
       "projectName": "RentTogetherApi.Dal",
-      "projectPath": "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Dal/RentTogetherApi.Dal.csproj",
+      "projectPath": "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Dal/RentTogetherApi.Dal.csproj",
       "packagesPath": "/Users/remi/.nuget/packages/",
-      "outputPath": "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Dal/obj",
+      "outputPath": "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Dal/obj",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
@@ -3470,11 +3470,11 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Entities/RentTogetherApi.Entities.csproj": {
-              "projectPath": "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Entities/RentTogetherApi.Entities.csproj"
+            "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Entities/RentTogetherApi.Entities.csproj": {
+              "projectPath": "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Entities/RentTogetherApi.Entities.csproj"
             },
-            "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Interfaces/RentTogetherApi.Interfaces.csproj": {
-              "projectPath": "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Interfaces/RentTogetherApi.Interfaces.csproj"
+            "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Interfaces/RentTogetherApi.Interfaces.csproj": {
+              "projectPath": "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Interfaces/RentTogetherApi.Interfaces.csproj"
             }
           }
         }

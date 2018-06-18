@@ -3430,11 +3430,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Interfaces/RentTogetherApi.Interfaces.csproj",
+      "projectUniqueName": "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Interfaces/RentTogetherApi.Interfaces.csproj",
       "projectName": "RentTogetherApi.Interfaces",
-      "projectPath": "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Interfaces/RentTogetherApi.Interfaces.csproj",
+      "projectPath": "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Interfaces/RentTogetherApi.Interfaces.csproj",
       "packagesPath": "/Users/remi/.nuget/packages/",
-      "outputPath": "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Interfaces/obj",
+      "outputPath": "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Interfaces/obj",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
@@ -3451,8 +3451,8 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Entities/RentTogetherApi.Entities.csproj": {
-              "projectPath": "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Entities/RentTogetherApi.Entities.csproj"
+            "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Entities/RentTogetherApi.Entities.csproj": {
+              "projectPath": "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Entities/RentTogetherApi.Entities.csproj"
             }
           }
         }

@@ -12727,11 +12727,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi/RentTogetherApi.Api.csproj",
+      "projectUniqueName": "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi/RentTogetherApi.Api.csproj",
       "projectName": "RentTogetherApi.Api",
-      "projectPath": "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi/RentTogetherApi.Api.csproj",
+      "projectPath": "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi/RentTogetherApi.Api.csproj",
       "packagesPath": "/Users/remi/.nuget/packages/",
-      "outputPath": "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi/obj",
+      "outputPath": "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi/obj",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
@@ -12748,20 +12748,20 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Entities/RentTogetherApi.Entities.csproj": {
-              "projectPath": "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Entities/RentTogetherApi.Entities.csproj"
+            "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Entities/RentTogetherApi.Entities.csproj": {
+              "projectPath": "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Entities/RentTogetherApi.Entities.csproj"
             },
-            "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Interfaces/RentTogetherApi.Interfaces.csproj": {
-              "projectPath": "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Interfaces/RentTogetherApi.Interfaces.csproj"
+            "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Interfaces/RentTogetherApi.Interfaces.csproj": {
+              "projectPath": "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Interfaces/RentTogetherApi.Interfaces.csproj"
             },
-            "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Dal/RentTogetherApi.Dal.csproj": {
-              "projectPath": "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Dal/RentTogetherApi.Dal.csproj"
+            "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Dal/RentTogetherApi.Dal.csproj": {
+              "projectPath": "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Dal/RentTogetherApi.Dal.csproj"
             },
-            "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Business/RentTogetherApi.Business.csproj": {
-              "projectPath": "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Business/RentTogetherApi.Business.csproj"
+            "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Business/RentTogetherApi.Business.csproj": {
+              "projectPath": "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Business/RentTogetherApi.Business.csproj"
             },
-            "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Common/RentTogetherApi.Common.csproj": {
-              "projectPath": "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Common/RentTogetherApi.Common.csproj"
+            "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Common/RentTogetherApi.Common.csproj": {
+              "projectPath": "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Common/RentTogetherApi.Common.csproj"
             }
           }
         }

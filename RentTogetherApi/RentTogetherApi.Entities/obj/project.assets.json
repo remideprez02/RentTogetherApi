@@ -3412,17 +3412,17 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Entities/RentTogetherApi.Entities.csproj",
+      "projectUniqueName": "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Entities/RentTogetherApi.Entities.csproj",
       "projectName": "RentTogetherApi.Entities",
-      "projectPath": "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Entities/RentTogetherApi.Entities.csproj",
+      "projectPath": "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Entities/RentTogetherApi.Entities.csproj",
       "packagesPath": "/Users/remi/.nuget/packages/",
-      "outputPath": "/Users/remi/Documents/ProjetsESGI/renttogether/RentTogetherApi/RentTogetherApi.Entities/obj/",
+      "outputPath": "/Users/remi/Documents/ProjetsESGI/Core/RentTogetherApi/RentTogetherApi.Entities/obj",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/remi/.nuget/NuGet/NuGet.Config"
+        "/Users/remi/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
@@ -3444,26 +3444,27 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
+          "Microsoft.NETCore.App": {
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "2.0",
+            "autoReferenced": true
+          },
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
-            "version": "[2.0.3, )"
+            "version": "2.0.3"
           },
           "Microsoft.EntityFrameworkCore.Design": {
             "target": "Package",
-            "version": "[2.0.3, )"
+            "version": "2.0.3"
           },
           "Microsoft.EntityFrameworkCore.SqlServer": {
             "target": "Package",
-            "version": "[2.0.3, )"
-          },
-          "Microsoft.NETCore.App": {
-            "target": "Package",
-            "version": "[2.0.0, )",
-            "autoReferenced": true
+            "version": "2.0.3"
           },
           "Newtonsoft.Json": {
             "target": "Package",
-            "version": "[11.0.2, )"
+            "version": "11.0.2"
           }
         },
         "imports": [
