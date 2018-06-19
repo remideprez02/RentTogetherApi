@@ -27,9 +27,9 @@ namespace RentTogether.Business.Services
 			return conversationApiDto;
         }
 
-        public async Task<ConversationApiDto> GetConversationAsyncByUserId(int userId)
+        public async Task<List<ConversationApiDto>> GetConversationsAsyncByUserId(int userId)
         {
-			return await _dal.GetConversationAsyncByUserId(userId);
+			return await _dal.GetConversationsAsyncByUserId(userId);
         }
 
 		public async Task<List<ConversationApiDto>> GetAllConversationsAsync(){

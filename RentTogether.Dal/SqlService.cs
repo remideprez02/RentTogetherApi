@@ -383,54 +383,61 @@ namespace RentTogether.Dal
 		/// </summary>
 		/// <returns>The conversation async by user identifier.</returns>
 		/// <param name="userId">User identifier.</param>
-		public async Task<ConversationApiDto> GetConversationAsyncByUserId(int userId)
+		public async Task<List<ConversationApiDto>> GetConversationsAsyncByUserId(int userId)
 		{
 			try
 			{
-				var conversation = await _rentTogetherDbContext.Conversations
-															   .Include(x => x.Messages)
-															   .Include(x => x.Participants)
-															   .FirstOrDefaultAsync(x => x.Participants.Any(p => p.User.UserId == userId));
-				if (conversation == null)
-				{
-					return null;
-				}
+                var conversations = await _rentTogetherDbContext.Conversations
+                                                                .Include(x => x.Messages)
+                                                                .Include(x => x.Participants)
+                                                                .ThenInclude(xx => xx.User)
+                                                                .Where(x => x.Participants.Any(xx => xx.User.UserId == userId))
+                                                                .ToListAsync();
+                if (conversations == null)
+                    return null;
 
-				var conversationApiDto = new ConversationApiDto()
-				{
-					ConversationId = conversation.ConversationId,
-					CreatedDate = conversation.CreatedDate,
-					Type = conversation.Type,
-					Messages = new List<MessageApiDto>(),
-					Participants = new List<ParticipantApiDto>()
-				};
+                var conversationsApiDto = new List<ConversationApiDto>();
 
-				foreach (var message in conversation.Messages)
-				{
-					conversationApiDto.Messages.Add(new MessageApiDto()
-					{
-						UserId = message.Editor.UserId,
-						CreatedDate = message.CreatedDate,
-						IsReport = message.IsReport,
-						MessageId = message.MessageId,
-						MessageText = message.MessageText
-					});
-				}
+                foreach (var conversation in conversations)
+                {
+                    conversationsApiDto.Add(new ConversationApiDto()
+                    {
+                        ConversationId = conversation.ConversationId,
+                        CreatedDate = conversation.CreatedDate,
+                        Messages = new List<MessageApiDto>(),
+                        Participants = new List<ParticipantApiDto>(),
+                        Type = conversation.Type
+                    });
+                }
 
-				foreach (var participant in conversation.Participants)
-				{
-					conversationApiDto.Participants.Add(new ParticipantApiDto()
-					{
-						UserId = participant.User.UserId,
-						ConversationId = participant.Conversation.ConversationId,
-						EndDate = participant?.EndDate,
-						StartDate = participant.StartDate,
-						ParticipantId = participant.ParticipantId
-					});
-				}
+                foreach (var conversationApiDto in conversationsApiDto)
+                {
+                    foreach (var message in conversations.SelectMany(x => x.Messages))
+                    {
+                        conversationApiDto.Messages.Add(new MessageApiDto()
+                        {
+                            UserId = message.Editor.UserId,
+                            CreatedDate = message.CreatedDate,
+                            IsReport = message.IsReport,
+                            MessageId = message.MessageId,
+                            MessageText = message.MessageText
+                        });
+                    }
 
-				return conversationApiDto;
-			}
+                    foreach (var participant in conversations.SelectMany(x => x.Participants))
+                    {
+                        conversationApiDto.Participants.Add(new ParticipantApiDto()
+                        {
+                            UserId = participant.User.UserId,
+                            ConversationId = participant.Conversation.ConversationId,
+                            EndDate = participant?.EndDate,
+                            StartDate = participant.StartDate,
+                            ParticipantId = participant.ParticipantId
+                        });
+                    }
+                }
+                return conversationsApiDto;
+            }
 			catch (Exception ex)
 			{
 				throw new Exception(ex.Message);
@@ -581,6 +588,10 @@ namespace RentTogether.Dal
 													   .SingleOrDefaultAsync(x => x.UserId == participantDto.UserId);
 
 				if (conversation == null || user == null)
+					return null;
+				
+                //Si l'utilisateur est déjà présent dans la conversation
+				if (conversation.Participants.Any(x => x.User.UserId == participantDto.UserId))
 					return null;
 
 				var participant = new Participant()

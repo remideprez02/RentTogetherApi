@@ -45,11 +45,11 @@ namespace RentTogether.Api.Controllers
 						if (await _authenticationService.CheckIfTokenIsValidAsync(token, userId))
                         {
                             //Verify if messages for this userId exist
-							var conversation = await _conversationService.GetConversationAsyncByUserId(userId);
-							if(conversation == null){
-								return StatusCode(404, "Convertation not found.");
+							var conversations = await _conversationService.GetConversationsAsyncByUserId(userId);
+							if(conversations == null){
+                            return StatusCode(404, "Convertation(s) not found.");
 							}
-							return Ok(conversation);
+							return Ok(conversations);
                         }
 						return StatusCode(401, "Invalid token.");
                 }

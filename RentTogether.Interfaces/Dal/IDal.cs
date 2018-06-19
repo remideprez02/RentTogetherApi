@@ -29,10 +29,10 @@ namespace RentTogether.Interfaces.Dal
 		Task<List<MessageApiDto>> GetMessagesAsyncByUserId(int userId);
 		Task<MessageApiDto> AddMessageAsync(MessageDto messageDto);
 		Task<List<MessageApiDto>> GetAllMessagesAsyncFromConversationByConversationId(int conversationId);
-		#endregion
+        #endregion
 
-		#region Conversation
-		Task<ConversationApiDto> GetConversationAsyncByUserId(int conversationId);
+        #region Conversation
+        Task<List<ConversationApiDto>> GetConversationsAsyncByUserId(int userId);
 		Task<ConversationApiDto> AddConversationAsync(ConversationDto conversationDto);
 		Task<List<ConversationApiDto>> GetAllConversationsAsync();
 		#endregion
