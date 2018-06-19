@@ -1,5 +1,7 @@
-﻿using System.Text;
+﻿using System.Linq;
+using System.Text;
 using Microsoft.AspNet.OData.Extensions;
+using Microsoft.AspNet.OData.Formatter;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 using RentTogether.Business.Services;
 using RentTogether.Common.Helpers;
 using RentTogether.Common.Mapper;
@@ -34,6 +37,7 @@ namespace RentTogether
             //EF
             services.AddDbContext<RentTogetherDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("RentTogetherBdd")));
+
             //ODATA
 			services.AddOData();
 			services.AddTransient<RentTogetherModelBuilder>();
@@ -60,6 +64,7 @@ namespace RentTogether
             services.AddTransient<IMessageService, MessageService>();
 			services.AddTransient<IConversationService, ConversationService>();
 			services.AddTransient<IParticipantService, ParticipantService>();
+			services.AddTransient<IMediaService, MediaService>();
 
             // Register the Swagger generator, defining one or more Swagger documents
 			services.AddSwaggerGen(c =>
@@ -84,6 +89,18 @@ namespace RentTogether
             });
 
             services.AddMvc();
+
+			services.AddMvcCore(options =>
+            {
+                foreach (var outputFormatter in options.OutputFormatters.OfType<ODataOutputFormatter>().Where(_ => _.SupportedMediaTypes.Count == 0))
+                {
+                    outputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/prs.odatatestxx-odata"));
+                }
+                foreach (var inputFormatter in options.InputFormatters.OfType<ODataInputFormatter>().Where(_ => _.SupportedMediaTypes.Count == 0))
+                {
+                    inputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/prs.odatatestxx-odata"));
+                }
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -93,7 +110,7 @@ namespace RentTogether
             {
                 app.UseDeveloperExceptionPage();
             }
-                     
+			app.UseStaticFiles();
 
 
             //ssl

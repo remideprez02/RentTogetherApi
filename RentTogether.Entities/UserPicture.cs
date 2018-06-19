@@ -10,7 +10,7 @@ namespace RentTogether.Entities
         }
         [Key]
 		public int UserPictureId { get; set; }
-		public string Uri { get; set; }
+		public string FileToBase64 { get; set; }
 		public User User { get; set; }
     }
 }

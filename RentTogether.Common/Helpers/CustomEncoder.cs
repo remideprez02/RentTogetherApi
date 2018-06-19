@@ -1,5 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using RentTogether.Interfaces.Helpers;
 
 namespace RentTogether.Common.Helpers
@@ -64,5 +67,15 @@ namespace RentTogether.Common.Helpers
             }
             return null;
         }
+
+		public string FileToBase64(IFormFile file)
+		{
+			using(var memoryStream = new MemoryStream())
+			{
+				file.CopyTo(memoryStream);
+				var fileBytes = memoryStream.ToArray();
+				return Convert.ToBase64String(fileBytes);
+			}
+		}
     }
 }

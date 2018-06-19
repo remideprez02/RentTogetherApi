@@ -1,6 +1,7 @@
 ﻿using System;
 using RentTogether.Entities;
 using RentTogether.Entities.Dto;
+using RentTogether.Entities.Dto.Media;
 using RentTogether.Entities.Dto.Message;
 using RentTogether.Entities.Dto.Participant;
 using RentTogether.Interfaces.Helpers;
@@ -9,8 +10,11 @@ namespace RentTogether.Common.Mapper
 {
 	public class Mapper : IMapperHelper
 	{
-		public Mapper()
+		private  ICustomEncoder _customEncoder { get; set; }
+
+		public Mapper(ICustomEncoder customEncoder)
 		{
+			_customEncoder = customEncoder;
 		}
 		#region User
 
@@ -89,7 +93,8 @@ namespace RentTogether.Common.Mapper
 		#endregion
 
 		#region Message
-		public MessageApiDto MapMessageToMessageApiDto(Message message){
+		public MessageApiDto MapMessageToMessageApiDto(Message message)
+		{
 			return new MessageApiDto()
 			{
 				CreatedDate = message.CreatedDate,
@@ -97,6 +102,19 @@ namespace RentTogether.Common.Mapper
 				MessageId = message.MessageId,
 				MessageText = message.MessageText,
 				UserId = message.Editor.UserId
+			};
+		}
+
+		#endregion
+
+		#region UserPicture
+		public FileApiDto MapUserPictureToFileApiDto(UserPicture  userPicture)
+		{
+			return new FileApiDto()
+			{
+				FileId = userPicture.UserPictureId,
+				FileToBase64 = userPicture.FileToBase64,
+				UserId = userPicture.UserPictureId
 			};
 		}
 

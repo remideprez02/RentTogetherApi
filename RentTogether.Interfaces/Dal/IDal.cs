@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using RentTogether.Entities;
 using RentTogether.Entities.Dto;
 using RentTogether.Entities.Dto.Conversation;
+using RentTogether.Entities.Dto.Media;
 using RentTogether.Entities.Dto.Message;
 using RentTogether.Entities.Dto.Participant;
 using RentTogether.Entities.Filters.Users;
@@ -41,5 +42,10 @@ namespace RentTogether.Interfaces.Dal
 		Task<List<ParticipantApiDto>> GetAllParticipantAsync();
 		Task<ParticipantApiDto> PostAsyncParticipantToExistingConversation(ParticipantDto participantDto);
 		#endregion
+
+		#region Media
+		Task<FileApiDto> PostAsyncUserPicture(FileDto fileDto);
+		Task<FileApiDto> GetAsyncUserPictureByUserId(int userId);
+        #endregion
 	}
 }

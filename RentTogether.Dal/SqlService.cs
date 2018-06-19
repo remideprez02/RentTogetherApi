@@ -11,6 +11,7 @@ using RentTogether.Entities.Dto.Message;
 using RentTogether.Entities.Filters.Users;
 using RentTogether.Entities.Dto.Conversation;
 using RentTogether.Entities.Dto.Participant;
+using RentTogether.Entities.Dto.Media;
 
 namespace RentTogether.Dal
 {
@@ -153,11 +154,11 @@ namespace RentTogether.Dal
 			}
 		}
 
-        /// <summary>
-        /// Updates the user async.
-        /// </summary>
-        /// <returns>The user async.</returns>
-        /// <param name="userApiDto">User API dto.</param>
+		/// <summary>
+		/// Updates the user async.
+		/// </summary>
+		/// <returns>The user async.</returns>
+		/// <param name="userApiDto">User API dto.</param>
 		public async Task<UserApiDto> UpdateUserAsync(UserApiDto userApiDto)
 		{
 			try
@@ -181,10 +182,10 @@ namespace RentTogether.Dal
 			}
 		}
 
-        /// <summary>
-        /// Gets all user async.
-        /// </summary>
-        /// <returns>The all user async.</returns>
+		/// <summary>
+		/// Gets all user async.
+		/// </summary>
+		/// <returns>The all user async.</returns>
 		public async Task<List<UserApiDto>> GetAllUserAsync()
 		{
 			try
@@ -206,11 +207,11 @@ namespace RentTogether.Dal
 			}
 		}
 
-        /// <summary>
-        /// Gets the user async by token.
-        /// </summary>
-        /// <returns>The user async by token.</returns>
-        /// <param name="token">Token.</param>
+		/// <summary>
+		/// Gets the user async by token.
+		/// </summary>
+		/// <returns>The user async by token.</returns>
+		/// <param name="token">Token.</param>
 		public async Task<UserApiDto> GetUserAsyncByToken(string token)
 		{
 			try
@@ -231,11 +232,11 @@ namespace RentTogether.Dal
 		#endregion
 
 		#region Messages
-        /// <summary>
-        /// Gets the messages async by user identifier.
-        /// </summary>
-        /// <returns>The messages async by user identifier.</returns>
-        /// <param name="userId">User identifier.</param>
+		/// <summary>
+		/// Gets the messages async by user identifier.
+		/// </summary>
+		/// <returns>The messages async by user identifier.</returns>
+		/// <param name="userId">User identifier.</param>
 		public async Task<List<MessageApiDto>> GetMessagesAsyncByUserId(int userId)
 		{
 			try
@@ -263,25 +264,25 @@ namespace RentTogether.Dal
 			}
 		}
 
-        /// <summary>
-        /// Adds the message async.
-        /// </summary>
-        /// <returns>The message async.</returns>
-        /// <param name="messageDto">Message dto.</param>
+		/// <summary>
+		/// Adds the message async.
+		/// </summary>
+		/// <returns>The message async.</returns>
+		/// <param name="messageDto">Message dto.</param>
 		public async Task<MessageApiDto> AddMessageAsync(MessageDto messageDto)
 		{
 			try
 			{
 				var conversation = await _rentTogetherDbContext.Conversations
-				                                               .Include(x => x.Messages)
-				                                               .Include(x => x.Participants)
-				                                               .SingleOrDefaultAsync(x => x.ConversationId == messageDto.ConversationId);
+															   .Include(x => x.Messages)
+															   .Include(x => x.Participants)
+															   .SingleOrDefaultAsync(x => x.ConversationId == messageDto.ConversationId);
 				var editor = await _rentTogetherDbContext.Users
 														 .SingleOrDefaultAsync(x => x.UserId == messageDto.UserId);
 
 				if (conversation == null || editor == null)
 					return null;
-				
+
 				var message = new Message()
 				{
 					Conversation = conversation,
@@ -298,10 +299,10 @@ namespace RentTogether.Dal
 
 				if (isSuccess <= 0)
 					return null;
-				
+
 				var messageApiDto = _mapperHelper.MapMessageToMessageApiDto(await _rentTogetherDbContext.Messages
-																			.SingleOrDefaultAsync(x => x.Editor.UserId == messageDto.UserId 
-				                                                                                  && x.Conversation.ConversationId == messageDto.ConversationId));
+																			.SingleOrDefaultAsync(x => x.Editor.UserId == messageDto.UserId
+																								  && x.Conversation.ConversationId == messageDto.ConversationId));
 				return messageApiDto;
 
 			}
@@ -311,18 +312,19 @@ namespace RentTogether.Dal
 			}
 		}
 
-        /// <summary>
-        /// Gets all messages async from conversation by conversation identifier.
-        /// </summary>
-        /// <returns>The all messages async from conversation by conversation identifier.</returns>
-        /// <param name="conversationId">Conversation identifier.</param>
-		public async Task<List<MessageApiDto>> GetAllMessagesAsyncFromConversationByConversationId(int conversationId){
+		/// <summary>
+		/// Gets all messages async from conversation by conversation identifier.
+		/// </summary>
+		/// <returns>The all messages async from conversation by conversation identifier.</returns>
+		/// <param name="conversationId">Conversation identifier.</param>
+		public async Task<List<MessageApiDto>> GetAllMessagesAsyncFromConversationByConversationId(int conversationId)
+		{
 			try
 			{
 				var messages = await _rentTogetherDbContext.Messages
-				                                           .Include(x => x.Conversation)
-				                                           .Include(x => x.Editor)
-				                                           .Where(x => x.Conversation.ConversationId == conversationId).ToListAsync();
+														   .Include(x => x.Conversation)
+														   .Include(x => x.Editor)
+														   .Where(x => x.Conversation.ConversationId == conversationId).ToListAsync();
 				if (messages == null)
 					return null;
 
@@ -344,11 +346,11 @@ namespace RentTogether.Dal
 
 		#region Conversations
 
-        /// <summary>
-        /// Adds the conversation async.
-        /// </summary>
-        /// <returns>The conversation async.</returns>
-        /// <param name="conversationDto">Conversation dto.</param>
+		/// <summary>
+		/// Adds the conversation async.
+		/// </summary>
+		/// <returns>The conversation async.</returns>
+		/// <param name="conversationDto">Conversation dto.</param>
 		public async Task<ConversationApiDto> AddConversationAsync(ConversationDto conversationDto)
 		{
 			try
@@ -376,11 +378,11 @@ namespace RentTogether.Dal
 			}
 		}
 
-        /// <summary>
-        /// Gets the conversation async by user identifier.
-        /// </summary>
-        /// <returns>The conversation async by user identifier.</returns>
-        /// <param name="userId">User identifier.</param>
+		/// <summary>
+		/// Gets the conversation async by user identifier.
+		/// </summary>
+		/// <returns>The conversation async by user identifier.</returns>
+		/// <param name="userId">User identifier.</param>
 		public async Task<ConversationApiDto> GetConversationAsyncByUserId(int userId)
 		{
 			try
@@ -435,10 +437,10 @@ namespace RentTogether.Dal
 			}
 		}
 
-        /// <summary>
-        /// Gets all conversations async.
-        /// </summary>
-        /// <returns>The all conversations async.</returns>
+		/// <summary>
+		/// Gets all conversations async.
+		/// </summary>
+		/// <returns>The all conversations async.</returns>
 		public async Task<List<ConversationApiDto>> GetAllConversationsAsync()
 		{
 			try
@@ -502,22 +504,23 @@ namespace RentTogether.Dal
 
 		#region Participant
 
-        /// <summary>
-        /// Gets the participant async by user identifier.
-        /// </summary>
-        /// <returns>The participant async by user identifier.</returns>
-        /// <param name="userId">User identifier.</param>
-		public async Task<ParticipantApiDto> GetParticipantAsyncByUserId(int userId){
+		/// <summary>
+		/// Gets the participant async by user identifier.
+		/// </summary>
+		/// <returns>The participant async by user identifier.</returns>
+		/// <param name="userId">User identifier.</param>
+		public async Task<ParticipantApiDto> GetParticipantAsyncByUserId(int userId)
+		{
 
-            try
+			try
 			{
 				var participant = await _rentTogetherDbContext.Participants
-				                                              .Include(x => x.User)
-				                                              .Include(x => x.Conversation)
-				                                              .SingleOrDefaultAsync(x => x.User.UserId == userId);
+															  .Include(x => x.User)
+															  .Include(x => x.Conversation)
+															  .SingleOrDefaultAsync(x => x.User.UserId == userId);
 				if (participant == null)
 					return null;
-				
+
 				var participantApiDto = _mapperHelper.MapParticipantToParticipantApiDto(participant);
 				return participantApiDto;
 			}
@@ -527,12 +530,13 @@ namespace RentTogether.Dal
 			}
 		}
 
-        /// <summary>
-        /// Gets all participant async.
-        /// </summary>
-        /// <returns>The all participant async.</returns>
-		public async Task<List<ParticipantApiDto>> GetAllParticipantAsync(){
-			
+		/// <summary>
+		/// Gets all participant async.
+		/// </summary>
+		/// <returns>The all participant async.</returns>
+		public async Task<List<ParticipantApiDto>> GetAllParticipantAsync()
+		{
+
 			try
 			{
 				var participants = await _rentTogetherDbContext.Participants
@@ -545,7 +549,8 @@ namespace RentTogether.Dal
 
 				var participantsApiDto = new List<ParticipantApiDto>();
 
-				foreach(var participant in participants){
+				foreach (var participant in participants)
+				{
 					participantsApiDto.Add(_mapperHelper.MapParticipantToParticipantApiDto(participant));
 				}
 
@@ -558,21 +563,22 @@ namespace RentTogether.Dal
 			}
 		}
 
-        /// <summary>
-        /// Post the async participant to existing conversation.
-        /// </summary>
-        /// <returns>The async participant to existing conversation.</returns>
-        /// <param name="participantDto">Participant dto.</param>
-		public async Task<ParticipantApiDto> PostAsyncParticipantToExistingConversation(ParticipantDto participantDto){
+		/// <summary>
+		/// Post the async participant to existing conversation.
+		/// </summary>
+		/// <returns>The async participant to existing conversation.</returns>
+		/// <param name="participantDto">Participant dto.</param>
+		public async Task<ParticipantApiDto> PostAsyncParticipantToExistingConversation(ParticipantDto participantDto)
+		{
 			try
 			{
 				var conversation = await _rentTogetherDbContext.Conversations
-				                                               .Include(x => x.Participants)
-				                                               .Include(x => x.Messages)
-				                                               .SingleOrDefaultAsync(x => x.ConversationId == participantDto.ConversationId);
-				
+															   .Include(x => x.Participants)
+															   .Include(x => x.Messages)
+															   .SingleOrDefaultAsync(x => x.ConversationId == participantDto.ConversationId);
+
 				var user = await _rentTogetherDbContext.Users
-				                                       .SingleOrDefaultAsync(x => x.UserId == participantDto.UserId);
+													   .SingleOrDefaultAsync(x => x.UserId == participantDto.UserId);
 
 				if (conversation == null || user == null)
 					return null;
@@ -588,17 +594,17 @@ namespace RentTogether.Dal
 				conversation.Participants.Add(participant);
 
 				var updatingConversation = _rentTogetherDbContext.Conversations
-				                                                 .Update(conversation);
+																 .Update(conversation);
 
 				var isSuccess = await _rentTogetherDbContext.SaveChangesAsync();
 				if (isSuccess <= 0)
 					return null;
 
 				var participantApiDto = _mapperHelper.MapParticipantToParticipantApiDto(await _rentTogetherDbContext.Participants
-				                                                                        .Include(x => x.User)
-				                                                                        .Include(x => x.Conversation)
-				                                                                        .FirstOrDefaultAsync(x => x.Conversation.ConversationId == participantDto.ConversationId 
-				                                                                                             && x.User.UserId == participantDto.UserId));
+																						.Include(x => x.User)
+																						.Include(x => x.Conversation)
+																						.FirstOrDefaultAsync(x => x.Conversation.ConversationId == participantDto.ConversationId
+																											 && x.User.UserId == participantDto.UserId));
 				if (participantApiDto == null)
 					return null;
 
@@ -611,6 +617,72 @@ namespace RentTogether.Dal
 		}
 
 		#endregion
+
+		#region Media
+		public async Task<FileApiDto> PostAsyncUserPicture(FileDto fileDto)
+		{
+			try
+			{
+				var user = await _rentTogetherDbContext.Users
+													   .Include(x => x.UserPicture)
+													   .SingleOrDefaultAsync(x => x.UserId == fileDto.UserId);
+				//If User has picture
+				if(user.UserPicture != null){
+					user.UserPicture.FileToBase64 = fileDto.FileToBase64;
+					_rentTogetherDbContext.UserPictures.Update(user.UserPicture);
+
+					await _rentTogetherDbContext.SaveChangesAsync();
+					return _mapperHelper.MapUserPictureToFileApiDto(await _rentTogetherDbContext.UserPictures
+                                              .Include(x => x.User)
+                                              .SingleOrDefaultAsync(x => x.User.UserId == fileDto.UserId));
+
+				}
+
+				var userPicture = new UserPicture()
+				{
+					User = user,
+					FileToBase64 = fileDto.FileToBase64,
+				};
+
+				await _rentTogetherDbContext.UserPictures.AddAsync(userPicture);
+				var isSuccess = await _rentTogetherDbContext.SaveChangesAsync();
+
+				if (isSuccess <= 0)
+					return null;
+				
+				var fileApiDto = _mapperHelper.MapUserPictureToFileApiDto(await _rentTogetherDbContext.UserPictures
+					                          .Include(x => x.User)
+					                          .SingleOrDefaultAsync(x => x.User.UserId == fileDto.UserId));
+				if (fileApiDto == null)
+					return null;
+
+				return fileApiDto;
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+		}
+
+		public async Task<FileApiDto> GetAsyncUserPictureByUserId(int userId){
+			try
+			{
+				var userPicture = await _rentTogetherDbContext.UserPictures
+														.Include(x => x.User)
+														.SingleOrDefaultAsync(x => x.User.UserId == userId);
+				if (userPicture == null)
+					return null;
+				
+				var fileApiDto = _mapperHelper.MapUserPictureToFileApiDto(userPicture);
+				return fileApiDto;
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+		}
+
+        #endregion
 
 	}
 

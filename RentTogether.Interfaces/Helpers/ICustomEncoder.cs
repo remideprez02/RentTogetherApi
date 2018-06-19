@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.AspNetCore.Http;
+
 namespace RentTogether.Interfaces.Helpers
 {
     public interface ICustomEncoder
@@ -7,5 +9,6 @@ namespace RentTogether.Interfaces.Helpers
         string Base64Decode(string base64EncodedData);
         Tuple<string, string> DecodeBasicAuth(string encodeBasicAuth);
         string DecodeBearerAuth(string encodeBearerAuth);
+		string FileToBase64(IFormFile file);
     }
 }
