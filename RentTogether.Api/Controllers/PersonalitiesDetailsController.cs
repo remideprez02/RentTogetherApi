@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
-using RentTogether.Entities.Dto.Personality.Value;
+using RentTogether.Entities.Dto.Personality.Detail;
 using RentTogether.Interfaces.Business;
 using RentTogether.Interfaces.Helpers;
 
@@ -13,16 +13,15 @@ using RentTogether.Interfaces.Helpers;
 
 namespace RentTogether.Api.Controllers
 {
-    public class PersonalitiesController : ODataController
+    public class PersonalitiesDetailsController : ODataController
     {
-
         private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
         private readonly ICustomEncoder _customEncoder;
         private readonly IMapperHelper _mapperHelper;
         private readonly IPersonalityService _personalityService;
 
-        public PersonalitiesController(IUserService userService,
+        public PersonalitiesDetailsController(IUserService userService,
                                   IAuthenticationService authenticationService,
                                               ICustomEncoder customEncoder, IMapperHelper mapperHelper, IPersonalityService personalityService)
         {
@@ -33,13 +32,13 @@ namespace RentTogether.Api.Controllers
             _personalityService = personalityService;
         }
 
-        [Route("api/Personalities/{userId}")]
+        [Route("api/PersonalitiesDetails")]
         [HttpGet]
         [EnableQuery]
-        public async Task<IActionResult> GetPersonalityByUserId(int userId)
+        public async Task<IActionResult> GetAllPersonalityReferencials()
         {
             //Get header token
-            if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues) && userId > -1)
+            if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues))
             {
                 var token = _customEncoder.DecodeBearerAuth(headerValues.First());
                 if (token != null)
@@ -47,13 +46,18 @@ namespace RentTogether.Api.Controllers
                     //Verify if the token exist and is not expire
                     if (await _authenticationService.CheckIfTokenIsValidAsync(token))
                     {
+                        var user = await _userService.GetUserAsyncByToken(token);
+                        if (user.IsAdmin == 1)
+                        {
                             //Verify if personalities exist
-                        var personalityApiDto = await _personalityService.GetPersonalityAsyncByUserId(userId);
-                        if (personalityApiDto == null)
+                            var personalitiesApiDtos = await _personalityService.GetAsyncAllPersonalityReferencials();
+                            if (personalitiesApiDtos == null)
                             {
-                                return StatusCode(404, "Personality not found.");
+                                return StatusCode(404, "Personality Referencials not found.");
                             }
-                        return Ok(personalityApiDto);
+                            return Ok(personalitiesApiDtos);
+                        }
+                        return StatusCode(403, "Invalid user.");
                     }
                     return StatusCode(401, "Invalid token.");
                 }
@@ -63,12 +67,12 @@ namespace RentTogether.Api.Controllers
         }
 
         //POST User
-        [Route("api/Personalities/{userId}")]
+        [Route("api/PersonalitiesDetails")]
         [HttpPost]
-        public async Task<IActionResult> PostPersonalityValues([FromBody]List<PersonalityValueDto> personalityValueDtos, int userId)
+        public async Task<IActionResult> Post([FromBody]DetailPersonalityDto detailPersonalityDto)
         {
             //Get header token
-            if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues) && userId > -1)
+            if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues))
             {
                 var token = _customEncoder.DecodeBearerAuth(headerValues.First());
                 if (token != null)
@@ -76,13 +80,18 @@ namespace RentTogether.Api.Controllers
                     //Verify if the token exist and is not expire
                     if (await _authenticationService.CheckIfTokenIsValidAsync(token))
                     {
-                        var personalityApiValueDtos = await _personalityService.PostAsyncPersonalityValues(personalityValueDtos, userId);
-
-                        if (personalityApiValueDtos == null)
+                        var user = await _userService.GetUserAsyncByToken(token);
+                        if (user.IsAdmin == 1)
                         {
-                            return StatusCode(400, "Unable to create personality values.");
+                            var detailPersonalityApiDto = await _personalityService.PostAsyncDetailPersonality(detailPersonalityDto);
+
+                            if (detailPersonalityApiDto == null)
+                            {
+                                return StatusCode(400, "Unable to create referencial personality.");
+                            }
+                            return Ok(detailPersonalityApiDto);
                         }
-                        return Ok(personalityApiValueDtos);
+                        return StatusCode(403, "Invalid user.");
                     }
                     return StatusCode(401, "Invalid token.");
                 }

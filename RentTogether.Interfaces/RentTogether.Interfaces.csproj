@@ -6,6 +6,8 @@
 
   <ItemGroup>
     <Compile Remove="Class1.cs" />
+    <Compile Remove="Business\EmptyInterface.cs" />
+    <Compile Remove="Business\EmptyInterface.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Business\" />

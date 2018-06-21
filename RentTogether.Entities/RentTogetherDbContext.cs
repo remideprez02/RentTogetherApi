@@ -25,6 +25,7 @@ namespace RentTogether.Entities
 		public DbSet<FavoriteBuilding> FavoriteBuildings { get; set; }
 		public DbSet<FavoriteUser> FavoriteUsers { get; set; } 
 		public DbSet<UserPicture> UserPictures { get; set; }
+        public DbSet<PersonalityValue> PersonalityValues { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -152,7 +153,7 @@ namespace RentTogether.Entities
 			            .HasKey(x => x.PersonalityId);
 			
 			modelBuilder.Entity<Personality>()
-			            .HasMany(x => x.PersonalityReferencials);
+                        .HasMany(x => x.PersonalityValues);
 			
 			modelBuilder.Entity<Personality>()
 			            .HasOne(x => x.User)
@@ -265,8 +266,13 @@ namespace RentTogether.Entities
 
 			modelBuilder.Entity<FavoriteUser>()
 						.HasMany(x => x.TargetUsers);
-			            
 
+            //PersonalityValue
+            modelBuilder.Entity<PersonalityValue>()
+                        .HasKey(x => x.PersonalityValueId);
+            
+            modelBuilder.Entity<PersonalityValue>()
+                        .HasOne(x => x.PersonalityReferencial);
         }
     }
 }

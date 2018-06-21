@@ -14,7 +14,6 @@ namespace RentTogether.Entities
         public int PersonalityId { get; set; }
 
         public User User { get; set; }
-        public List<PersonalityReferencial> PersonalityReferencials { get; set; }
-        public double Score { get; set; }
+        public List<PersonalityValue> PersonalityValues { get; set; }
     }
 }

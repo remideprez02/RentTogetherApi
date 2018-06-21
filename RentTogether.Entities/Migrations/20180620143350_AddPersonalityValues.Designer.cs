@@ -11,9 +11,10 @@ using System;
 namespace RentTogether.Entities.Migrations
 {
     [DbContext(typeof(RentTogetherDbContext))]
-    partial class RentTogetherDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180620143350_AddPersonalityValues")]
+    partial class AddPersonalityValues
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -290,7 +291,9 @@ namespace RentTogether.Entities.Migrations
 
                     b.Property<int?>("DesiredPersonalityDesiredCaracteristicId");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("NegativeIcon");
+
+                    b.Property<string>("PositiveIcon");
 
                     b.HasKey("PersonalityReferencialId");
 

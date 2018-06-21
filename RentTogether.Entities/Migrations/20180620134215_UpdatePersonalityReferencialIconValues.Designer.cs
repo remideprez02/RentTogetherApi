@@ -11,9 +11,10 @@ using System;
 namespace RentTogether.Entities.Migrations
 {
     [DbContext(typeof(RentTogetherDbContext))]
-    partial class RentTogetherDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180620134215_UpdatePersonalityReferencialIconValues")]
+    partial class UpdatePersonalityReferencialIconValues
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -268,6 +269,8 @@ namespace RentTogether.Entities.Migrations
                     b.Property<int>("PersonalityId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<double>("Score");
+
                     b.HasKey("PersonalityId");
 
                     b.ToTable("Personnalities");
@@ -278,45 +281,21 @@ namespace RentTogether.Entities.Migrations
                     b.Property<int>("PersonalityReferencialId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Description1");
-
-                    b.Property<string>("Description2");
-
-                    b.Property<string>("Description3");
-
-                    b.Property<string>("Description4");
-
-                    b.Property<string>("Description5");
+                    b.Property<string>("Description");
 
                     b.Property<int?>("DesiredPersonalityDesiredCaracteristicId");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Icon");
+
+                    b.Property<int?>("PersonalityId");
 
                     b.HasKey("PersonalityReferencialId");
 
                     b.HasIndex("DesiredPersonalityDesiredCaracteristicId");
 
-                    b.ToTable("PersonalityReferencials");
-                });
-
-            modelBuilder.Entity("RentTogether.Entities.PersonalityValue", b =>
-                {
-                    b.Property<int>("PersonalityValueId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("PersonalityId");
-
-                    b.Property<int?>("PersonalityReferencialId");
-
-                    b.Property<int>("Value");
-
-                    b.HasKey("PersonalityValueId");
-
                     b.HasIndex("PersonalityId");
 
-                    b.HasIndex("PersonalityReferencialId");
-
-                    b.ToTable("PersonalityValues");
+                    b.ToTable("PersonalityReferencials");
                 });
 
             modelBuilder.Entity("RentTogether.Entities.User", b =>
@@ -525,17 +504,10 @@ namespace RentTogether.Entities.Migrations
                     b.HasOne("RentTogether.Entities.DesiredPersonality")
                         .WithMany("PersonalityReferencials")
                         .HasForeignKey("DesiredPersonalityDesiredCaracteristicId");
-                });
 
-            modelBuilder.Entity("RentTogether.Entities.PersonalityValue", b =>
-                {
                     b.HasOne("RentTogether.Entities.Personality")
-                        .WithMany("PersonalityValues")
+                        .WithMany("PersonalityReferencials")
                         .HasForeignKey("PersonalityId");
-
-                    b.HasOne("RentTogether.Entities.PersonalityReferencial", "PersonalityReferencial")
-                        .WithMany()
-                        .HasForeignKey("PersonalityReferencialId");
                 });
 
             modelBuilder.Entity("RentTogether.Entities.User", b =>

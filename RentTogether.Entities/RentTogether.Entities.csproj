@@ -16,6 +16,9 @@
     <Folder Include="Dto\Personality\" />
     <Folder Include="Dto\Participant\" />
     <Folder Include="Dto\Media\" />
+    <Folder Include="Dto\Personality\Detail\" />
+    <Folder Include="Dto\Personality\Value\" />
+    <Folder Include="Dto\Media\Personality\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-beta4" />

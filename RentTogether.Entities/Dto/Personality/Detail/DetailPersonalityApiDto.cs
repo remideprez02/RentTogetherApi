@@ -1,11 +1,8 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace RentTogether.Entities
+namespace RentTogether.Entities.Dto.Personality.Detail
 {
-    public class PersonalityReferencial
+    public class DetailPersonalityApiDto
     {
-        [Key]
         public int PersonalityReferencialId { get; set; }
 
         public string Name { get; set; }

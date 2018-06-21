@@ -4,6 +4,8 @@ using RentTogether.Entities.Dto;
 using RentTogether.Entities.Dto.Media;
 using RentTogether.Entities.Dto.Message;
 using RentTogether.Entities.Dto.Participant;
+using RentTogether.Entities.Dto.Personality.Detail;
+using RentTogether.Entities.Dto.Personality.Value;
 
 namespace RentTogether.Interfaces.Helpers
 {
@@ -17,5 +19,8 @@ namespace RentTogether.Interfaces.Helpers
 
 		MessageApiDto MapMessageToMessageApiDto(Message message);
 		FileApiDto MapUserPictureToFileApiDto(UserPicture userPicture);
+
+        DetailPersonalityApiDto MapPersonalityReferencialToDetailPersonalityApiDto(PersonalityReferencial personalityReferencial);
+        PersonalityValueApiDto MapPersonalityValueToPersonalityValueApiDto(PersonalityValue personalityValue);
     }
 }

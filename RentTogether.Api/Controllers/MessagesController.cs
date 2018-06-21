@@ -32,6 +32,7 @@ namespace RentTogether.Api.Controllers
 
         [Route("api/Messages/{userId}")]
         [HttpGet]
+        [EnableQuery]
         public async Task<IActionResult> Get(int userId)
         {
             //Get header token
@@ -60,6 +61,7 @@ namespace RentTogether.Api.Controllers
 
 		[Route("api/Messages/{conversationId}")]
         [HttpGet]
+        [EnableQuery]
         public async Task<IActionResult> GetMessagesByConversationId(int conversationId)
         {
             //Get header token
