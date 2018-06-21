@@ -415,8 +415,8 @@ namespace RentTogether.Dal
 
                 foreach (var conversationApiDto in conversationsApiDto)
                 {
-                    foreach (var message in conversations.SelectMany(x => x.Messages).Where(x => x.Conversation.ConversationId == conversationApiDto.ConversationId))
-                    {
+                    var message = conversations.SelectMany(x => x.Messages).FirstOrDefault(x => x.Conversation.ConversationId == conversationApiDto.ConversationId);
+                    if(message != null)
                         conversationApiDto.Messages.Add(new MessageApiDto()
                         {
                             UserId = message.Editor.UserId,
@@ -425,7 +425,7 @@ namespace RentTogether.Dal
                             MessageId = message.MessageId,
                             MessageText = message.MessageText
                         });
-                    }
+                
 
                     foreach (var participant in conversations.SelectMany(x => x.Participants).Where(x => x.Conversation.ConversationId == conversationApiDto.ConversationId))
                     {
@@ -439,6 +439,7 @@ namespace RentTogether.Dal
                         });
                     }
                 }
+
                 return conversationsApiDto;
             }
             catch (Exception ex)
@@ -804,6 +805,7 @@ namespace RentTogether.Dal
                                                             .Include(x => x.PersonalityValues)
                                                             .Include(x => x.User)
                                                                   .SingleOrDefaultAsync(x => x.PersonalityId == user.Personality.PersonalityId);
+                    
                     personality.PersonalityValues.AddRange(personalityValues);
 
                     _rentTogetherDbContext.Personnalities.Update(personality);

@@ -59,7 +59,7 @@ namespace RentTogether.Api.Controllers
 			return StatusCode(401, "Invalid authorization.");
         }
 
-		[Route("api/Messages/{conversationId}")]
+		[Route("api/Conversations/{conversationId}/Messages")]
         [HttpGet]
         [EnableQuery]
         public async Task<IActionResult> GetMessagesByConversationId(int conversationId)
@@ -79,6 +79,9 @@ namespace RentTogether.Api.Controllers
                         {
                             return StatusCode(404, "Messages not found.");
                         }
+                        if(messages.Count() == 0)
+                            return StatusCode(404, "Messages not found.");
+                        
                         return Ok(messages);
                     }
 					return StatusCode(401, "Invalid token.");
