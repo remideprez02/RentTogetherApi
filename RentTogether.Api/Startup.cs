@@ -65,6 +65,7 @@ namespace RentTogether
 			services.AddTransient<IConversationService, ConversationService>();
 			services.AddTransient<IParticipantService, ParticipantService>();
 			services.AddTransient<IMediaService, MediaService>();
+            services.AddTransient<IPersonalityService, PersonalityService>();
 
             // Register the Swagger generator, defining one or more Swagger documents
 			services.AddSwaggerGen(c =>
