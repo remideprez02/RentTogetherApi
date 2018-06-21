@@ -704,7 +704,8 @@ namespace RentTogether.Dal
 
         #region Personality
 
-        public async Task<DetailPersonalityApiDto> PostAsyncDetailPersonality(DetailPersonalityDto detailPersonalityDto){
+        public async Task<DetailPersonalityApiDto> PostAsyncDetailPersonality(DetailPersonalityDto detailPersonalityDto)
+        {
             try
             {
                 var personalityReferencial = new PersonalityReferencial()
@@ -721,15 +722,16 @@ namespace RentTogether.Dal
                 await _rentTogetherDbContext.SaveChangesAsync();
 
                 return _mapperHelper.MapPersonalityReferencialToDetailPersonalityApiDto(personalityReferencial);
-
             }
+
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
 
-        public async Task<List<DetailPersonalityApiDto>> GetAsyncAllPersonalityReferencials(){
+        public async Task<List<DetailPersonalityApiDto>> GetAsyncAllPersonalityReferencials()
+        {
             try
             {
                 var personalityReferencials = await _rentTogetherDbContext.PersonalityReferencials.ToListAsync();
@@ -760,17 +762,14 @@ namespace RentTogether.Dal
                                        .Include(x => x.Personality)
                                        .ThenInclude(xx => xx.User)
                                        .SingleOrDefaultAsync(x => x.UserId == userId);
-                
-                if (user.Personality != null)
-                    return null;
-                
-                //Set personality value
+
                 var personalityValues = new List<PersonalityValue>();
+
                 foreach (var personalityValue in personalityValueDtos)
                 {
                     var personalityReferencial = await _rentTogetherDbContext.PersonalityReferencials
                                                                        .SingleOrDefaultAsync(x => x.PersonalityReferencialId == personalityValue.PersonalityReferencialId);
-                    if(personalityReferencial != null)
+                    if (personalityReferencial != null)
                     {
                         personalityValues.Add(new PersonalityValue()
                         {
@@ -782,19 +781,34 @@ namespace RentTogether.Dal
 
                 if (personalityValueDtos == null)
                     return null;
-                
+
                 await _rentTogetherDbContext.PersonalityValues.AddRangeAsync(personalityValues);
                 await _rentTogetherDbContext.SaveChangesAsync();
 
-                //Set Personality User
-                var personality = new Personality()
+                if (user.Personality == null)
                 {
-                    PersonalityValues = personalityValues,
-                    User = user
-                };
 
-                await _rentTogetherDbContext.Personnalities.AddAsync(personality);
-                await _rentTogetherDbContext.SaveChangesAsync();
+                    //Set Personality User
+                    var personality = new Personality()
+                    {
+                        PersonalityValues = personalityValues,
+                        User = user
+                    };
+
+                    await _rentTogetherDbContext.Personnalities.AddAsync(personality);
+                    await _rentTogetherDbContext.SaveChangesAsync();
+                }
+                else
+                {
+                    var personality = await _rentTogetherDbContext.Personnalities
+                                                            .Include(x => x.PersonalityValues)
+                                                            .Include(x => x.User)
+                                                                  .SingleOrDefaultAsync(x => x.PersonalityId == user.Personality.PersonalityId);
+                    personality.PersonalityValues.AddRange(personalityValues);
+
+                    _rentTogetherDbContext.Personnalities.Update(personality);
+                    await _rentTogetherDbContext.SaveChangesAsync();
+                }
 
                 //Return List
                 var personalityValueApiDtos = new List<PersonalityValueApiDto>();
@@ -822,11 +836,13 @@ namespace RentTogether.Dal
                                                               .ThenInclude(xx => xx.PersonalityReferencial)
                                                               .Include(x => x.User)
                                                               .SingleOrDefaultAsync(x => x.User.UserId == userId);
-                
+
                 if (personality == null || personality.PersonalityValues == null)
                     return null;
 
                 var personalityApiDto = new PersonalityApiDto();
+                personalityApiDto.PersonalityValueApiDtos = new List<PersonalityValueApiDto>();
+
                 foreach (var personalityValue in personality.PersonalityValues)
                 {
                     personalityApiDto.PersonalityValueApiDtos.Add(_mapperHelper.MapPersonalityValueToPersonalityValueApiDto(personalityValue));
