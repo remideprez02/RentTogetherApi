@@ -11,11 +11,14 @@ namespace RentTogether.Entities
 
         [Key]
         public int MatchId { get; set; }
-        public User InterestedUser { get; set; }
-        public User InterestingUser { get; set; }
-		public int Status1 { get; set; }
-		public int Status2 { get; set; }
-		public DateTime DateStatus1 { get; set; }
-		public DateTime DateStatus2 { get; set; }
+
+        public User User { get; set; }
+        public User TargetUser { get; set; }
+
+		public int StatusUser { get; set; }
+		public int StatusTargetUser { get; set; }
+
+		public DateTime DateStatusUser { get; set; }
+		public DateTime DateStatusTargetUser { get; set; }
     }
 }

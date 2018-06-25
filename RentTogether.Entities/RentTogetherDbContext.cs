@@ -219,11 +219,11 @@ namespace RentTogether.Entities
 			            .HasKey(x => x.MatchId);
 			
 			modelBuilder.Entity<Match>()
-			            .HasOne(x => x.InterestedUser)
+                        .HasOne(x => x.User)
 			            .WithMany();
 			
 			modelBuilder.Entity<Match>()
-			            .HasOne(x => x.InterestingUser)
+                        .HasOne(x => x.TargetUser)
 			            .WithMany();
 
             //Building Message
