@@ -86,7 +86,23 @@ namespace RentTogether.Common.Mapper
             return new ParticipantApiDto()
             {
                 ConversationId = participant.Conversation.ConversationId,
-                UserId = participant.User.UserId,
+                UserApiDto = new UserApiDto()
+                {
+                    Email = participant.User.Email,
+                    CreateDate = participant.User.CreateDate,
+                    FirstName = participant.User.FirstName,
+                    LastName = participant.User.LastName,
+                    Password = participant.User.Password,
+                    City = participant.User.City,
+                    PostalCode = participant.User.PostalCode,
+                    IsOwner = participant.User.IsOwner,
+                    IsRoomer = participant.User.IsRoomer,
+                    IsAdmin = participant.User.IsAdmin,
+                    PhoneNumber = participant.User.PhoneNumber,
+                    Token = participant.User.Token,
+                    UserId = participant.User.UserId,
+                    TokenExpirationDate = participant.User.TokenExpirationDate   
+                },
                 EndDate = participant?.EndDate,
                 ParticipantId = participant.ParticipantId,
                 StartDate = participant.StartDate
@@ -143,9 +159,9 @@ namespace RentTogether.Common.Mapper
         {
             return new PersonalityValueApiDto()
             {
-                PersonalityReferencialId = personalityValue.PersonalityValueId,
+                PersonalityReferencialId = personalityValue.PersonalityReferencial.PersonalityReferencialId,
                 PersonalityValueId = personalityValue.PersonalityValueId,
-                Value = personalityValue.PersonalityValueId
+                Value = personalityValue.Value
             };
         }
         #endregion

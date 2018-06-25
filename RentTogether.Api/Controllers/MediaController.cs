@@ -76,7 +76,7 @@ namespace RentTogether.Api.Controllers
                 if (token != null)
                 {
                     //Verify if the token exist and is not expire
-                    if (await _authenticationService.CheckIfTokenIsValidAsync(token, userId))
+                    if (await _authenticationService.CheckIfTokenIsValidAsync(token))
                     {
                         
 						var fileApiDto = await _mediaService.GetAsyncUserPictureByUserId(userId);

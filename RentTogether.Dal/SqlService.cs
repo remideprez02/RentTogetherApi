@@ -431,7 +431,23 @@ namespace RentTogether.Dal
                     {
                         conversationApiDto.Participants.Add(new ParticipantApiDto()
                         {
-                            UserId = participant.User.UserId,
+                            UserApiDto = new UserApiDto()
+                            {
+                                Email = participant.User.Email,
+                                CreateDate = participant.User.CreateDate,
+                                FirstName = participant.User.FirstName,
+                                LastName = participant.User.LastName,
+                                Password = participant.User.Password,
+                                City = participant.User.City,
+                                PostalCode = participant.User.PostalCode,
+                                IsOwner = participant.User.IsOwner,
+                                IsRoomer = participant.User.IsRoomer,
+                                IsAdmin = participant.User.IsAdmin,
+                                PhoneNumber = participant.User.PhoneNumber,
+                                Token = participant.User.Token,
+                                UserId = participant.User.UserId,
+                                TokenExpirationDate = participant.User.TokenExpirationDate
+                            },
                             ConversationId = participant.Conversation.ConversationId,
                             EndDate = participant?.EndDate,
                             StartDate = participant.StartDate,
@@ -496,7 +512,23 @@ namespace RentTogether.Dal
                     {
                         conversationApiDto.Participants.Add(new ParticipantApiDto()
                         {
-                            UserId = participant.User.UserId,
+                            UserApiDto = new UserApiDto()
+                            {
+                                Email = participant.User.Email,
+                                CreateDate = participant.User.CreateDate,
+                                FirstName = participant.User.FirstName,
+                                LastName = participant.User.LastName,
+                                Password = participant.User.Password,
+                                City = participant.User.City,
+                                PostalCode = participant.User.PostalCode,
+                                IsOwner = participant.User.IsOwner,
+                                IsRoomer = participant.User.IsRoomer,
+                                IsAdmin = participant.User.IsAdmin,
+                                PhoneNumber = participant.User.PhoneNumber,
+                                Token = participant.User.Token,
+                                UserId = participant.User.UserId,
+                                TokenExpirationDate = participant.User.TokenExpirationDate
+                            },
                             ConversationId = participant.Conversation.ConversationId,
                             EndDate = participant?.EndDate,
                             StartDate = participant.StartDate,
@@ -842,8 +874,10 @@ namespace RentTogether.Dal
                 if (personality == null || personality.PersonalityValues == null)
                     return null;
 
-                var personalityApiDto = new PersonalityApiDto();
-                personalityApiDto.PersonalityValueApiDtos = new List<PersonalityValueApiDto>();
+                var personalityApiDto = new PersonalityApiDto
+                {
+                    PersonalityValueApiDtos = new List<PersonalityValueApiDto>()
+                };
 
                 foreach (var personalityValue in personality.PersonalityValues)
                 {
