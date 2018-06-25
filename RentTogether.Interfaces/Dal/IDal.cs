@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using RentTogether.Entities;
 using RentTogether.Entities.Dto;
 using RentTogether.Entities.Dto.Conversation;
+using RentTogether.Entities.Dto.Match;
 using RentTogether.Entities.Dto.Media;
 using RentTogether.Entities.Dto.Message;
 using RentTogether.Entities.Dto.Participant;
@@ -59,6 +60,11 @@ namespace RentTogether.Interfaces.Dal
         //Value/Personality
         Task<List<PersonalityValueApiDto>> PostAsyncPersonalityValues(List<PersonalityValueDto> personalityValueDtos, int userId);
         Task<PersonalityApiDto> GetPersonalityAsyncByUserId(int userId);
+        #endregion
+
+        #region Match
+        Task<MatchApiDto> PostAsyncMatch(MatchDto matchDto);
+        Task<List<MatchApiDto>> GetAsyncListMatches(int userId);
         #endregion
     }
 }

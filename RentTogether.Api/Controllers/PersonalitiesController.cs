@@ -78,7 +78,7 @@ namespace RentTogether.Api.Controllers
                     {
                         var personalityApiValueDtos = await _personalityService.PostAsyncPersonalityValues(personalityValueDtos, userId);
 
-                        if (personalityApiValueDtos == null)
+                        if (personalityApiValueDtos == null || personalityApiValueDtos.Count <= 0)
                         {
                             return StatusCode(400, "Unable to create personality values.");
                         }

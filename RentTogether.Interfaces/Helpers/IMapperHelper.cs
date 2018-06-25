@@ -1,6 +1,7 @@
 ﻿using System;
 using RentTogether.Entities;
 using RentTogether.Entities.Dto;
+using RentTogether.Entities.Dto.Match;
 using RentTogether.Entities.Dto.Media;
 using RentTogether.Entities.Dto.Message;
 using RentTogether.Entities.Dto.Participant;
@@ -22,5 +23,7 @@ namespace RentTogether.Interfaces.Helpers
 
         DetailPersonalityApiDto MapPersonalityReferencialToDetailPersonalityApiDto(PersonalityReferencial personalityReferencial);
         PersonalityValueApiDto MapPersonalityValueToPersonalityValueApiDto(PersonalityValue personalityValue);
+
+        MatchApiDto MapMatchToMatchApiDto(Match match);
     }
 }

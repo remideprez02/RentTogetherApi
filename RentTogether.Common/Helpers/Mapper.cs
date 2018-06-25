@@ -1,6 +1,7 @@
 ﻿using System;
 using RentTogether.Entities;
 using RentTogether.Entities.Dto;
+using RentTogether.Entities.Dto.Match;
 using RentTogether.Entities.Dto.Media;
 using RentTogether.Entities.Dto.Message;
 using RentTogether.Entities.Dto.Participant;
@@ -101,7 +102,7 @@ namespace RentTogether.Common.Mapper
                     PhoneNumber = participant.User.PhoneNumber,
                     Token = participant.User.Token,
                     UserId = participant.User.UserId,
-                    TokenExpirationDate = participant.User.TokenExpirationDate   
+                    TokenExpirationDate = participant.User.TokenExpirationDate
                 },
                 EndDate = participant?.EndDate,
                 ParticipantId = participant.ParticipantId,
@@ -164,6 +165,24 @@ namespace RentTogether.Common.Mapper
                 Value = personalityValue.Value
             };
         }
+        #endregion
+
+        #region Match  
+
+        public MatchApiDto MapMatchToMatchApiDto(Match match)
+        {
+            return new MatchApiDto()
+            {
+                UserId = match.User.UserId,
+                TargetUserId = match.TargetUser.UserId,
+                MatchId = match.MatchId,
+                StatusTargetUser = match.StatusTargetUser,
+                StatusUser = match.StatusUser,
+                DateStatusTargetUser = match.DateStatusTargetUser,
+                DateStatusUser = match.DateStatusUser
+            };
+        }
+
         #endregion
     }
 }

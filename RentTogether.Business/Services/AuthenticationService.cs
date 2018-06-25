@@ -76,7 +76,7 @@ namespace RentTogether.Business.Services
         /// <returns>The if token is valid async.</returns>
         /// <param name="token">Token.</param>
         /// <param name="userId">User identifier.</param>
-		public async Task<bool> CheckIfTokenIsValidAsync(string token, int userId )
+		public async Task<bool> CheckIfTokenIsValidAsync(string token, int userId)
 		{
 			if (userId > 0)
 			{
