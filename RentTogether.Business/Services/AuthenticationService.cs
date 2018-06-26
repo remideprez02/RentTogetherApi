@@ -57,7 +57,7 @@ namespace RentTogether.Business.Services
 				user.Token = tokenStr;
 				IFormatProvider culture = new CultureInfo("fr-FR", true);
 
-				user.TokenExpirationDate = DateTime.Now.AddDays(1);
+                user.TokenExpirationDate = DateTime.UtcNow.AddDays(1);
 
 				var userApiDto = _mapperHelper.MapUserToUserApiDto(user);
 
@@ -87,7 +87,7 @@ namespace RentTogether.Business.Services
 				{
 					var date = await _dal.GetUserTokenExpirationDateAsync(token);
 
-					if (date > DateTime.Now)
+                    if (date > DateTime.UtcNow)
 					{
 						return true;
 					}
@@ -99,7 +99,7 @@ namespace RentTogether.Business.Services
 				var user = await _dal.GetUserAsyncByToken(token);
                 if (user != null)
                 {
-                    if (user.TokenExpirationDate > DateTime.Now)
+                    if (user.TokenExpirationDate > DateTime.UtcNow)
                     {
                         return true;
                     }

@@ -959,6 +959,11 @@ namespace RentTogether.Dal
                                                        .ThenInclude(xx => xx.User)
                                                        .Include(x => x.Matches)
                                                        .ThenInclude(xx => xx.TargetUser)
+                                                       .Include(x => x.Personality)
+                                                       .ThenInclude(xx => xx.PersonalityValues)
+                                                       .Include(x => x.Personality)
+                                                       .ThenInclude(xx => xx.PersonalityValues)
+                                                       .ThenInclude(xxx => xxx.PersonalityReferencial)
                                                        .SingleOrDefaultAsync(x => x.UserId == userId);
 
                 var users = await _rentTogetherDbContext.Users
@@ -968,70 +973,82 @@ namespace RentTogether.Dal
                                                         .ThenInclude(xx => xx.User)
                                                         .Include(x => x.Personality)
                                                         .ThenInclude(xx => xx.PersonalityValues)
+                                                        .Include(x => x.Personality)
+                                                        .ThenInclude(xx => xx.PersonalityValues)
+                                                        .ThenInclude(xxx => xxx.PersonalityReferencial)
                                                         .Where(x => x.UserId != userId && x.Matches == null || x.Matches.Select(xx => xx.User) != user)
                                                         .ToListAsync();
-                var userPercent = 0;
-                var userTotal = 0;
+
                 var matchApiDtos = new List<MatchApiDto>();
+                var matchProcessDto = new List<MatchProcessDto>();
 
-                foreach (var personaltyValues in user.Personality.PersonalityValues)
-                {
-                    userTotal += personaltyValues.Value;
-                }
-
-                userTotal = userTotal / user.Personality.PersonalityValues.Count;
-                userPercent = userTotal * 100 / 5;
-
-                var count = 0;
                 if (user.Matches == null)
                 {
                     user.Matches = new List<Match>();
                 }
 
-                var total = 0;
-                var percent = 0;
-
+                var result = 0;
                 foreach (var userTarget in users)
                 {
                     foreach (var userTargetPersonalityValue in userTarget.Personality.PersonalityValues)
                     {
 
-                        total += userTargetPersonalityValue.Value;
+                        var userValue = user.Personality.PersonalityValues.FirstOrDefault(x => x.PersonalityReferencial.PersonalityReferencialId == userTargetPersonalityValue.PersonalityReferencial.PersonalityReferencialId);
+                        if (userValue != null)
+                        {
+
+
+                            var variation = 100 * (userTargetPersonalityValue.Value - userValue.Value) / userValue.Value;
+
+                            //If variation is negative
+                            if (variation <= 0)
+                            {
+                                result = 100 - (variation * -1);
+                            }
+                            else
+                            {
+                                result = (variation - 100) * -1;
+                            }
+
+                            matchProcessDto.Add(new MatchProcessDto()
+                            {
+                                MatchPercent = result,
+                                UserTargetId = userTarget.UserId
+                            });
+                            result = 0;
+                        }
                     }
+                }
+
+                var count = 0;
+                foreach (var match in matchProcessDto.OrderByDescending(x => x.MatchPercent))
+                {
+                    user.Matches.Add(new Match()
+                    {
+                        User = user,
+                        TargetUser = users.SingleOrDefault(x => x.UserId == match.UserTargetId)
+                    });
+
+                    count += 1;
                     if (count == 10)
                         break;
-
-                    total = total / userTarget.Personality.PersonalityValues.Count;
-                    percent = total * 100 / 5;
-
-                    if (percent >= userPercent)
-                    {
-                        user.Matches.Add(new Match()
-                        {
-                            TargetUser = userTarget,
-                            User = user
-                        });
-                        count += 1;
-                    }
-                    percent = 0;
-                    total = 0;
                 }
 
                 _rentTogetherDbContext.Users.Update(user);
-                await _rentTogetherDbContext.SaveChangesAsync();
+            await _rentTogetherDbContext.SaveChangesAsync();
 
-                foreach (var match in user.Matches.OrderByDescending(x => x.MatchId).Take(10))
-                {
-                    matchApiDtos.Add(_mapperHelper.MapMatchToMatchApiDto(match));
-                }
-
-                return matchApiDtos;
+            foreach (var match in user.Matches.OrderByDescending(x => x.MatchId))
+            {
+                matchApiDtos.Add(_mapperHelper.MapMatchToMatchApiDto(match));
             }
+
+            return matchApiDtos;
+        }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
-            }
-        }
+    }
+}
         #endregion
 
     }

@@ -73,7 +73,7 @@ namespace RentTogether.Business.Services
             var user = await _dal.GetUserByBasicAuthenticationAsync(userLoginDto);
 
             //Check if user token is not UpToDate
-            if(user.TokenExpirationDate < DateTime.UtcNow){
+            if(user.TokenExpirationDate.ToUniversalTime() < DateTime.UtcNow){
                 //Update token user
                 var userApiDtoUpdate = _authenticationService.RequestToken(user);
 
