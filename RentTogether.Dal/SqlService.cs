@@ -793,10 +793,11 @@ namespace RentTogether.Dal
                 var user = await _rentTogetherDbContext.Users
                                        .Include(x => x.Personality)
                                        .ThenInclude(xx => xx.PersonalityValues)
+                                                       .ThenInclude(xxx => xxx.PersonalityReferencial)
                                        .Include(x => x.Personality)
                                        .ThenInclude(xx => xx.User)
                                        .SingleOrDefaultAsync(x => x.UserId == userId);
-
+                
                 var personalityValues = new List<PersonalityValue>();
 
                 foreach (var personalityValue in personalityValueDtos)
@@ -804,7 +805,7 @@ namespace RentTogether.Dal
                     var personalityReferencial = await _rentTogetherDbContext.PersonalityReferencials
                                                                        .SingleOrDefaultAsync(x => x.PersonalityReferencialId == personalityValue.PersonalityReferencialId);
 
-                    if (personalityReferencial != null && !user.Personality.PersonalityValues.Any(x => x.PersonalityReferencial == personalityReferencial))
+                    if (personalityReferencial != null)
                     {
                         personalityValues.Add(new PersonalityValue()
                         {
@@ -909,12 +910,18 @@ namespace RentTogether.Dal
                                                         .SingleOrDefaultAsync(x => x.MatchId == matchDto.MatchId);
 
 
-                if (match.DateStatusTargetUser == null && matchDto.StatusTargetUser == 1)
+                if (match.DateStatusTargetUser < DateTime.UtcNow.AddYears(-20) && matchDto.StatusTargetUser == 1)
                 {
                     match.DateStatusTargetUser = new DateTime();
                     match.DateStatusTargetUser = DateTime.UtcNow;
 
                     match.StatusTargetUser = 1;
+                }
+                else if(match.DateStatusTargetUser < DateTime.UtcNow.AddYears(-20) && matchDto.StatusTargetUser == 2){
+                    match.DateStatusTargetUser = new DateTime();
+                    match.DateStatusTargetUser = DateTime.UtcNow;
+
+                    match.StatusTargetUser = 2;
                 }
                 else
                 {
@@ -924,12 +931,19 @@ namespace RentTogether.Dal
                     match.StatusTargetUser = 0;
                 }
 
-                if (match.DateStatusUser == null && matchDto.StatusUser == 1)
+
+                if (match.DateStatusUser < DateTime.UtcNow.AddYears(-20) && matchDto.StatusUser == 1)
                 {
                     match.DateStatusUser = new DateTime();
                     match.DateStatusUser = DateTime.UtcNow;
 
                     match.StatusUser = 1;
+                }
+                else if(match.DateStatusUser < DateTime.UtcNow.AddYears(-20) && matchDto.StatusUser == 2){
+                    match.DateStatusUser = new DateTime();
+                    match.DateStatusUser = DateTime.UtcNow;
+
+                    match.StatusUser = 2;
                 }
                 else
                 {
@@ -976,8 +990,15 @@ namespace RentTogether.Dal
                                                         .Include(x => x.Personality)
                                                         .ThenInclude(xx => xx.PersonalityValues)
                                                         .ThenInclude(xxx => xxx.PersonalityReferencial)
-                                                        .Where(x => x.UserId != userId && x.Matches == null || x.Matches.Select(xx => xx.User) != user)
+                                                        .Where(x => x.UserId != userId && x.Personality != null)
                                                         .ToListAsync();
+                foreach (var userToClean in users)
+                {
+                    if(userToClean.Matches != null && userToClean.Matches.Count > 0){
+                        if (userToClean.Matches.Select(x => x.TargetUser == user) != null)
+                            users.Remove(userToClean);
+                    }
+                }
 
                 var matchApiDtos = new List<MatchApiDto>();
                 var matchProcessDto = new List<MatchProcessDto>();
@@ -988,6 +1009,7 @@ namespace RentTogether.Dal
                 }
 
                 var result = 0;
+                var matchFail = false;
                 foreach (var userTarget in users)
                 {
                     foreach (var userTargetPersonalityValue in userTarget.Personality.PersonalityValues)
@@ -996,7 +1018,6 @@ namespace RentTogether.Dal
                         var userValue = user.Personality.PersonalityValues.FirstOrDefault(x => x.PersonalityReferencial.PersonalityReferencialId == userTargetPersonalityValue.PersonalityReferencial.PersonalityReferencialId);
                         if (userValue != null)
                         {
-
 
                             var variation = 100 * (userTargetPersonalityValue.Value - userValue.Value) / userValue.Value;
 
@@ -1010,19 +1031,32 @@ namespace RentTogether.Dal
                                 result = (variation - 100) * -1;
                             }
 
-                            matchProcessDto.Add(new MatchProcessDto()
-                            {
-                                MatchPercent = result,
-                                UserTargetId = userTarget.UserId
-                            });
+                            if(result < 50){
+                                matchFail = true;
+                                result = 0;
+                                break;
+                            }
+
+                            matchFail = false;
                             result = 0;
                         }
+                        if (matchFail != true)
+                        matchProcessDto.Add(new MatchProcessDto()
+                        {
+                            MatchPercent = result,
+                            UserTargetId = userTarget.UserId
+                        });
                     }
                 }
 
                 var count = 0;
                 foreach (var match in matchProcessDto.OrderByDescending(x => x.MatchPercent))
                 {
+                    if(user.Matches.Any(x => x.TargetUser.UserId == match.UserTargetId)){
+                        matchProcessDto.Remove(match);
+                    }
+                    else{
+                        
                     user.Matches.Add(new Match()
                     {
                         User = user,
@@ -1032,6 +1066,8 @@ namespace RentTogether.Dal
                     count += 1;
                     if (count == 10)
                         break;
+                    }
+                        
                 }
 
                 _rentTogetherDbContext.Users.Update(user);
