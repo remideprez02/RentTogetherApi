@@ -26,25 +26,25 @@ namespace RentTogether.Api.Controllers
         private readonly ICustomEncoder _customEncoder;
         private readonly IMapperHelper _mapperHelper;
         private readonly ILogger _logger;
-		private readonly RentTogetherDbContext _rentTogetherDbContext;
+        private readonly RentTogetherDbContext _rentTogetherDbContext;
 
         public UsersController(IUserService userService, IAuthenticationService authenticationService,
                                ICustomEncoder customEncoder, IMapperHelper mapperHelper,
-		                       ILogger<UsersController> logger, RentTogetherDbContext rentTogetherDbContext)
+                               ILogger<UsersController> logger, RentTogetherDbContext rentTogetherDbContext)
         {
             _userService = userService;
             _authenticationService = authenticationService;
             _customEncoder = customEncoder;
             _mapperHelper = mapperHelper;
             _logger = logger;
-			_rentTogetherDbContext = rentTogetherDbContext;
+            _rentTogetherDbContext = rentTogetherDbContext;
         }
 
         // GET User
-		[Route("api/Users/{id}")]
+        [Route("api/Users/{id}")]
         [HttpGet]
-		[EnableQuery]
-		public async Task<IActionResult> Get([FromODataUri]int id)
+        [EnableQuery]
+        public async Task<IActionResult> Get([FromODataUri]int id)
         {
             //Get header token
             if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues) && id > -1)
@@ -56,26 +56,27 @@ namespace RentTogether.Api.Controllers
                     //Verify if the token exist and is not expire
                     if (await _authenticationService.CheckIfTokenIsValidAsync(token, id))
                     {
-						//Verify if user exist
-						var user =  _userService.GetUserApiDtoAsyncById(id);
-						if(user == null){
-							return StatusCode(404, "User Not Found.");
-						}
-						return Ok(user);
+                        //Verify if user exist
+                        var user = _userService.GetUserApiDtoAsyncById(id);
+                        if (user == null)
+                        {
+                            return StatusCode(404, "User Not Found.");
+                        }
+                        return Ok(user);
                     }
-					return StatusCode(401, "Invalid Token.");
+                    return StatusCode(401, "Invalid Token.");
                 }
-				return StatusCode(401, "Invalid Authorization.");
+                return StatusCode(401, "Invalid Authorization.");
             }
-			return StatusCode(401, "Invalid Authorization.");
+            return StatusCode(401, "Invalid Authorization.");
         }
 
         // Get All Users if IsAdmin
         [Route("api/Users")]
         [HttpGet]
-		[EnableQuery]
+        [EnableQuery]
         //[RequireHttps]
-		public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get()
         {
             //Get header token
             if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues))
@@ -89,40 +90,41 @@ namespace RentTogether.Api.Controllers
                         //Verify if the token exist and is not expire
                         if (await _authenticationService.CheckIfTokenIsValidAsync(token, user.UserId))
                         {
-							var users = await _userService.GetAllUsersAsync();
-							if(users == null){
-								return StatusCode(404, "Users not found.");
-							}
-							return Ok(users);
+                            var users = await _userService.GetAllUsersAsync();
+                            if (users == null)
+                            {
+                                return StatusCode(404, "Users not found.");
+                            }
+                            return Ok(users);
                         }
-						return StatusCode(401, "Invalid Token.");
+                        return StatusCode(401, "Invalid Token.");
                     }
-					return StatusCode(403, "Invalid User.");
+                    return StatusCode(403, "Invalid User.");
                 }
-				return StatusCode(401, "Invalid Authorization.");
+                return StatusCode(401, "Invalid Authorization.");
             }
-			return StatusCode(401, "Invalid Authorization.");
+            return StatusCode(401, "Invalid Authorization.");
         }
 
         //POST User
         [Route("api/Users")]
         [HttpPost]
-		[EnableQuery]
+        [EnableQuery]
         [AllowAnonymous]
         public async Task<IActionResult> Post([FromBody]UserRegisterDto userRegisterDto)
         {
-			var isValid = _userService.CheckIfUserModelIsValid(userRegisterDto);
-			if (isValid.Item1 == true)
-			{
-				var user = await _userService.CreateUserAsync(userRegisterDto);
-				if (user != null)
-				{
-					var userApiDto = _mapperHelper.MapUserToUserApiDto(user);
-					return Ok(userApiDto);
-				}
-				return StatusCode(400, "Unable to create user.");
-			}
-			return StatusCode(400, isValid.Item2);
+            var isValid = _userService.CheckIfUserModelIsValid(userRegisterDto);
+            if (isValid.Item1 == true)
+            {
+                var user = await _userService.CreateUserAsync(userRegisterDto);
+                if (user != null)
+                {
+                    var userApiDto = _mapperHelper.MapUserToUserApiDto(user);
+                    return Ok(userApiDto);
+                }
+                return StatusCode(400, "Unable to create user.");
+            }
+            return StatusCode(400, isValid.Item2);
         }
 
         //PUT User
@@ -137,19 +139,19 @@ namespace RentTogether.Api.Controllers
 
                 if (token != null)
                 {
-						
-						var userApiDtoUpdated = await _userService.UpdateUserAsync(userApiDto, token);
 
-                        if (userApiDtoUpdated != null)
-                        {
-						return Ok(userApiDtoUpdated);
-                        }
-                        return StatusCode(404);
-					}
-				return StatusCode(403);
-                
+                    var userApiDtoUpdated = await _userService.UpdateUserAsync(userApiDto, token);
+
+                    if (userApiDtoUpdated != null)
+                    {
+                        return Ok(userApiDtoUpdated);
+                    }
+                    return StatusCode(404);
                 }
-               
+                return StatusCode(403);
+
+            }
+
             return StatusCode(401);
         }
 
@@ -175,6 +177,38 @@ namespace RentTogether.Api.Controllers
                 return StatusCode(403);
             }
             return StatusCode(401);
+        }
+
+        [HttpPatch]
+        [Route("api/Users")]
+        public async Task<IActionResult> Patch([FromBody]UserPatchApiDto userPatchApiDto)
+        {
+
+            if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues))
+            {
+                var token = _customEncoder.DecodeBearerAuth(headerValues.First());
+                if (token != null)
+                {
+                    var user = await _userService.GetUserAsyncByToken(token);
+                    if (user != null)
+                    {
+                        //Verify if the token exist and is not expire
+                        if (await _authenticationService.CheckIfTokenIsValidAsync(token))
+                        {
+                            var userApiDto = await _userService.PatchUser(userPatchApiDto);
+                            if (userApiDto == null)
+                            {
+                                return StatusCode(404, "User not found.");
+                            }
+                            return Ok(userApiDto);
+                        }
+                        return StatusCode(401, "Invalid Token.");
+                    }
+                    return StatusCode(403, "Invalid User.");
+                }
+                return StatusCode(401, "Invalid Authorization.");
+            }
+            return StatusCode(401, "Invalid Authorization.");
         }
     }
 }

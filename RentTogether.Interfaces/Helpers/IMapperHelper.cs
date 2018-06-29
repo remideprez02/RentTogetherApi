@@ -15,6 +15,7 @@ namespace RentTogether.Interfaces.Helpers
         User MapUserRegisterDtoToUser(UserRegisterDto userRegisterDto);
         UserApiDto MapUserToUserApiDto(User user);
         User MapUpdateUserApiDtoToUser(UserApiDto userApiDto, User user);
+        User MapUserPatchApiDtoToUser(User user, UserPatchApiDto userPatchApiDto);
 
 		ParticipantApiDto MapParticipantToParticipantApiDto(Participant participant);
 

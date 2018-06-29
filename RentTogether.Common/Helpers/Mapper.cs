@@ -78,6 +78,41 @@ namespace RentTogether.Common.Mapper
             user.TokenExpirationDate = userApiDto.TokenExpirationDate;
             return user;
         }
+
+        public User MapUserPatchApiDtoToUser(User user, UserPatchApiDto userPatchApiDto)
+        {
+            if (userPatchApiDto.PhoneNumber != "" || userPatchApiDto.PhoneNumber != null)
+                user.PhoneNumber = userPatchApiDto.PhoneNumber;
+
+            if (userPatchApiDto.City != "" || userPatchApiDto.City != null)
+                user.City = userPatchApiDto.City;
+
+            if (userPatchApiDto.Email != "" || userPatchApiDto.Email != null)
+                user.Email = userPatchApiDto.Email;
+
+            if (userPatchApiDto.FirstName != "" || userPatchApiDto.FirstName != null)
+                user.FirstName = userPatchApiDto.FirstName;
+
+            if (userPatchApiDto.LastName != "" || userPatchApiDto.LastName != null)
+                user.LastName = userPatchApiDto.LastName;
+
+            if (userPatchApiDto.IsAdmin.HasValue)
+                user.IsAdmin = userPatchApiDto.IsAdmin.Value;
+
+            if (userPatchApiDto.IsOwner.HasValue)
+                user.IsOwner = userPatchApiDto.IsOwner.Value;
+
+            if (userPatchApiDto.IsRoomer.HasValue)
+                user.IsRoomer = userPatchApiDto.IsRoomer.Value;
+
+            if (userPatchApiDto.PostalCode != "" || userPatchApiDto.PostalCode != null)
+                user.PostalCode = userPatchApiDto.PostalCode;
+
+            if (userPatchApiDto.Password != "" || userPatchApiDto.Password != null)
+                user.Password = userPatchApiDto.Password;
+
+            return user;
+        }
         #endregion
 
         #region Participant

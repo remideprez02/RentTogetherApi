@@ -232,6 +232,24 @@ namespace RentTogether.Dal
             }
         }
 
+        public async Task<UserApiDto> PatchUser(UserPatchApiDto userPatchApiDto)
+        {
+            try
+            {
+                var user = await _rentTogetherDbContext.Users.SingleOrDefaultAsync(x => x.UserId == userPatchApiDto.UserId);
+                var patchUser = _mapperHelper.MapUserPatchApiDtoToUser(user, userPatchApiDto);
+
+                _rentTogetherDbContext.Users.Update(patchUser);
+                await _rentTogetherDbContext.SaveChangesAsync();
+
+                return _mapperHelper.MapUserToUserApiDto(patchUser);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         #endregion
 
         #region Messages

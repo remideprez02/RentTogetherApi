@@ -27,6 +27,7 @@ namespace RentTogether.Interfaces.Dal
         Task<UserApiDto> UpdateUserAsync(UserApiDto userApiDto);
         Task<List<UserApiDto>> GetAllUserAsync();
         Task<UserApiDto> GetUserAsyncByToken(string token);
+        Task<UserApiDto> PatchUser(UserPatchApiDto userPatchApiDto);
         #endregion
 
         #region Message

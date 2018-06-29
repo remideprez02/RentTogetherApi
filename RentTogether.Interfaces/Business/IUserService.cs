@@ -17,5 +17,6 @@ namespace RentTogether.Interfaces.Business
 		Task<List<UserApiDto>> GetAllUsersAsync();
         Task<UserApiDto> GetUserAsyncByToken(string token);
 		Tuple<bool, string> CheckIfUserModelIsValid(UserRegisterDto userRegisterDto);
+        Task<UserApiDto> PatchUser(UserPatchApiDto userPatchApiDto);
     }
 }

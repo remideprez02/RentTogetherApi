@@ -168,5 +168,19 @@ namespace RentTogether.Business.Services
 
 			return new Tuple<bool, string>(true, "");
 		}
+
+        public async Task<UserApiDto> PatchUser(UserPatchApiDto userPatchApiDto)
+        {
+            try
+            {
+                if (userPatchApiDto.UserId == null)
+                    return null;
+                return await _dal.PatchUser(userPatchApiDto);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 	}
 }
