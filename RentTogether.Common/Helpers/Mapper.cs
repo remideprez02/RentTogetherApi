@@ -49,9 +49,9 @@ namespace RentTogether.Common.Mapper
                 CreateDate = user.CreateDate,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Password = user.Password,
                 City = user.City,
                 PostalCode = user.PostalCode,
+                Description = user.Description,
                 IsOwner = user.IsOwner,
                 IsRoomer = user.IsRoomer,
                 IsAdmin = user.IsAdmin,
@@ -64,14 +64,13 @@ namespace RentTogether.Common.Mapper
 
         public User MapUpdateUserApiDtoToUser(UserApiDto userApiDto, User user)
         {
-
+            user.Description = userApiDto.Description;
             user.Email = userApiDto.Email;
             user.FirstName = userApiDto.FirstName;
             user.LastName = userApiDto.LastName;
             user.IsOwner = userApiDto.IsOwner;
             user.IsRoomer = userApiDto.IsRoomer;
             user.IsAdmin = userApiDto.IsAdmin;
-            user.Password = userApiDto.Password;
             user.PhoneNumber = userApiDto.PhoneNumber;
             user.City = userApiDto.City;
             user.PostalCode = userApiDto.PostalCode;
@@ -112,6 +111,9 @@ namespace RentTogether.Common.Mapper
             if (!string.IsNullOrEmpty(userPatchApiDto.Password))
                 user.Password = userPatchApiDto.Password;
 
+            if (!string.IsNullOrEmpty(userPatchApiDto.Description))
+                user.Description = userPatchApiDto.Description;
+
             return user;
         }
         #endregion
@@ -129,7 +131,6 @@ namespace RentTogether.Common.Mapper
                     CreateDate = participant.User.CreateDate,
                     FirstName = participant.User.FirstName,
                     LastName = participant.User.LastName,
-                    Password = participant.User.Password,
                     City = participant.User.City,
                     PostalCode = participant.User.PostalCode,
                     IsOwner = participant.User.IsOwner,

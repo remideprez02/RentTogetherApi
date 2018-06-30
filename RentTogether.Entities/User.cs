@@ -21,6 +21,7 @@ namespace RentTogether.Entities
         public string PhoneNumber { get; set; }
 		public string City { get; set; }
 		public string PostalCode { get; set; }
+        public string Description { get; set; }
         public int IsOwner { get; set; }
         public int IsRoomer { get; set; }
         public int IsValideUser { get; set; }
