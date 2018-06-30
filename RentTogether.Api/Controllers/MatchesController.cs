@@ -15,7 +15,7 @@ namespace RentTogether.Api.Controllers
 {
     public class MatchesController : ODataController
     {
-        
+
         private readonly IMatchService _matchService;
         private readonly IAuthenticationService _authenticationService;
         private readonly ICustomEncoder _customEncoder;
@@ -65,6 +65,34 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid Authorization.");
         }
 
+        [HttpGet]
+        [Route("api/Matches/{userId}/GetAllMatches")]
+        public async Task<IActionResult> GetAllMatches(int userId)
+        {
+            //Get header token
+            if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues) && userId > -1)
+            {
+                var token = _customEncoder.DecodeBearerAuth(headerValues.First());
+                if (token != null)
+                {
+                    //Verify if the token exist and is not expire
+                    if (await _authenticationService.CheckIfTokenIsValidAsync(token, userId))
+                    {
+                        //Verify if messages for this userId exist
+                        var matchApiDtos = await _matchService.GetAsyncAllMatches(userId);
+                        if (matchApiDtos == null || matchApiDtos.Count <= 0)
+                        {
+                            return StatusCode(404, "Match(es) not found.");
+                        }
+                        return Ok(matchApiDtos);
+                    }
+                    return StatusCode(401, "Invalid token.");
+                }
+                return StatusCode(401, "Invalid Authorization.");
+            }
+            return StatusCode(401, "Invalid Authorization.");
+        }
+
         // POST api/values
         [HttpPost]
         [Route("api/Matches")]
@@ -79,11 +107,11 @@ namespace RentTogether.Api.Controllers
                     //Verify if the token exist and is not expire
                     if (await _authenticationService.CheckIfTokenIsValidAsync(token))
                     {
-                        
+
                         var matchApiDto = await _matchService.PostAsyncMatch(matchDto);
                         if (matchApiDto == null)
                         {
-                            return StatusCode(404, "Unable to create match.");
+                            return StatusCode(404, "Unable to post match.");
                         }
                         return Ok(matchApiDto);
                     }
@@ -94,16 +122,73 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid Authorization.");
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [Route("api/Matches/{userId}")]
+        [HttpPatch]
+        public async Task<IActionResult> Patch(int userId)
         {
+            //Get header token
+            if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues) && userId > -1)
+            {
+                var token = _customEncoder.DecodeBearerAuth(headerValues.First());
+
+                if (token != null)
+                {
+                    var user = await _userService.GetUserApiDtoAsyncById(userId);
+
+                    if (user != null)
+                    {
+                        //Verify if the token exist and is not expire
+                        if (await _authenticationService.CheckIfTokenIsValidAsync(token, userId))
+                        {
+
+                            var matchApiDtos = await _matchService.PatchAsyncMatches(userId);
+                            if (matchApiDtos == null)
+                            {
+                                return StatusCode(404, "Unable to patch matches.");
+                            }
+                            return Ok(matchApiDtos);
+
+                        }
+                        return StatusCode(401, "Invalid Token.");
+                    }
+                    return StatusCode(403, "Invalid data model.");
+                }
+                return StatusCode(401, "Invalid Authorization.");
+            }
+            return StatusCode(401, "Invalid Authorization.");
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [Route("api/Matches/{matchId}")]
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int matchId)
         {
+            //Get header token
+            if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues) && matchId > -1)
+            {
+                var token = _customEncoder.DecodeBearerAuth(headerValues.First());
+                if (token != null)
+                {
+                    var user = await _userService.GetUserAsyncByToken(token);
+                    if (user != null)
+                    {
+                        //Verify if the token exist and is not expire
+                        if (await _authenticationService.CheckIfTokenIsValidAsync(token))
+                        {
+                            //Verify if messages for this userId exist
+                            var isDeleted = await _matchService.DeleteAsyncMatch(matchId);
+                            if (isDeleted == false)
+                            {
+                                return StatusCode(404, "Unable to delete match.");
+                            }
+                            return StatusCode(204, "The match has been deleted.");
+                        }
+                        return StatusCode(401, "Invalid Token.");
+                    }
+                    return StatusCode(403, "Invalid user.");
+                }
+                return StatusCode(401, "Invalid Authorization.");
+            }
+            return StatusCode(401, "Invalid Authorization.");
         }
     }
 }

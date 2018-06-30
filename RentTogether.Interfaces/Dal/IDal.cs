@@ -58,7 +58,7 @@ namespace RentTogether.Interfaces.Dal
         //Referencial
         Task<DetailPersonalityApiDto> PostAsyncDetailPersonality(DetailPersonalityDto detailPersonalityDto);
         Task<List<DetailPersonalityApiDto>> GetAsyncAllPersonalityReferencials();
-
+        Task<List<PersonalityValueApiDto>> PatchAsyncPersonalityValuesByUserId(int userId, List<PersonalityValuePatchDto> personalityValuePatchDtos);
         //Value/Personality
         Task<List<PersonalityValueApiDto>> PostAsyncPersonalityValues(List<PersonalityValueDto> personalityValueDtos, int userId);
         Task<PersonalityApiDto> GetPersonalityAsyncByUserId(int userId);
@@ -66,7 +66,10 @@ namespace RentTogether.Interfaces.Dal
 
         #region Match
         Task<MatchApiDto> PostAsyncMatch(MatchDto matchDto);
+        Task<List<MatchApiDto>> GetAsyncAllMatches(int userId);
         Task<List<MatchApiDto>> GetAsyncListMatches(int userId);
+        Task<List<MatchApiDto>> PatchAsyncMatches(int userId);
+        Task<bool> DeleteAsyncMatch(int matchId);
         #endregion
 
         #region TargetLocation

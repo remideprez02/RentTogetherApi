@@ -99,5 +99,6 @@ namespace RentTogether.Api.Controllers
             }
             return StatusCode(401, "Invalid authorization.");
         }
+
     }
 }

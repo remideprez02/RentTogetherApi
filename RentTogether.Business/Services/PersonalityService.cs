@@ -36,5 +36,9 @@ namespace RentTogether.Business.Services
         {
             return await _dal.GetPersonalityAsyncByUserId(userId);
         }
+
+        public async Task<List<PersonalityValueApiDto>> PatchAsyncPersonalityValuesByUserId(int userId, List<PersonalityValuePatchDto> personalityValuePatchDtos){
+            return await _dal.PatchAsyncPersonalityValuesByUserId(userId, personalityValuePatchDtos);
+        }
     }
 }

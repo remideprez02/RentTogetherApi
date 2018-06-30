@@ -90,5 +90,44 @@ namespace RentTogether.Api.Controllers
             }
             return StatusCode(401, "Invalid authorization.");
         }
+
+        [Route("api/Personalities/{userId}")]
+        [HttpPatch]
+        public async Task<IActionResult> Patch([FromBody]List<PersonalityValuePatchDto> personalityValuePatchDtos, int userId)
+        {
+            //Get header token
+            if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues) && userId > -1)
+            {
+                var token = _customEncoder.DecodeBearerAuth(headerValues.First());
+
+                if (token != null)
+                {
+                    if (personalityValuePatchDtos != null)
+                    {
+                        var user = await _userService.GetUserApiDtoAsyncById(userId);
+
+                        if (user != null)
+                        {
+                            //Verify if the token exist and is not expire
+                            if (await _authenticationService.CheckIfTokenIsValidAsync(token, userId))
+                            {
+                                //Verify if messages for this userId exist
+                                var personalityValuesApiDtos = await _personalityService.PatchAsyncPersonalityValuesByUserId(userId, personalityValuePatchDtos);
+                                if (personalityValuesApiDtos == null)
+                                {
+                                    return StatusCode(404, "Unable to patch personality values.");
+                                }
+                                return Ok(personalityValuesApiDtos);
+                            }
+                            return StatusCode(401, "Invalid Token.");
+                        }
+                        return StatusCode(403, "Invalid data model.");
+                    }
+                    return StatusCode(403, "Invalid user.");
+                }
+                return StatusCode(401, "Invalid Authorization.");
+            }
+            return StatusCode(401, "Invalid Authorization.");
+        }
     }
 }

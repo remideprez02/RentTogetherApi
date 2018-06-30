@@ -35,7 +35,7 @@ namespace RentTogether.Api.Controllers
         [Route("api/TargetLocations/{userId}")]
         [HttpGet]
         [EnableQuery]
-        public async Task<IActionResult> Get(int userId)
+        public async Task<IActionResult> Get([FromODataUri]int userId)
         {
             //Get header token
             if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues) && userId > -1)
@@ -44,7 +44,7 @@ namespace RentTogether.Api.Controllers
                 if (token != null)
                 {
                     var user = await _userService.GetUserApiDtoAsyncById(userId);
-                    if (user == null)
+                    if (user != null)
                     {
                         //Verify if the token exist and is not expire
                         if (await _authenticationService.CheckIfTokenIsValidAsync(token, userId))
@@ -68,7 +68,6 @@ namespace RentTogether.Api.Controllers
 
         [Route("api/TargetLocations")]
         [HttpPost]
-        [EnableQuery]
         public async Task<IActionResult> Post([FromBody]TargetLocationDto targetLocationDto)
         {
             //Get header token
@@ -78,11 +77,11 @@ namespace RentTogether.Api.Controllers
 
                 if (token != null)
                 {
-                    if (targetLocationDto == null)
+                    if (targetLocationDto != null)
                     {
                         var user = await _userService.GetUserApiDtoAsyncById(targetLocationDto.UserId);
 
-                        if (user == null)
+                        if (user != null)
                         {
                             //Verify if the token exist and is not expire
                             if (await _authenticationService.CheckIfTokenIsValidAsync(token, targetLocationDto.UserId))
@@ -91,7 +90,7 @@ namespace RentTogether.Api.Controllers
                                 var targetLocationApiDto = await _targetLocationService.PostAsyncTargetLocation(targetLocationDto);
                                 if (targetLocationApiDto == null)
                                 {
-                                    return StatusCode(404, "Unable to add target location.");
+                                    return StatusCode(404, "Unable to post target location.");
                                 }
                                 return Ok(targetLocationApiDto);
                             }
@@ -108,7 +107,6 @@ namespace RentTogether.Api.Controllers
 
         [Route("api/TargetLocations")]
         [HttpPatch]
-        [EnableQuery]
         public async Task<IActionResult> Patch([FromBody]TargetLocationDto targetLocationDto)
         {
             //Get header token
@@ -118,11 +116,11 @@ namespace RentTogether.Api.Controllers
 
                 if (token != null)
                 {
-                    if (targetLocationDto == null)
+                    if (targetLocationDto != null)
                     {
                         var user = await _userService.GetUserApiDtoAsyncById(targetLocationDto.UserId);
 
-                        if (user == null)
+                        if (user != null)
                         {
                             //Verify if the token exist and is not expire
                             if (await _authenticationService.CheckIfTokenIsValidAsync(token, targetLocationDto.UserId))
@@ -131,7 +129,7 @@ namespace RentTogether.Api.Controllers
                                 var targetLocationApiDto = await _targetLocationService.PatchAsyncTargetLocation(targetLocationDto);
                                 if (targetLocationApiDto == null)
                                 {
-                                    return StatusCode(404, "Unable to add target location.");
+                                    return StatusCode(404, "Unable to patch target location.");
                                 }
                                 return Ok(targetLocationApiDto);
                             }
@@ -148,7 +146,6 @@ namespace RentTogether.Api.Controllers
 
         [Route("api/TargetLocations/{targetLocationId}")]
         [HttpDelete]
-        [EnableQuery]
         public async Task<IActionResult> Delete(int targetLocationId)
         {
             //Get header token
@@ -158,7 +155,7 @@ namespace RentTogether.Api.Controllers
                 if (token != null)
                 {
                     var user = await _userService.GetUserAsyncByToken(token);
-                    if (user == null)
+                    if (user != null)
                     {
                         //Verify if the token exist and is not expire
                         if (await _authenticationService.CheckIfTokenIsValidAsync(token))

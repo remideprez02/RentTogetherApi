@@ -21,5 +21,14 @@ namespace RentTogether.Business.Services
         public async Task<List<MatchApiDto>> GetAsyncListMatches(int userId){
             return await _dal.GetAsyncListMatches(userId);
         }
+        public async Task<List<MatchApiDto>> PatchAsyncMatches(int userId){
+            return await _dal.PatchAsyncMatches(userId);
+        }
+        public async Task<bool> DeleteAsyncMatch(int matchId){
+            return await _dal.DeleteAsyncMatch(matchId);
+        }
+        public async Task<List<MatchApiDto>> GetAsyncAllMatches(int userId){
+            return await _dal.GetAsyncAllMatches(userId);
+        }
     }
 }

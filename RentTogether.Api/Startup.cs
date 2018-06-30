@@ -60,6 +60,7 @@ namespace RentTogether
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IMapperHelper, Mapper>();
+            services.AddTransient<IMatchesGenerator, MatchesGenerator>();
             services.AddTransient<ICustomEncoder, CustomEncoder>();
             services.AddTransient<IMessageService, MessageService>();
 			services.AddTransient<IConversationService, ConversationService>();

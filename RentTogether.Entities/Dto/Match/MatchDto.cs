@@ -9,6 +9,5 @@ namespace RentTogether.Entities.Dto.Match
         public int TargetUserId { get; set; }
 
         public int StatusUser { get; set; }
-        public int StatusTargetUser { get; set; }
     }
 }

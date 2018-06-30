@@ -14,5 +14,6 @@ namespace RentTogether.Interfaces.Business
 
         Task<List<PersonalityValueApiDto>> PostAsyncPersonalityValues(List<PersonalityValueDto> personalityValueDtos, int userId);
         Task<PersonalityApiDto> GetPersonalityAsyncByUserId(int userId);
+        Task<List<PersonalityValueApiDto>> PatchAsyncPersonalityValuesByUserId(int userId, List<PersonalityValuePatchDto> personalityValuePatchDtos);
     }
 }

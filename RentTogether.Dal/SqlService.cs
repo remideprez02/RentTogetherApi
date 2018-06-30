@@ -23,11 +23,13 @@ namespace RentTogether.Dal
     {
         private readonly RentTogetherDbContext _rentTogetherDbContext;
         private readonly IMapperHelper _mapperHelper;
+        private readonly IMatchesGenerator _matchesGenerator;
 
-        public SqlService(RentTogetherDbContext rentTogetherDbContext, IMapperHelper mapperHelper)
+        public SqlService(RentTogetherDbContext rentTogetherDbContext, IMapperHelper mapperHelper, IMatchesGenerator matchesGenerator)
         {
             _rentTogetherDbContext = rentTogetherDbContext;
             _mapperHelper = mapperHelper;
+            _matchesGenerator = matchesGenerator;
         }
         #region Users
         /// <summary>
@@ -916,6 +918,44 @@ namespace RentTogether.Dal
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<List<PersonalityValueApiDto>> PatchAsyncPersonalityValuesByUserId(int userId, List<PersonalityValuePatchDto> personalityValuePatchDtos)
+        {
+            try
+            {
+                var user = await _rentTogetherDbContext.Users
+                                       .Include(x => x.Personality)
+                                       .ThenInclude(xx => xx.PersonalityValues)
+                                                       .ThenInclude(xxx => xxx.PersonalityReferencial)
+                                       .Include(x => x.Personality)
+                                       .ThenInclude(xx => xx.User)
+                                       .SingleOrDefaultAsync(x => x.UserId == userId);
+
+                if (user.Personality.PersonalityValues == null || user.Personality.PersonalityValues.Count <= 0)
+                    return null;
+
+                var personalityValueApiDtos = new List<PersonalityValueApiDto>();
+
+                foreach (var personalityValue in user.Personality.PersonalityValues)
+                {
+                    var data = personalityValuePatchDtos.FirstOrDefault(x => x.PersonalityReferencialId == personalityValue.PersonalityReferencial.PersonalityReferencialId);
+                    if (data.Value.HasValue)
+                        personalityValue.Value = data.Value.Value;
+                    
+                    personalityValueApiDtos.Add(_mapperHelper.MapPersonalityValueToPersonalityValueApiDto(personalityValue));
+                }
+
+                _rentTogetherDbContext.PersonalityValues.UpdateRange(user.Personality.PersonalityValues);
+                await _rentTogetherDbContext.SaveChangesAsync();
+
+                return personalityValueApiDtos;
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         #endregion
 
         #region Match
@@ -928,62 +968,45 @@ namespace RentTogether.Dal
                                                         .Include(x => x.TargetUser)
                                                         .SingleOrDefaultAsync(x => x.MatchId == matchDto.MatchId);
 
-
-                if (match.DateStatusTargetUser < DateTime.UtcNow.AddYears(-20) && matchDto.StatusTargetUser == 1)
-                {
-                    match.DateStatusTargetUser = new DateTime();
-                    match.DateStatusTargetUser = DateTime.UtcNow;
-
-                    match.StatusTargetUser = 1;
-                }
-                else if (match.DateStatusTargetUser < DateTime.UtcNow.AddYears(-20) && matchDto.StatusTargetUser == 2)
-                {
-                    match.DateStatusTargetUser = new DateTime();
-                    match.DateStatusTargetUser = DateTime.UtcNow;
-
-                    match.StatusTargetUser = 2;
-                }
-                else
-                {
-                    match.DateStatusTargetUser = new DateTime();
-                    match.DateStatusTargetUser = DateTime.UtcNow;
-
-                    match.StatusTargetUser = 0;
-                }
-
-
-                if (match.DateStatusUser < DateTime.UtcNow.AddYears(-20) && matchDto.StatusUser == 1)
-                {
-                    match.DateStatusUser = new DateTime();
-                    match.DateStatusUser = DateTime.UtcNow;
-
+                if (matchDto.StatusUser == 1)
                     match.StatusUser = 1;
-                }
-                else if (match.DateStatusUser < DateTime.UtcNow.AddYears(-20) && matchDto.StatusUser == 2)
-                {
-                    match.DateStatusUser = new DateTime();
-                    match.DateStatusUser = DateTime.UtcNow;
 
+                if (matchDto.StatusUser == 2)
                     match.StatusUser = 2;
-                }
-                else
-                {
-                    match.DateStatusTargetUser = new DateTime();
-                    match.DateStatusTargetUser = DateTime.UtcNow;
-
-                    match.StatusUser = 0;
-                }
 
                 _rentTogetherDbContext.Update(match);
                 await _rentTogetherDbContext.SaveChangesAsync();
 
                 return _mapperHelper.MapMatchToMatchApiDto(match);
             }
+
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<List<MatchApiDto>> GetAsyncAllMatches(int userId)
+        {
+            var user = await _rentTogetherDbContext.Users
+                                                       .Include(x => x.Matches)
+                                                       .ThenInclude(xx => xx.User)
+                                                       .Include(x => x.Matches)
+                                                       .ThenInclude(xx => xx.TargetUser)
+                                                       .SingleOrDefaultAsync(x => x.UserId == userId);
+            var matchApiDtos = new List<MatchApiDto>();
+
+            if (user.Matches == null)
+                return null;
+            
+            foreach (var userMatch in user.Matches)
+            {
+                matchApiDtos.Add(_mapperHelper.MapMatchToMatchApiDto(userMatch));
+            }
+
+            return matchApiDtos;
+        }
+
 
         public async Task<List<MatchApiDto>> GetAsyncListMatches(int userId)
         {
@@ -999,12 +1022,26 @@ namespace RentTogether.Dal
                                                        .Include(x => x.Personality)
                                                        .ThenInclude(xx => xx.PersonalityValues)
                                                        .ThenInclude(xxx => xxx.PersonalityReferencial)
+                                                       .Include(x => x.TargetLocation)
                                                        .SingleOrDefaultAsync(x => x.UserId == userId);
+                if (user == null)
+                    return null;
 
-                var matches = await _rentTogetherDbContext.Matches
-                                                          .Include(x => x.User)
-                                                          .Include(x => x.TargetUser)
-                                                          .ToListAsync();
+                if (user.Matches == null)
+                {
+                    user.Matches = new List<Match>();
+                }
+
+                var matchApiDtos = new List<MatchApiDto>();
+
+                if(user.Matches.Any(x => x.StatusUser == 0))
+                {
+                    foreach (var userMatch in user.Matches.Where(x => x.StatusUser == 0))
+                    {
+                        matchApiDtos.Add(_mapperHelper.MapMatchToMatchApiDto(userMatch));
+                    }
+                    return matchApiDtos;
+                }
 
                 var users = await _rentTogetherDbContext.Users
                                                         .Include(x => x.Matches)
@@ -1016,96 +1053,24 @@ namespace RentTogether.Dal
                                                         .Include(x => x.Personality)
                                                         .ThenInclude(xx => xx.PersonalityValues)
                                                         .ThenInclude(xxx => xxx.PersonalityReferencial)
-                                                        .Where(x => x.UserId != userId && x.Personality != null)
+                                                        .Where(x => x.UserId != userId &&
+                                                               x.Personality != null &&
+                                                               x.TargetLocation.PostalCode == user.TargetLocation.PostalCode &&
+                                                               x.TargetLocation.City == user.TargetLocation.City &&
+                                                               x.Matches.Select(xx => xx.User) != user)
                                                         .ToListAsync();
+                if (users.Count == 0)
+                    return null;
 
+                var matches = _matchesGenerator.GenerateMatchesForUser(user, users);
 
-                foreach (var userToClean in users)
-                {
-                    if (userToClean.Matches != null && userToClean.Matches.Count > 0)
-                    {
-                        if (userToClean.Matches.Select(x => x.TargetUser == user) != null)
-                            users.Remove(userToClean);
-                    }
-                }
-
-                var matchApiDtos = new List<MatchApiDto>();
-                var matchProcessDto = new List<MatchProcessDto>();
-
-                if (user.Matches == null)
-                {
-                    user.Matches = new List<Match>();
-                }
-
-                var result = 0;
-                var matchFail = false;
-                foreach (var userTarget in users)
-                {
-                    foreach (var userTargetPersonalityValue in userTarget.Personality.PersonalityValues)
-                    {
-
-                        var userValue = user.Personality.PersonalityValues.FirstOrDefault(x => x.PersonalityReferencial.PersonalityReferencialId == userTargetPersonalityValue.PersonalityReferencial.PersonalityReferencialId);
-                        if (userValue != null)
-                        {
-
-                            var variation = 100 * (userTargetPersonalityValue.Value - userValue.Value) / userValue.Value;
-
-                            //If variation is negative
-                            if (variation <= 0)
-                            {
-                                result = 100 - (variation * -1);
-                            }
-                            else
-                            {
-                                result = (variation - 100) * -1;
-                            }
-
-                            if (result < 50)
-                            {
-                                matchFail = true;
-                                result = 0;
-                                break;
-                            }
-
-                            matchFail = false;
-                            result = 0;
-                        }
-                        if (matchFail != true)
-                            matchProcessDto.Add(new MatchProcessDto()
-                            {
-                                MatchPercent = result,
-                                UserTargetId = userTarget.UserId
-                            });
-                    }
-                }
-
-                var count = 0;
-                foreach (var match in matchProcessDto.OrderByDescending(x => x.MatchPercent))
-                {
-                    if (user.Matches.Any(x => x.TargetUser.UserId == match.UserTargetId))
-                    {
-                        matchProcessDto.Remove(match);
-                    }
-                    else
-                    {
-
-                        user.Matches.Add(new Match()
-                        {
-                            User = user,
-                            TargetUser = users.SingleOrDefault(x => x.UserId == match.UserTargetId)
-                        });
-
-                        count += 1;
-                        if (count == 10)
-                            break;
-                    }
-
-                }
-
-                _rentTogetherDbContext.Users.Update(user);
+                if (matches == null)
+                    return null;
+                
+                await _rentTogetherDbContext.Matches.AddRangeAsync(matches);
                 await _rentTogetherDbContext.SaveChangesAsync();
 
-                foreach (var match in user.Matches.OrderByDescending(x => x.MatchId))
+                foreach (var match in user.Matches)
                 {
                     matchApiDtos.Add(_mapperHelper.MapMatchToMatchApiDto(match));
                 }
@@ -1117,6 +1082,57 @@ namespace RentTogether.Dal
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<List<MatchApiDto>> PatchAsyncMatches(int userId)
+        {
+            try
+            {
+                var user = await _rentTogetherDbContext.Users
+                                                       .Include(x => x.Matches)
+                                                       .ThenInclude(xx => xx.User)
+                                                       .Include(x => x.Matches)
+                                                       .ThenInclude(xx => xx.TargetUser)
+                                                       .SingleOrDefaultAsync(x => x.UserId == userId);
+                if (user == null)
+                    return null;
+
+                var matchApiDtos = new List<MatchApiDto>();
+                foreach (var match in user.Matches)
+                {
+                    match.StatusUser = 0;
+                    matchApiDtos.Add(_mapperHelper.MapMatchToMatchApiDto(match));
+                }
+
+                _rentTogetherDbContext.Matches.UpdateRange(user.Matches);
+                await _rentTogetherDbContext.SaveChangesAsync();
+
+                return matchApiDtos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> DeleteAsyncMatch(int matchId){
+            try
+            {
+                var match = await _rentTogetherDbContext.Matches
+                                                        .SingleOrDefaultAsync(x => x.MatchId == matchId);
+                if (match == null)
+                    return false;
+                
+                _rentTogetherDbContext.Matches.Remove(match);
+                await _rentTogetherDbContext.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         #endregion
 
         #region TargetLocation
@@ -1157,7 +1173,7 @@ namespace RentTogether.Dal
 
                 await _rentTogetherDbContext.TargetLocations
                                             .AddAsync(targetLocation);
-                
+
                 await _rentTogetherDbContext.SaveChangesAsync();
 
                 return _mapperHelper.MapTargetLocationToTargetLocationApiDto(targetLocation);
@@ -1177,7 +1193,7 @@ namespace RentTogether.Dal
                                                              .SingleOrDefaultAsync(x => x.User.UserId == targetLocationDto.UserId);
                 if (targetLocation == null)
                     return null;
-                
+
                 if (!string.IsNullOrEmpty(targetLocationDto.City))
                     targetLocation.City = targetLocationDto.City;
 
@@ -1205,7 +1221,7 @@ namespace RentTogether.Dal
                                                                  .SingleOrDefaultAsync(x => x.TargetLocationId == targetLocationId);
                 if (targetLocation == null)
                     return false;
-                
+
                 _rentTogetherDbContext.TargetLocations.Remove(targetLocation);
                 await _rentTogetherDbContext.SaveChangesAsync();
 

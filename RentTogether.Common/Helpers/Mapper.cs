@@ -212,10 +212,7 @@ namespace RentTogether.Common.Mapper
                 UserId = match.User.UserId,
                 TargetUserId = match.TargetUser.UserId,
                 MatchId = match.MatchId,
-                StatusTargetUser = match.StatusTargetUser,
-                StatusUser = match.StatusUser,
-                DateStatusTargetUser = match.DateStatusTargetUser,
-                DateStatusUser = match.DateStatusUser
+                StatusUser = match.StatusUser
             };
         }
 
