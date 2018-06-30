@@ -71,6 +71,8 @@ namespace RentTogether.Business.Services
         public async Task<UserApiDto> GetUserByBasicAuthenticationAsync(UserLoginDto userLoginDto)
         {
             var user = await _dal.GetUserByBasicAuthenticationAsync(userLoginDto);
+            if (user == null)
+                return null;
 
             //Check if user token is not UpToDate
             if(user.TokenExpirationDate.ToUniversalTime() < DateTime.UtcNow){

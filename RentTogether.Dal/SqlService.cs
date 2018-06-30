@@ -222,7 +222,7 @@ namespace RentTogether.Dal
         {
             try
             {
-                var user = await _rentTogetherDbContext.Users.SingleOrDefaultAsync(x => x.Token == token && x.IsAdmin == 1);
+                var user = await _rentTogetherDbContext.Users.SingleOrDefaultAsync(x => x.Token == token);
                 if (user != null)
                 {
                     return _mapperHelper.MapUserToUserApiDto(user);

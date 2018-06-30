@@ -47,7 +47,7 @@ namespace RentTogether.Api.Controllers
                     if (await _authenticationService.CheckIfTokenIsValidAsync(token))
                     {
                         var user = await _userService.GetUserAsyncByToken(token);
-                        if (user.IsAdmin == 1)
+                        if (user!= null)
                         {
                             //Verify if personalities exist
                             var personalitiesApiDtos = await _personalityService.GetAsyncAllPersonalityReferencials();
