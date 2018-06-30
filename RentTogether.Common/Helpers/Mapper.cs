@@ -7,6 +7,7 @@ using RentTogether.Entities.Dto.Message;
 using RentTogether.Entities.Dto.Participant;
 using RentTogether.Entities.Dto.Personality.Detail;
 using RentTogether.Entities.Dto.Personality.Value;
+using RentTogether.Entities.Dto.TargetLocation;
 using RentTogether.Interfaces.Helpers;
 
 namespace RentTogether.Common.Mapper
@@ -81,19 +82,19 @@ namespace RentTogether.Common.Mapper
 
         public User MapUserPatchApiDtoToUser(User user, UserPatchApiDto userPatchApiDto)
         {
-            if (userPatchApiDto.PhoneNumber != "" || userPatchApiDto.PhoneNumber != null)
+            if (!string.IsNullOrEmpty(userPatchApiDto.PhoneNumber))
                 user.PhoneNumber = userPatchApiDto.PhoneNumber;
 
-            if (userPatchApiDto.City != "" || userPatchApiDto.City != null)
+            if (!string.IsNullOrEmpty(userPatchApiDto.City))
                 user.City = userPatchApiDto.City;
 
-            if (userPatchApiDto.Email != "" || userPatchApiDto.Email != null)
+            if (!string.IsNullOrEmpty(userPatchApiDto.Email))
                 user.Email = userPatchApiDto.Email;
 
-            if (userPatchApiDto.FirstName != "" || userPatchApiDto.FirstName != null)
+            if (!string.IsNullOrEmpty(userPatchApiDto.FirstName))
                 user.FirstName = userPatchApiDto.FirstName;
 
-            if (userPatchApiDto.LastName != "" || userPatchApiDto.LastName != null)
+            if (!string.IsNullOrEmpty(userPatchApiDto.LastName))
                 user.LastName = userPatchApiDto.LastName;
 
             if (userPatchApiDto.IsAdmin.HasValue)
@@ -105,10 +106,10 @@ namespace RentTogether.Common.Mapper
             if (userPatchApiDto.IsRoomer.HasValue)
                 user.IsRoomer = userPatchApiDto.IsRoomer.Value;
 
-            if (userPatchApiDto.PostalCode != "" || userPatchApiDto.PostalCode != null)
+            if (!string.IsNullOrEmpty(userPatchApiDto.PostalCode))
                 user.PostalCode = userPatchApiDto.PostalCode;
 
-            if (userPatchApiDto.Password != "" || userPatchApiDto.Password != null)
+            if (!string.IsNullOrEmpty(userPatchApiDto.Password))
                 user.Password = userPatchApiDto.Password;
 
             return user;
@@ -218,6 +219,18 @@ namespace RentTogether.Common.Mapper
             };
         }
 
+        #endregion
+
+        #region TargetLocation
+        public TargetLocationApiDto MapTargetLocationToTargetLocationApiDto(TargetLocation targetLocation){
+            return new TargetLocationApiDto()
+            {
+                City = targetLocation.City,
+                TargetLocationId = targetLocation.TargetLocationId,
+                UserId = targetLocation.User.UserId,
+                PostalCode = targetLocation.PostalCode
+            };
+        }
         #endregion
     }
 }

@@ -7,6 +7,7 @@ using RentTogether.Entities.Dto.Message;
 using RentTogether.Entities.Dto.Participant;
 using RentTogether.Entities.Dto.Personality.Detail;
 using RentTogether.Entities.Dto.Personality.Value;
+using RentTogether.Entities.Dto.TargetLocation;
 
 namespace RentTogether.Interfaces.Helpers
 {
@@ -26,5 +27,7 @@ namespace RentTogether.Interfaces.Helpers
         PersonalityValueApiDto MapPersonalityValueToPersonalityValueApiDto(PersonalityValue personalityValue);
 
         MatchApiDto MapMatchToMatchApiDto(Match match);
+
+        TargetLocationApiDto MapTargetLocationToTargetLocationApiDto(TargetLocation targetLocation);
     }
 }

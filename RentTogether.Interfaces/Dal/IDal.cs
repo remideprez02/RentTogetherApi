@@ -11,6 +11,7 @@ using RentTogether.Entities.Dto.Participant;
 using RentTogether.Entities.Dto.Personality;
 using RentTogether.Entities.Dto.Personality.Detail;
 using RentTogether.Entities.Dto.Personality.Value;
+using RentTogether.Entities.Dto.TargetLocation;
 using RentTogether.Entities.Filters.Users;
 
 namespace RentTogether.Interfaces.Dal
@@ -66,6 +67,13 @@ namespace RentTogether.Interfaces.Dal
         #region Match
         Task<MatchApiDto> PostAsyncMatch(MatchDto matchDto);
         Task<List<MatchApiDto>> GetAsyncListMatches(int userId);
+        #endregion
+
+        #region TargetLocation
+        Task<TargetLocationApiDto> GetAsyncTargetLocationByUserId(int userId);
+        Task<TargetLocationApiDto> PostAsyncTargetLocation(TargetLocationDto targetLocationDto);
+        Task<TargetLocationApiDto> PatchAsyncTargetLocation(TargetLocationDto targetLocationDto);
+        Task<bool> DeleteAsyncTargetLocation(int targetLocationId);
         #endregion
     }
 }

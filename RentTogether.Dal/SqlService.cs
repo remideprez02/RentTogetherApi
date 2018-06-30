@@ -15,6 +15,7 @@ using RentTogether.Entities.Dto.Personality.Detail;
 using RentTogether.Entities.Dto.Personality.Value;
 using RentTogether.Entities.Dto.Personality;
 using RentTogether.Entities.Dto.Match;
+using RentTogether.Entities.Dto.TargetLocation;
 
 namespace RentTogether.Dal
 {
@@ -815,7 +816,7 @@ namespace RentTogether.Dal
                                        .Include(x => x.Personality)
                                        .ThenInclude(xx => xx.User)
                                        .SingleOrDefaultAsync(x => x.UserId == userId);
-                
+
                 var personalityValues = new List<PersonalityValue>();
 
                 foreach (var personalityValue in personalityValueDtos)
@@ -935,7 +936,8 @@ namespace RentTogether.Dal
 
                     match.StatusTargetUser = 1;
                 }
-                else if(match.DateStatusTargetUser < DateTime.UtcNow.AddYears(-20) && matchDto.StatusTargetUser == 2){
+                else if (match.DateStatusTargetUser < DateTime.UtcNow.AddYears(-20) && matchDto.StatusTargetUser == 2)
+                {
                     match.DateStatusTargetUser = new DateTime();
                     match.DateStatusTargetUser = DateTime.UtcNow;
 
@@ -957,7 +959,8 @@ namespace RentTogether.Dal
 
                     match.StatusUser = 1;
                 }
-                else if(match.DateStatusUser < DateTime.UtcNow.AddYears(-20) && matchDto.StatusUser == 2){
+                else if (match.DateStatusUser < DateTime.UtcNow.AddYears(-20) && matchDto.StatusUser == 2)
+                {
                     match.DateStatusUser = new DateTime();
                     match.DateStatusUser = DateTime.UtcNow;
 
@@ -998,6 +1001,11 @@ namespace RentTogether.Dal
                                                        .ThenInclude(xxx => xxx.PersonalityReferencial)
                                                        .SingleOrDefaultAsync(x => x.UserId == userId);
 
+                var matches = await _rentTogetherDbContext.Matches
+                                                          .Include(x => x.User)
+                                                          .Include(x => x.TargetUser)
+                                                          .ToListAsync();
+
                 var users = await _rentTogetherDbContext.Users
                                                         .Include(x => x.Matches)
                                                         .ThenInclude(xx => xx.TargetUser)
@@ -1010,9 +1018,12 @@ namespace RentTogether.Dal
                                                         .ThenInclude(xxx => xxx.PersonalityReferencial)
                                                         .Where(x => x.UserId != userId && x.Personality != null)
                                                         .ToListAsync();
+
+
                 foreach (var userToClean in users)
                 {
-                    if(userToClean.Matches != null && userToClean.Matches.Count > 0){
+                    if (userToClean.Matches != null && userToClean.Matches.Count > 0)
+                    {
                         if (userToClean.Matches.Select(x => x.TargetUser == user) != null)
                             users.Remove(userToClean);
                     }
@@ -1049,7 +1060,8 @@ namespace RentTogether.Dal
                                 result = (variation - 100) * -1;
                             }
 
-                            if(result < 50){
+                            if (result < 50)
+                            {
                                 matchFail = true;
                                 result = 0;
                                 break;
@@ -1059,50 +1071,151 @@ namespace RentTogether.Dal
                             result = 0;
                         }
                         if (matchFail != true)
-                        matchProcessDto.Add(new MatchProcessDto()
-                        {
-                            MatchPercent = result,
-                            UserTargetId = userTarget.UserId
-                        });
+                            matchProcessDto.Add(new MatchProcessDto()
+                            {
+                                MatchPercent = result,
+                                UserTargetId = userTarget.UserId
+                            });
                     }
                 }
 
                 var count = 0;
                 foreach (var match in matchProcessDto.OrderByDescending(x => x.MatchPercent))
                 {
-                    if(user.Matches.Any(x => x.TargetUser.UserId == match.UserTargetId)){
+                    if (user.Matches.Any(x => x.TargetUser.UserId == match.UserTargetId))
+                    {
                         matchProcessDto.Remove(match);
                     }
-                    else{
-                        
-                    user.Matches.Add(new Match()
+                    else
                     {
-                        User = user,
-                        TargetUser = users.SingleOrDefault(x => x.UserId == match.UserTargetId)
-                    });
 
-                    count += 1;
-                    if (count == 10)
-                        break;
+                        user.Matches.Add(new Match()
+                        {
+                            User = user,
+                            TargetUser = users.SingleOrDefault(x => x.UserId == match.UserTargetId)
+                        });
+
+                        count += 1;
+                        if (count == 10)
+                            break;
                     }
-                        
+
                 }
 
                 _rentTogetherDbContext.Users.Update(user);
-            await _rentTogetherDbContext.SaveChangesAsync();
+                await _rentTogetherDbContext.SaveChangesAsync();
 
-            foreach (var match in user.Matches.OrderByDescending(x => x.MatchId))
-            {
-                matchApiDtos.Add(_mapperHelper.MapMatchToMatchApiDto(match));
+                foreach (var match in user.Matches.OrderByDescending(x => x.MatchId))
+                {
+                    matchApiDtos.Add(_mapperHelper.MapMatchToMatchApiDto(match));
+                }
+
+                return matchApiDtos;
             }
-
-            return matchApiDtos;
-        }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
-    }
-}
+            }
+        }
+        #endregion
+
+        #region TargetLocation
+        public async Task<TargetLocationApiDto> GetAsyncTargetLocationByUserId(int userId)
+        {
+            try
+            {
+                var targetLocation = await _rentTogetherDbContext.TargetLocations
+                                                                 .Include(x => x.User)
+                                                                 .SingleOrDefaultAsync(x => x.User.UserId == userId);
+                if (targetLocation == null)
+                    return null;
+
+                return _mapperHelper.MapTargetLocationToTargetLocationApiDto(targetLocation);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<TargetLocationApiDto> PostAsyncTargetLocation(TargetLocationDto targetLocationDto)
+        {
+            try
+            {
+                var user = await _rentTogetherDbContext.Users
+                                                   .SingleOrDefaultAsync(x => x.UserId == targetLocationDto.UserId);
+                if (user == null)
+                    return null;
+
+                var targetLocation = new TargetLocation()
+                {
+                    City = targetLocationDto.City,
+                    PostalCode = targetLocationDto.PostalCode,
+                    User = user
+                };
+
+                await _rentTogetherDbContext.TargetLocations
+                                            .AddAsync(targetLocation);
+                
+                await _rentTogetherDbContext.SaveChangesAsync();
+
+                return _mapperHelper.MapTargetLocationToTargetLocationApiDto(targetLocation);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<TargetLocationApiDto> PatchAsyncTargetLocation(TargetLocationDto targetLocationDto)
+        {
+            try
+            {
+                var targetLocation = await _rentTogetherDbContext.TargetLocations
+                                                             .Include(x => x.User)
+                                                             .SingleOrDefaultAsync(x => x.User.UserId == targetLocationDto.UserId);
+                if (targetLocation == null)
+                    return null;
+                
+                if (!string.IsNullOrEmpty(targetLocationDto.City))
+                    targetLocation.City = targetLocationDto.City;
+
+                if (!string.IsNullOrEmpty(targetLocationDto.PostalCode))
+                    targetLocation.PostalCode = targetLocationDto.PostalCode;
+
+                _rentTogetherDbContext.TargetLocations.Update(targetLocation);
+
+                await _rentTogetherDbContext.SaveChangesAsync();
+
+                return _mapperHelper.MapTargetLocationToTargetLocationApiDto(targetLocation);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> DeleteAsyncTargetLocation(int targetLocationId)
+        {
+            try
+            {
+                var targetLocation = await _rentTogetherDbContext.TargetLocations
+                                                             .Include(x => x.User)
+                                                                 .SingleOrDefaultAsync(x => x.TargetLocationId == targetLocationId);
+                if (targetLocation == null)
+                    return false;
+                
+                _rentTogetherDbContext.TargetLocations.Remove(targetLocation);
+                await _rentTogetherDbContext.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         #endregion
 
     }

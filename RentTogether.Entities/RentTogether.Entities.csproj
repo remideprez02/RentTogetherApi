@@ -20,6 +20,7 @@
     <Folder Include="Dto\Personality\Value\" />
     <Folder Include="Dto\Media\Personality\" />
     <Folder Include="Dto\Match\" />
+    <Folder Include="Dto\TargetLocation\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-beta4" />
@@ -31,5 +32,7 @@
   <ItemGroup>
     <Compile Remove="Validation.cs" />
     <Compile Remove="Demand.cs" />
+    <Compile Remove="DesiredBuilding.cs" />
+    <Compile Remove="Dto\TargetLocation\TargetLocationPatchDto.cs" />
   </ItemGroup>
 </Project>

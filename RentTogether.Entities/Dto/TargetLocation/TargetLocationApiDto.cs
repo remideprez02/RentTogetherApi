@@ -1,0 +1,12 @@
+﻿using System;
+namespace RentTogether.Entities.Dto.TargetLocation
+{
+    public class TargetLocationApiDto
+    {
+        public int TargetLocationId { get; set; }
+
+        public int UserId { get; set; }
+        public string PostalCode { get; set; }
+        public string City { get; set; }
+    }
+}

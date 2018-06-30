@@ -26,6 +26,7 @@ namespace RentTogether.Entities
 		public DbSet<FavoriteUser> FavoriteUsers { get; set; } 
 		public DbSet<UserPicture> UserPictures { get; set; }
         public DbSet<PersonalityValue> PersonalityValues { get; set; }
+        public DbSet<TargetLocation> TargetLocations { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -86,10 +87,11 @@ namespace RentTogether.Entities
 			            .HasForeignKey<User>(x => x.DesiredPersonalityFk)
 			            .IsRequired(false);
 
-			//User DesiredBuildings
+			//User Target Location
 			modelBuilder.Entity<User>()
-						.HasMany(x => x.DesiredBuildings)
-						.WithOne(x => x.User);
+                        .HasOne(x => x.TargetLocation)
+						.WithOne(x => x.User)
+                        .HasForeignKey<User>(x => x.TargetLocationFk);
 
 			//User FavoriteBuildings
 			modelBuilder.Entity<User>()
@@ -249,12 +251,12 @@ namespace RentTogether.Entities
 			            .HasMany(x => x.TargetBuildings);
 
 			//Desired Building
-			modelBuilder.Entity<DesiredBuilding>()
-						.HasKey(x => x.DesiredBuildingId);
+            modelBuilder.Entity<TargetLocation>()
+                        .HasKey(x => x.TargetLocationId);
 
-			modelBuilder.Entity<DesiredBuilding>()
+            modelBuilder.Entity<TargetLocation>()
 						.HasOne(x => x.User)
-						.WithMany(x => x.DesiredBuildings);
+                        .WithOne(x => x.TargetLocation);
 
 			//Favorite User
 			modelBuilder.Entity<FavoriteUser>()
