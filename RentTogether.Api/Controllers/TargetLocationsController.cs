@@ -50,10 +50,10 @@ namespace RentTogether.Api.Controllers
                         if (await _authenticationService.CheckIfTokenIsValidAsync(token, userId))
                         {
                             //Verify if messages for this userId exist
-                            var targetLocationApiDto = await _targetLocationService.GetAsyncTargetLocationByUserId(userId);
+                            var targetLocationApiDto = await _targetLocationService.GetAsyncTargetLocationsByUserId(userId);
                             if (targetLocationApiDto == null)
                             {
-                                return StatusCode(404, "Target Location Not Found.");
+                                return StatusCode(404, "Target Location(s) Not Found.");
                             }
                             return Ok(targetLocationApiDto);
                         }
@@ -66,31 +66,31 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid Authorization.");
         }
 
-        [Route("api/TargetLocations")]
+        [Route("api/TargetLocations/{userId}")]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]TargetLocationDto targetLocationDto)
+        public async Task<IActionResult> Post([FromBody]List<TargetLocationDto> targetLocationDto, int userId)
         {
             //Get header token
-            if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues) && targetLocationDto.UserId > -1)
+            if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues) && userId > -1)
             {
                 var token = _customEncoder.DecodeBearerAuth(headerValues.First());
 
                 if (token != null)
                 {
-                    if (targetLocationDto != null)
+                    if (targetLocationDto != null || targetLocationDto.Count > 0)
                     {
-                        var user = await _userService.GetUserApiDtoAsyncById(targetLocationDto.UserId);
+                        var user = await _userService.GetUserApiDtoAsyncById(userId);
 
                         if (user != null)
                         {
                             //Verify if the token exist and is not expire
-                            if (await _authenticationService.CheckIfTokenIsValidAsync(token, targetLocationDto.UserId))
+                            if (await _authenticationService.CheckIfTokenIsValidAsync(token, userId))
                             {
                                 //Verify if messages for this userId exist
-                                var targetLocationApiDto = await _targetLocationService.PostAsyncTargetLocation(targetLocationDto);
+                                var targetLocationApiDto = await _targetLocationService.PostAsyncTargetLocation(targetLocationDto, userId);
                                 if (targetLocationApiDto == null)
                                 {
-                                    return StatusCode(404, "Unable to post target location.");
+                                    return StatusCode(404, "Unable to post target location(s).");
                                 }
                                 return Ok(targetLocationApiDto);
                             }
@@ -105,28 +105,28 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid Authorization.");
         }
 
-        [Route("api/TargetLocations")]
+        [Route("api/TargetLocations/{userId}")]
         [HttpPatch]
-        public async Task<IActionResult> Patch([FromBody]TargetLocationDto targetLocationDto)
+        public async Task<IActionResult> Patch([FromBody]List<TargetLocationPatchDto> targetLocationPatchDtos, int userId)
         {
             //Get header token
-            if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues) && targetLocationDto.UserId > -1)
+            if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues) && userId > -1)
             {
                 var token = _customEncoder.DecodeBearerAuth(headerValues.First());
 
                 if (token != null)
                 {
-                    if (targetLocationDto != null)
+                    if (targetLocationPatchDtos != null || targetLocationPatchDtos.Count > 0)
                     {
-                        var user = await _userService.GetUserApiDtoAsyncById(targetLocationDto.UserId);
+                        var user = await _userService.GetUserApiDtoAsyncById(userId);
 
                         if (user != null)
                         {
                             //Verify if the token exist and is not expire
-                            if (await _authenticationService.CheckIfTokenIsValidAsync(token, targetLocationDto.UserId))
+                            if (await _authenticationService.CheckIfTokenIsValidAsync(token, userId))
                             {
                                 //Verify if messages for this userId exist
-                                var targetLocationApiDto = await _targetLocationService.PatchAsyncTargetLocation(targetLocationDto);
+                                var targetLocationApiDto = await _targetLocationService.PatchAsyncTargetLocation(targetLocationPatchDtos, userId);
                                 if (targetLocationApiDto == null)
                                 {
                                     return StatusCode(404, "Unable to patch target location.");

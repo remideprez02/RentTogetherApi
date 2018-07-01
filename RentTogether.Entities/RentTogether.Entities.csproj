@@ -21,6 +21,9 @@
     <Folder Include="Dto\Media\Personality\" />
     <Folder Include="Dto\Match\" />
     <Folder Include="Dto\TargetLocation\" />
+    <Folder Include="Dto\Building\" />
+    <Folder Include="Dto\BuildingUser\" />
+    <Folder Include="Dto\BuildingPicture\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-beta4" />
@@ -33,7 +36,6 @@
     <Compile Remove="Validation.cs" />
     <Compile Remove="Demand.cs" />
     <Compile Remove="DesiredBuilding.cs" />
-    <Compile Remove="Dto\TargetLocation\TargetLocationPatchDto.cs" />
     <Compile Remove="Dto\Personality\Value\PersonalityValueDetailApiDto.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -74,9 +74,9 @@ namespace RentTogether.Interfaces.Dal
         #endregion
 
         #region TargetLocation
-        Task<TargetLocationApiDto> GetAsyncTargetLocationByUserId(int userId);
-        Task<TargetLocationApiDto> PostAsyncTargetLocation(TargetLocationDto targetLocationDto);
-        Task<TargetLocationApiDto> PatchAsyncTargetLocation(TargetLocationDto targetLocationDto);
+        Task<List<TargetLocationApiDto>> GetAsyncTargetLocationsByUserId(int userId);
+        Task<List<TargetLocationApiDto>> PostAsyncTargetLocation(List<TargetLocationDto> targetLocationDtos, int userId);
+        Task<List<TargetLocationApiDto>> PatchAsyncTargetLocation(List<TargetLocationPatchDto> targetLocationPatchDtos, int userId);
         Task<bool> DeleteAsyncTargetLocation(int targetLocationId);
         #endregion
     }

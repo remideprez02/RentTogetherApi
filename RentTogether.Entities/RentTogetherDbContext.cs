@@ -84,11 +84,10 @@ namespace RentTogether.Entities
 			            .HasForeignKey<User>(x => x.DesiredPersonalityFk)
 			            .IsRequired(false);
 
-			//User Target Location
-			modelBuilder.Entity<User>()
-                        .HasOne(x => x.TargetLocation)
-						.WithOne(x => x.User)
-                        .HasForeignKey<User>(x => x.TargetLocationFk);
+            //User Target Location
+            modelBuilder.Entity<User>()
+                        .HasMany(x => x.TargetLocations)
+                        .WithOne(x => x.User);
 
 			//User FavoriteBuildings
 			modelBuilder.Entity<User>()
@@ -257,7 +256,7 @@ namespace RentTogether.Entities
 
             modelBuilder.Entity<TargetLocation>()
 						.HasOne(x => x.User)
-                        .WithOne(x => x.TargetLocation);
+                        .WithMany(x => x.TargetLocations);
 
 			//Favorite User
 			modelBuilder.Entity<FavoriteUser>()

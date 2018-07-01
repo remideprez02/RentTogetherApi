@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using RentTogether.Entities.Dto.TargetLocation;
 
@@ -6,9 +7,9 @@ namespace RentTogether.Interfaces.Business
 {
     public interface ITargetLocationService
     {
-        Task<TargetLocationApiDto> GetAsyncTargetLocationByUserId(int userId);
-        Task<TargetLocationApiDto> PostAsyncTargetLocation(TargetLocationDto targetLocationDto);
-        Task<TargetLocationApiDto> PatchAsyncTargetLocation(TargetLocationDto targetLocationDto);
+        Task<List<TargetLocationApiDto>> GetAsyncTargetLocationsByUserId(int userId);
+        Task<List<TargetLocationApiDto>> PostAsyncTargetLocation(List<TargetLocationDto> targetLocationDtos, int userId);
+        Task<List<TargetLocationApiDto>> PatchAsyncTargetLocation(List<TargetLocationPatchDto> targetLocationPatchDtos, int userId);
         Task<bool> DeleteAsyncTargetLocation(int targetLocationId);
     }
 }

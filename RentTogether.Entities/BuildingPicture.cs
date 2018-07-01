@@ -11,7 +11,7 @@ namespace RentTogether.Entities
         
         [Key]
 		public int BuildingPictureId { get; set; }
-		public string Uri { get; set; }
+        public string FileToBase64 { get; set; }
 		public Building Building { get; set; }
     }
 }

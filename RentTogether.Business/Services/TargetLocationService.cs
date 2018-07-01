@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using RentTogether.Entities.Dto.TargetLocation;
 using RentTogether.Interfaces.Business;
@@ -14,16 +15,16 @@ namespace RentTogether.Business.Services
             _dal = dal;
         }
 
-        public async Task<TargetLocationApiDto> GetAsyncTargetLocationByUserId(int userId){
-           return await _dal.GetAsyncTargetLocationByUserId(userId);
+        public async Task<List<TargetLocationApiDto>> GetAsyncTargetLocationsByUserId(int userId){
+           return await _dal.GetAsyncTargetLocationsByUserId(userId);
         }
 
-        public async Task<TargetLocationApiDto> PostAsyncTargetLocation(TargetLocationDto targetLocationDto){
-            return await _dal.PostAsyncTargetLocation(targetLocationDto);
+        public async Task<List<TargetLocationApiDto>> PostAsyncTargetLocation(List<TargetLocationDto> targetLocationDtos, int userId){
+            return await _dal.PostAsyncTargetLocation(targetLocationDtos, userId);
         }
 
-        public async Task<TargetLocationApiDto> PatchAsyncTargetLocation(TargetLocationDto targetLocationDto){
-            return await _dal.PatchAsyncTargetLocation(targetLocationDto);
+        public async Task<List<TargetLocationApiDto>> PatchAsyncTargetLocation(List<TargetLocationPatchDto> targetLocationPatchDtos, int userId){
+            return await _dal.PatchAsyncTargetLocation(targetLocationPatchDtos, userId);
         }
 
         public async Task<bool> DeleteAsyncTargetLocation(int targetLocationId){

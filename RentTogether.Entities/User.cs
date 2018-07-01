@@ -39,7 +39,7 @@ namespace RentTogether.Entities
 		public DesiredPersonality DesiredPersonality { get; set; }
 		public int? DesiredPersonalityFk { get; set; }
 
-        public TargetLocation TargetLocation { get; set; }
+        public List<TargetLocation> TargetLocations { get; set; }
 		public List<FavoriteBuilding> FavoriteBuildings { get; set; }
 		public List<BuildingUser> BuildingUsers { get; set; }
         
@@ -50,7 +50,6 @@ namespace RentTogether.Entities
 		public int? PersonalityFk { get; set; }
 		public int? Vote1Fk { get; set; }
 		public int? Vote2Fk { get; set; }
-        public int? TargetLocationFk { get; set; }
         public int? MatchFk { get; set; }
        
     }
