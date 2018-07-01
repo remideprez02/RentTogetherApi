@@ -215,6 +215,7 @@ namespace RentTogether.Common.Mapper
                 MatchId = match.MatchId,
                 StatusUser = match.StatusUser,
                 StatusTargetUser = match.StatusTargetUser,
+                Average = match.Average
             };
             matchApiDto.MatchDetailApiDtos = new System.Collections.Generic.List<MatchDetailApiDto>();
             foreach (var item in match.MatchDetails)

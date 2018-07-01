@@ -14,5 +14,6 @@ namespace RentTogether.Entities.Dto.Match
 
         public int StatusUser { get; set; }
         public int StatusTargetUser { get; set; }
+        public int Average { get; set; }
     }
 }

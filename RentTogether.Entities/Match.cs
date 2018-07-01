@@ -18,7 +18,7 @@ namespace RentTogether.Entities
 
 		public int StatusUser { get; set; }
         public int StatusTargetUser { get; set; }
-
+        public int Average { get; set; }
         public List<MatchDetail> MatchDetails { get; set; }
     }
 }

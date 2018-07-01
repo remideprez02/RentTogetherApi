@@ -1197,13 +1197,20 @@ namespace RentTogether.Dal
                         }
                         var status = users.SingleOrDefault(x => x.UserId == userTarget.UserId)?.Matches.FirstOrDefault(x => x?.User.UserId == userTarget.UserId)?.StatusUser;
                         var statusToAdd = status ?? 0;
+                        var total = 0;
+                        matchDetails.ForEach(m =>
+                        {
+                            total = total + m.Percent;
+                        });
+                        var average = total / matchDetails.Count;
                         newUserMatches.Add(new Match()
                         {
                             User = user,
                             TargetUser = users.SingleOrDefault(x => x.UserId == userTarget.UserId),
                             StatusTargetUser = statusToAdd,
                             StatusUser = 0,
-                            MatchDetails = matchDetails
+                            MatchDetails = matchDetails,
+                            Average = average
                         });
                     }
                     matchDetails = new List<MatchDetail>();
