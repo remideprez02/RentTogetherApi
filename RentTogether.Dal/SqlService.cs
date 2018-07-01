@@ -979,6 +979,8 @@ namespace RentTogether.Dal
                                                         .Include(x => x.MatchDetails)
                                                         .ThenInclude(xx => xx.PersonalityReferencial)
                                                         .SingleOrDefaultAsync(x => x.MatchId == matchDto.MatchId);
+                if (match == null)
+                    return null;
 
                 if (matchDto.StatusUser == 1)
                     match.StatusUser = 1;
@@ -1079,7 +1081,7 @@ namespace RentTogether.Dal
 
                 if (user.Matches.Any(x => x.StatusUser == 0))
                 {
-                    foreach (var userMatch in user.Matches.Where(x => x.StatusUser == 0))
+                    foreach (var userMatch in user.Matches.Where(x => x.StatusUser == 0 && x.StatusTargetUser != 2))
                     {
                         matchApiDtos.Add(_mapperHelper.MapMatchToMatchApiDto(userMatch));
                     }
@@ -1282,6 +1284,24 @@ namespace RentTogether.Dal
                                                        .SingleOrDefaultAsync(x => x.UserId == userId);
                 if (user == null)
                     return null;
+
+                var matchesTargetUser = await _rentTogetherDbContext.Matches
+                                                  .Include(x => x.TargetUser)
+                                                  .Include(x => x.User)
+                                                  .Include(x => x.MatchDetails)
+                                                  .ThenInclude(xx => xx.PersonalityReferencial)
+                                                  .Where(x => x.TargetUser.UserId == userId && x.StatusTargetUser == 2)
+                                                  .ToListAsync();
+
+                if(matchesTargetUser != null)
+                {
+                    foreach (var matchTargetUser in matchesTargetUser)
+                    {
+                        matchTargetUser.StatusTargetUser = 0;
+                        _rentTogetherDbContext.Update(matchTargetUser);
+                        await _rentTogetherDbContext.SaveChangesAsync();
+                    }
+                }
 
                 var matchApiDtos = new List<MatchApiDto>();
                 foreach (var match in user.Matches.Where(x => x.StatusUser == 2))
