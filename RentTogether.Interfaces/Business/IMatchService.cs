@@ -12,5 +12,6 @@ namespace RentTogether.Interfaces.Business
         Task<List<MatchApiDto>> GetAsyncListMatches(int userId);
         Task<List<MatchApiDto>> PatchAsyncMatches(int userId);
         Task<bool> DeleteAsyncMatch(int matchId);
+        Task<List<MatchApiDto>> GetAsyncValidateMatches(int userId);
     }
 }

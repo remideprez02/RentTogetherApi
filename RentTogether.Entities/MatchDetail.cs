@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace RentTogether.Entities
 {
     public class MatchDetail
@@ -6,5 +8,12 @@ namespace RentTogether.Entities
         public MatchDetail()
         {
         }
+        [Key]
+        public int MatchDetailId { get; set; }
+
+        public Match Match { get; set; }
+        public PersonalityReferencial PersonalityReferencial { get; set; }
+        public int Percent { get; set; }
+        public int Value { get; set; }
     }
 }

@@ -27,6 +27,7 @@ namespace RentTogether.Entities
 		public DbSet<UserPicture> UserPictures { get; set; }
         public DbSet<PersonalityValue> PersonalityValues { get; set; }
         public DbSet<TargetLocation> TargetLocations { get; set; }
+        public DbSet<MatchDetail> MatchDetails { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -57,11 +58,7 @@ namespace RentTogether.Entities
             //User Matches
             modelBuilder.Entity<User>()
 			            .HasMany(x => x.Matches)
-			            .WithOne();
-			
-            modelBuilder.Entity<User>()
-			            .HasMany(x => x.Matches)
-			            .WithOne();
+                        .WithOne(x => x.User);
 
             //User Message
             modelBuilder.Entity<User>()
@@ -222,11 +219,15 @@ namespace RentTogether.Entities
 			
 			modelBuilder.Entity<Match>()
                         .HasOne(x => x.User)
-			            .WithMany();
-			
-			modelBuilder.Entity<Match>()
+                        .WithMany(x => x.Matches);
+
+            modelBuilder.Entity<Match>()
                         .HasOne(x => x.TargetUser)
-			            .WithMany();
+                        .WithMany();
+
+            modelBuilder.Entity<Match>()
+                        .HasMany(x => x.MatchDetails)
+                        .WithOne(x => x.Match);
 
             //Building Message
 			modelBuilder.Entity<BuildingMessage>()
@@ -274,6 +275,16 @@ namespace RentTogether.Entities
                         .HasKey(x => x.PersonalityValueId);
             
             modelBuilder.Entity<PersonalityValue>()
+                        .HasOne(x => x.PersonalityReferencial);
+
+            modelBuilder.Entity<MatchDetail>()
+                        .HasKey(x => x.MatchDetailId);
+
+            modelBuilder.Entity<MatchDetail>()
+                        .HasOne(x => x.Match)
+                        .WithMany(x => x.MatchDetails);
+
+            modelBuilder.Entity<MatchDetail>()
                         .HasOne(x => x.PersonalityReferencial);
         }
     }

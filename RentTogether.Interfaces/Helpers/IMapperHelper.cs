@@ -27,6 +27,7 @@ namespace RentTogether.Interfaces.Helpers
         PersonalityValueApiDto MapPersonalityValueToPersonalityValueApiDto(PersonalityValue personalityValue);
 
         MatchApiDto MapMatchToMatchApiDto(Match match);
+        MatchDetailApiDto MapMapDetailToMatchDetailApiDto(MatchDetail matchDetail);
 
         TargetLocationApiDto MapTargetLocationToTargetLocationApiDto(TargetLocation targetLocation);
     }

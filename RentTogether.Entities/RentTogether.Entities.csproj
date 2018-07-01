@@ -34,5 +34,9 @@
     <Compile Remove="Demand.cs" />
     <Compile Remove="DesiredBuilding.cs" />
     <Compile Remove="Dto\TargetLocation\TargetLocationPatchDto.cs" />
+    <Compile Remove="Dto\Personality\Value\PersonalityValueDetailApiDto.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Dto\Personality\Value\PersonalityValueDetailApiDto.config" />
   </ItemGroup>
 </Project>

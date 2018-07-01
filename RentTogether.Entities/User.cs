@@ -51,6 +51,7 @@ namespace RentTogether.Entities
 		public int? Vote1Fk { get; set; }
 		public int? Vote2Fk { get; set; }
         public int? TargetLocationFk { get; set; }
+        public int? MatchFk { get; set; }
        
     }
 }

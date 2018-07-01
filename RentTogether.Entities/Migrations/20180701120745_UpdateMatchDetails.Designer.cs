@@ -11,9 +11,10 @@ using System;
 namespace RentTogether.Entities.Migrations
 {
     [DbContext(typeof(RentTogetherDbContext))]
-    partial class RentTogetherDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180701120745_UpdateMatchDetails")]
+    partial class UpdateMatchDetails
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

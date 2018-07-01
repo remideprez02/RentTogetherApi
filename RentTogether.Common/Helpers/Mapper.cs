@@ -204,16 +204,37 @@ namespace RentTogether.Common.Mapper
         }
         #endregion
 
-        #region Match  
+        #region Match   
 
         public MatchApiDto MapMatchToMatchApiDto(Match match)
         {
-            return new MatchApiDto()
+            var matchApiDto = new MatchApiDto()
             {
                 UserId = match.User.UserId,
-                TargetUserId = match.TargetUser.UserId,
+                TargetUser = MapUserToUserApiDto(match.TargetUser),
                 MatchId = match.MatchId,
-                StatusUser = match.StatusUser
+                StatusUser = match.StatusUser,
+                StatusTargetUser = match.StatusTargetUser,
+            };
+            matchApiDto.MatchDetailApiDtos = new System.Collections.Generic.List<MatchDetailApiDto>();
+            foreach (var item in match.MatchDetails)
+            {
+                matchApiDto.MatchDetailApiDtos.Add(new MatchDetailApiDto()
+                {
+                    DetailPersonalityApiDto = MapPersonalityReferencialToDetailPersonalityApiDto(item.PersonalityReferencial),
+                    Percent = item.Percent,
+                    Value = item.Value
+                });
+            }
+            return matchApiDto;
+        }
+
+        public MatchDetailApiDto MapMapDetailToMatchDetailApiDto(MatchDetail matchDetail){
+            return new MatchDetailApiDto()
+            {
+                DetailPersonalityApiDto = MapPersonalityReferencialToDetailPersonalityApiDto(matchDetail.PersonalityReferencial),
+                Percent = matchDetail.Percent,
+                Value = matchDetail.Value
             };
         }
 

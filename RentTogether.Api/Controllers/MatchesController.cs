@@ -66,6 +66,34 @@ namespace RentTogether.Api.Controllers
         }
 
         [HttpGet]
+        [Route("api/Matches/{userId}/GetValidateMatches")]
+        public async Task<IActionResult> GetValidateMatches(int userId)
+        {
+            //Get header token
+            if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues) && userId > -1)
+            {
+                var token = _customEncoder.DecodeBearerAuth(headerValues.First());
+                if (token != null)
+                {
+                    //Verify if the token exist and is not expire
+                    if (await _authenticationService.CheckIfTokenIsValidAsync(token, userId))
+                    {
+                        //Verify if messages for this userId exist
+                        var matchApiDtos = await _matchService.GetAsyncValidateMatches(userId);
+                        if (matchApiDtos == null || matchApiDtos.Count <= 0)
+                        {
+                            return StatusCode(404, "Validate Match(es) not found.");
+                        }
+                        return Ok(matchApiDtos);
+                    }
+                    return StatusCode(401, "Invalid token.");
+                }
+                return StatusCode(401, "Invalid Authorization.");
+            }
+            return StatusCode(401, "Invalid Authorization.");
+        }
+
+        [HttpGet]
         [Route("api/Matches/{userId}/GetAllMatches")]
         public async Task<IActionResult> GetAllMatches(int userId)
         {
@@ -142,16 +170,16 @@ namespace RentTogether.Api.Controllers
                         {
 
                             var matchApiDtos = await _matchService.PatchAsyncMatches(userId);
-                            if (matchApiDtos == null)
+                            if (matchApiDtos.Count == 0)
                             {
-                                return StatusCode(404, "Unable to patch matches.");
+                                return StatusCode(404, "No matche(s) to patch.");
                             }
                             return Ok(matchApiDtos);
 
                         }
                         return StatusCode(401, "Invalid Token.");
                     }
-                    return StatusCode(403, "Invalid data model.");
+                    return StatusCode(403, "Invalid User.");
                 }
                 return StatusCode(401, "Invalid Authorization.");
             }
@@ -184,7 +212,7 @@ namespace RentTogether.Api.Controllers
                         }
                         return StatusCode(401, "Invalid Token.");
                     }
-                    return StatusCode(403, "Invalid user.");
+                    return StatusCode(401, "Invalid Token.");
                 }
                 return StatusCode(401, "Invalid Authorization.");
             }

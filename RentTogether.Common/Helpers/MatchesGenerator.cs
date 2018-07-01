@@ -14,11 +14,12 @@ namespace RentTogether.Common.Helpers
         {
         }
 
-        public List<Match> GenerateMatchesForUser(User user, List<User> users)
+        List<Match> IMatchesGenerator.GenerateMatchesForUser(User user, List<User> users)
         {
             try
             {
                 var matchProcessDto = new List<MatchProcessDto>();
+                var percentPerValue = new List<Tuple<int, int>>();
 
                 var result = 0;
                 var matchFail = false;
@@ -45,28 +46,29 @@ namespace RentTogether.Common.Helpers
                             if (result < 50)
                             {
                                 matchFail = true;
+                                percentPerValue = new List<Tuple<int, int>>();
+                            }
+                            if(matchFail != true)
+                            {
+                                var tuple = new Tuple<int, int>(userValue.PersonalityReferencial.PersonalityReferencialId, result);
+
+                                percentPerValue.Add(tuple);
                             }
                             result = 0;
                         }
                     }
                     if (matchFail != true)
-                        matchProcessDto.Add(new MatchProcessDto()
+                    {
+                        user.Matches.Add(new Match()
                         {
-                            MatchPercent = result,
-                            UserTargetId = userTarget.UserId
+                            User = user,
+                            TargetUser = users.SingleOrDefault(x => x.UserId == userTarget.UserId)
                         });
+                    }
+
                     matchFail = false;
                 }
 
-                foreach (var match in matchProcessDto.OrderByDescending(x => x.MatchPercent))
-                {
-
-                    user.Matches.Add(new Match()
-                    {
-                        User = user,
-                        TargetUser = users.SingleOrDefault(x => x.UserId == match.UserTargetId)
-                    });
-                }
                 return user.Matches;
             }
             catch (Exception ex)

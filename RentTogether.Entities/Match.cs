@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace RentTogether.Entities
@@ -16,5 +17,8 @@ namespace RentTogether.Entities
         public User TargetUser { get; set; }
 
 		public int StatusUser { get; set; }
+        public int StatusTargetUser { get; set; }
+
+        public List<MatchDetail> MatchDetails { get; set; }
     }
 }

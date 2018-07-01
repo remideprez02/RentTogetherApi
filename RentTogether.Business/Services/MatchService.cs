@@ -30,5 +30,8 @@ namespace RentTogether.Business.Services
         public async Task<List<MatchApiDto>> GetAsyncAllMatches(int userId){
             return await _dal.GetAsyncAllMatches(userId);
         }
+        public async Task<List<MatchApiDto>> GetAsyncValidateMatches(int userId){
+            return await _dal.GetAsyncValidateMatches(userId);
+        }
     }
 }
