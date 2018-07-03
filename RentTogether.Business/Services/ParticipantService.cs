@@ -23,8 +23,8 @@ namespace RentTogether.Business.Services
 			return await _dal.GetAllParticipantAsync();
 		}
 
-		public async Task<ParticipantApiDto> PostAsyncParticipantToExistingConversation(ParticipantDto participantDto){
-			var participantApiDto = await _dal.PostAsyncParticipantToExistingConversation(participantDto);
+        public async Task<List<ParticipantApiDto>> PostAsyncParticipantToExistingConversation(List<ParticipantDto> participantDtos){
+            var participantApiDto = await _dal.PostAsyncParticipantToExistingConversation(participantDtos);
 			return participantApiDto;
 		}
     }

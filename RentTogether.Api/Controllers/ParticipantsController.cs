@@ -7,6 +7,7 @@ using RentTogether.Interfaces.Helpers;
 using Microsoft.Extensions.Primitives;
 using System.Linq;
 using RentTogether.Entities.Dto.Participant;
+using System.Collections.Generic;
 
 namespace RentTogether.Api.Controllers
 {
@@ -94,7 +95,7 @@ namespace RentTogether.Api.Controllers
         //POST Conversation
         [Route("api/Participants")]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]ParticipantDto participantDto)
+        public async Task<IActionResult> Post([FromBody]List<ParticipantDto> participantDto)
         {
             //Get header token
             if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues))
@@ -109,7 +110,7 @@ namespace RentTogether.Api.Controllers
 						var participantApiDto = await _participantService.PostAsyncParticipantToExistingConversation(participantDto);
 						if (participantApiDto == null)
                         {
-                            return StatusCode(400, "Unable to add participant to existing conversation.");
+                            return StatusCode(400, "Unable to add participant(s) to existing conversation.");
                         }
 						return Ok(participantApiDto);
                     }

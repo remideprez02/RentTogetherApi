@@ -74,6 +74,8 @@ namespace RentTogether.Business.Services
             if (user == null)
                 return null;
 
+            var time = user.TokenExpirationDate.ToUniversalTime();
+
             //Check if user token is not UpToDate
             if(user.TokenExpirationDate.ToUniversalTime() < DateTime.UtcNow){
                 //Update token user

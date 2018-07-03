@@ -1,13 +1,13 @@
 ﻿using System;
-namespace RentTogether.Entities
+namespace RentTogether.Entities.Dto.BuildingMessage
 {
-    public class BuildingMessage
+    public class BuildingMessageApiDto
     {
         public int BuildingMessageId { get; set; }
         public string MessageText { get; set; }
         public DateTime CreatedDate { get; set; }
-        public User Writer { get; set; }
-		public Building Building { get; set; }
+        public UserApiDto Writer { get; set; }
+        public int BuildingId { get; set; }
         public int IsReport { get; set; }
     }
 }

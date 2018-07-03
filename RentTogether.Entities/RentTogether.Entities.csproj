@@ -24,6 +24,7 @@
     <Folder Include="Dto\Building\" />
     <Folder Include="Dto\BuildingUser\" />
     <Folder Include="Dto\BuildingPicture\" />
+    <Folder Include="Dto\BuildingMessage\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-beta4" />

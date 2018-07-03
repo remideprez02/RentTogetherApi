@@ -9,6 +9,6 @@ namespace RentTogether.Interfaces.Business
     {
 		Task<ParticipantApiDto> GetParticipantAsyncByUserId(int userId);
 		Task<List<ParticipantApiDto>> GetAllParticipantsAsync();
-		Task<ParticipantApiDto> PostAsyncParticipantToExistingConversation(ParticipantDto participantDto);
+        Task<List<ParticipantApiDto>> PostAsyncParticipantToExistingConversation(List<ParticipantDto> participantDtos);
     }
 }

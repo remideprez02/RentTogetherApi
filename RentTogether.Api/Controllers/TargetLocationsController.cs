@@ -43,7 +43,7 @@ namespace RentTogether.Api.Controllers
                 var token = _customEncoder.DecodeBearerAuth(headerValues.First());
                 if (token != null)
                 {
-                    var user = await _userService.GetUserApiDtoAsyncById(userId);
+                    var user = await _userService.GetUserAsyncByToken(token);
                     if (user != null)
                     {
                         //Verify if the token exist and is not expire
@@ -57,6 +57,18 @@ namespace RentTogether.Api.Controllers
                             }
                             return Ok(targetLocationApiDto);
                         }
+                        //Verify if the token exist and is not expire
+                        if (await _authenticationService.CheckIfTokenIsValidAsync(token) && user.IsAdmin == 1)
+                        {
+                            //Verify if messages for this userId exist
+                            var targetLocationApiDto = await _targetLocationService.GetAsyncTargetLocationsByUserId(userId);
+                            if (targetLocationApiDto == null)
+                            {
+                                return StatusCode(404, "Target Location(s) Not Found.");
+                            }
+                            return Ok(targetLocationApiDto);
+                        }
+
                         return StatusCode(401, "Invalid Token.");
                     }
                     return StatusCode(403, "Invalid user.");
@@ -79,14 +91,13 @@ namespace RentTogether.Api.Controllers
                 {
                     if (targetLocationDto != null || targetLocationDto.Count > 0)
                     {
-                        var user = await _userService.GetUserApiDtoAsyncById(userId);
+                        var user = await _userService.GetUserAsyncByToken(token);
 
                         if (user != null)
                         {
                             //Verify if the token exist and is not expire
                             if (await _authenticationService.CheckIfTokenIsValidAsync(token, userId))
                             {
-                                //Verify if messages for this userId exist
                                 var targetLocationApiDto = await _targetLocationService.PostAsyncTargetLocation(targetLocationDto, userId);
                                 if (targetLocationApiDto == null)
                                 {
@@ -94,6 +105,16 @@ namespace RentTogether.Api.Controllers
                                 }
                                 return Ok(targetLocationApiDto);
                             }
+                            if(user.IsAdmin == 1 && await _authenticationService.CheckIfTokenIsValidAsync(token))
+                            {
+                                var targetLocationApiDto = await _targetLocationService.PostAsyncTargetLocation(targetLocationDto, userId);
+                                if (targetLocationApiDto == null)
+                                {
+                                    return StatusCode(404, "Unable to post target location(s).");
+                                }
+                                return Ok(targetLocationApiDto);
+                            }
+
                             return StatusCode(401, "Invalid Token.");
                         }
                         return StatusCode(403, "Invalid data model.");
@@ -118,14 +139,14 @@ namespace RentTogether.Api.Controllers
                 {
                     if (targetLocationPatchDtos != null || targetLocationPatchDtos.Count > 0)
                     {
-                        var user = await _userService.GetUserApiDtoAsyncById(userId);
+                        var user = await _userService.GetUserAsyncByToken(token);
 
                         if (user != null)
                         {
                             //Verify if the token exist and is not expire
-                            if (await _authenticationService.CheckIfTokenIsValidAsync(token, userId))
+                            if (user.IsAdmin == 1 && await _authenticationService.CheckIfTokenIsValidAsync(token))
                             {
-                                //Verify if messages for this userId exist
+
                                 var targetLocationApiDto = await _targetLocationService.PatchAsyncTargetLocation(targetLocationPatchDtos, userId);
                                 if (targetLocationApiDto == null)
                                 {
@@ -133,6 +154,18 @@ namespace RentTogether.Api.Controllers
                                 }
                                 return Ok(targetLocationApiDto);
                             }
+                            //Verify if the token exist and is not expire
+                            if (await _authenticationService.CheckIfTokenIsValidAsync(token, userId))
+                            {
+
+                                var targetLocationApiDto = await _targetLocationService.PatchAsyncTargetLocation(targetLocationPatchDtos, userId);
+                                if (targetLocationApiDto == null)
+                                {
+                                    return StatusCode(404, "Unable to patch target location.");
+                                }
+                                return Ok(targetLocationApiDto);
+                            }
+     
                             return StatusCode(401, "Invalid Token.");
                         }
                         return StatusCode(403, "Invalid data model.");
@@ -157,7 +190,6 @@ namespace RentTogether.Api.Controllers
                     var user = await _userService.GetUserAsyncByToken(token);
                     if (user != null)
                     {
-                        //Verify if the token exist and is not expire
                         if (await _authenticationService.CheckIfTokenIsValidAsync(token))
                         {
                             //Verify if messages for this userId exist

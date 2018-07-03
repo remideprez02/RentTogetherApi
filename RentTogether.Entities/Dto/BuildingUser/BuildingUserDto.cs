@@ -3,8 +3,7 @@ namespace RentTogether.Entities.Dto.BuildingUser
 {
     public class BuildingUserDto
     {
-        public BuildingUserDto()
-        {
-        }
+        public int UserId { get; set; }
+        public int BuildingId { get; set; }
     }
 }

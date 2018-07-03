@@ -237,7 +237,8 @@ namespace RentTogether.Entities
 			            .WithMany(x => x.BuildingMessages);
 
 			modelBuilder.Entity<BuildingMessage>()
-						.HasOne(x => x.Building);
+						.HasOne(x => x.Building)
+                        .WithMany(x => x.BuildingMessages);
 
             //Favorite building
 			modelBuilder.Entity<FavoriteBuilding>()

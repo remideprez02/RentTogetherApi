@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using RentTogether.Entities;
 using RentTogether.Entities.Dto;
+using RentTogether.Entities.Dto.Building;
+using RentTogether.Entities.Dto.BuildingPicture;
+using RentTogether.Entities.Dto.BuildingUser;
 using RentTogether.Entities.Dto.Match;
 using RentTogether.Entities.Dto.Media;
 using RentTogether.Entities.Dto.Message;
@@ -230,7 +234,8 @@ namespace RentTogether.Common.Mapper
             return matchApiDto;
         }
 
-        public MatchDetailApiDto MapMapDetailToMatchDetailApiDto(MatchDetail matchDetail){
+        public MatchDetailApiDto MapMapDetailToMatchDetailApiDto(MatchDetail matchDetail)
+        {
             return new MatchDetailApiDto()
             {
                 DetailPersonalityApiDto = MapPersonalityReferencialToDetailPersonalityApiDto(matchDetail.PersonalityReferencial),
@@ -242,7 +247,8 @@ namespace RentTogether.Common.Mapper
         #endregion
 
         #region TargetLocation
-        public TargetLocationApiDto MapTargetLocationToTargetLocationApiDto(TargetLocation targetLocation){
+        public TargetLocationApiDto MapTargetLocationToTargetLocationApiDto(TargetLocation targetLocation)
+        {
             return new TargetLocationApiDto()
             {
                 City = targetLocation.City,
@@ -250,6 +256,64 @@ namespace RentTogether.Common.Mapper
                 UserId = targetLocation.User.UserId,
                 PostalCode = targetLocation.PostalCode
             };
+        }
+        #endregion
+
+        #region Building
+
+        public BuildingPictureApiDto MapBuildingPictureToBuildingPictureApiDto(BuildingPicture buildingPicture){
+            return new BuildingPictureApiDto()
+            {
+                BuildingId = buildingPicture.Building.BuildingId,
+                BuildingPictureId = buildingPicture.BuildingPictureId,
+                FileToBase64 = buildingPicture.FileToBase64
+            };
+        }
+
+        public BuildingUserApiDto MapBuildingUserToBuildingUserApiDto(BuildingUser buildingUser){
+            return new BuildingUserApiDto()
+            {
+                BuildingId = buildingUser.BuildingId,
+                UserId = buildingUser.UserId
+            };
+        }
+
+        public BuildingApiDto MapBuildingToBuildingApiDto(Building building){
+            var buildingApiDto = new BuildingApiDto
+            {
+                Address = building.Address,
+                Address2 = building.Address2,
+                Area = building.Area,
+                City = building.City,
+                Description = building.Description,
+                NbPiece = building.NbPiece,
+                NbRenters = building.NbRenters,
+                NbRoom = building.NbRoom,
+                OwnerApiDto = MapUserToUserApiDto(building.Owner),
+                Parking = building.Parking,
+                PostalCode = building.PostalCode,
+                Price = building.Price,
+                Status = building.Status,
+                Title = building.Title,
+                Type = building.Type,
+                IsRent = building.IsRent,
+                NbMaxRenters = building.NbMaxRenters
+            };
+
+            buildingApiDto.BuildingPictureApiDtos = new List<BuildingPictureApiDto>();
+
+            foreach (var buildingPicture in building.BuildingPictures)
+            {
+                buildingApiDto.BuildingPictureApiDtos.Add(MapBuildingPictureToBuildingPictureApiDto(buildingPicture));
+            }
+
+            buildingApiDto.BuildingUserApiDtos = new List<BuildingUserApiDto>();
+
+            foreach(var buildingUser in building.BuildingUsers){
+                buildingApiDto.BuildingUserApiDtos.Add(MapBuildingUserToBuildingUserApiDto(buildingUser));
+            }
+
+            return buildingApiDto;
         }
         #endregion
     }

@@ -87,7 +87,7 @@ namespace RentTogether.Business.Services
 				{
 					var date = await _dal.GetUserTokenExpirationDateAsync(token);
 
-                    if (date > DateTime.UtcNow)
+                    if (date.ToUniversalTime() > DateTime.UtcNow)
 					{
 						return true;
 					}
@@ -99,7 +99,7 @@ namespace RentTogether.Business.Services
 				var user = await _dal.GetUserAsyncByToken(token);
                 if (user != null)
                 {
-                    if (user.TokenExpirationDate > DateTime.UtcNow)
+                    if (user.TokenExpirationDate.ToUniversalTime() > DateTime.UtcNow)
                     {
                         return true;
                     }

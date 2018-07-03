@@ -1,12 +1,12 @@
 ﻿using System;
-using RentTogether.Entities.Dto.Building;
+using Microsoft.AspNetCore.Http;
 
 namespace RentTogether.Entities.Dto.BuildingPicture
 {
-    public class BuildingPictureApiDto
+    public class BuildingPictureDto
     {
-        public int BuildingPictureId { get; set; }
         public string FileToBase64 { get; set; }
+        public IFormFile File { get; set; }
         public int BuildingId { get; set; }
     }
 }
