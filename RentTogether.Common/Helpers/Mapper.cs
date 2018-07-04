@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using RentTogether.Entities;
 using RentTogether.Entities.Dto;
 using RentTogether.Entities.Dto.Building;
+using RentTogether.Entities.Dto.BuildingMessage;
 using RentTogether.Entities.Dto.BuildingPicture;
 using RentTogether.Entities.Dto.BuildingUser;
 using RentTogether.Entities.Dto.Match;
@@ -261,6 +262,18 @@ namespace RentTogether.Common.Mapper
 
         #region Building
 
+        public BuildingMessageApiDto MapBuildingMessageToBuildingMessageApiDto(BuildingMessage buildingMessage){
+            return new BuildingMessageApiDto()
+            {
+                BuildingId = buildingMessage.Building.BuildingId,
+                BuildingMessageId = buildingMessage.BuildingMessageId,
+                CreatedDate = buildingMessage.CreatedDate,
+                IsReport = buildingMessage.IsReport,
+                MessageText = buildingMessage.MessageText,
+                Writer = MapUserToUserApiDto(buildingMessage.Writer)
+            };
+        }
+
         public BuildingPictureApiDto MapBuildingPictureToBuildingPictureApiDto(BuildingPicture buildingPicture){
             return new BuildingPictureApiDto()
             {
@@ -311,6 +324,13 @@ namespace RentTogether.Common.Mapper
 
             foreach(var buildingUser in building.BuildingUsers){
                 buildingApiDto.BuildingUserApiDtos.Add(MapBuildingUserToBuildingUserApiDto(buildingUser));
+            }
+
+            buildingApiDto.BuildingMessageApiDtos = new List<BuildingMessageApiDto>();
+
+            foreach (var buildingMessage in building.BuildingMessages)
+            {
+                buildingApiDto.BuildingMessageApiDtos.Add(MapBuildingMessageToBuildingMessageApiDto(buildingMessage));
             }
 
             return buildingApiDto;

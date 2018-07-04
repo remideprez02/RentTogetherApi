@@ -18,6 +18,8 @@ using RentTogether.Entities.Dto.Match;
 using RentTogether.Entities.Dto.TargetLocation;
 using RentTogether.Entities.Dto.Building;
 using RentTogether.Entities.Dto.BuildingMessage;
+using RentTogether.Entities.Dto.BuildingUser;
+using RentTogether.Entities.Dto.BuildingPicture;
 
 namespace RentTogether.Dal
 {
@@ -1568,12 +1570,15 @@ namespace RentTogether.Dal
             {
 
                 var buildings = await _rentTogetherDbContext.Buildings
-                                                      .Include(x => x.BuildingPictures)
-                                                      .ThenInclude(xx => xx.Building)
-                                                      .Include(x => x.BuildingUsers)
-                                                      .Include(x => x.Owner)
-                                                      .Where(x => x.Owner.UserId == userId)
-                                                      .ToListAsync();
+                                                            .Include(x => x.BuildingPictures)
+                                                            .ThenInclude(xx => xx.Building)
+                                                            .Include(x => x.BuildingUsers)
+                                                            .ThenInclude(xx => xx.User)
+                                                            .Include(x => x.BuildingMessages)
+                                                            .ThenInclude(xx => xx.Writer)
+                                                            .Include(x => x.Owner)
+                                                            .Where(x => x.Owner.UserId == userId)
+                                                            .ToListAsync();
                 if (buildings.Count == 0)
                     return null;
 
@@ -1591,8 +1596,38 @@ namespace RentTogether.Dal
             }
 
         }
+        public async Task<BuildingApiDto> GetAsyncBuildingOfRenter(int userId)
+        {
+            try
+            {
+                var buildingUser = await _rentTogetherDbContext.BuildingUsers
+                                                               .Include(x => x.Building)
+                                                               .Include(x => x.User)
+                                                               .SingleOrDefaultAsync(x => x.UserId == userId);
+                if (buildingUser == null)
+                    return null;
 
-        public async Task<List<BuildingApiDto>> GetAsyncBuildingForRenter(int userId){
+                var building = await _rentTogetherDbContext.Buildings
+                                                            .Include(x => x.BuildingPictures)
+                                                            .ThenInclude(xx => xx.Building)
+                                                            .Include(x => x.BuildingUsers)
+                                                            .ThenInclude(xx => xx.User)
+                                                            .Include(x => x.BuildingMessages)
+                                                            .ThenInclude(xx => xx.Writer)
+                                                            .Include(x => x.Owner)
+                                                           .SingleOrDefaultAsync(x => x.BuildingId == buildingUser.BuildingId);
+                if (building == null)
+                    return null;
+
+                    return _mapperHelper.MapBuildingToBuildingApiDto(building);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public async Task<List<BuildingApiDto>> GetAsyncBuildingForRenter(int userId)
+        {
             try
             {
                 var targetLocations = await _rentTogetherDbContext.TargetLocations
@@ -1600,12 +1635,15 @@ namespace RentTogether.Dal
                                                             .Where(x => x.User.UserId == userId)
                                                             .ToListAsync();
                 if (targetLocations.Count == 0)
-                    return null;;
+                    return null; ;
 
                 var buildings = await _rentTogetherDbContext.Buildings
                                                             .Include(x => x.BuildingPictures)
                                                             .ThenInclude(xx => xx.Building)
                                                             .Include(x => x.BuildingUsers)
+                                                            .ThenInclude(xx => xx.User)
+                                                            .Include(x => x.BuildingMessages)
+                                                            .ThenInclude(xx => xx.Writer)
                                                             .Include(x => x.Owner)
                                                             .Where(x => x.IsRent == 0 &&
                                                                    targetLocations.Select(xx => xx.City).Any(x.City.Contains) &&
@@ -1613,7 +1651,7 @@ namespace RentTogether.Dal
                                                             .ToListAsync();
                 if (buildings.Count == 0)
                     return null;
-                
+
                 var listBuildingApiDtos = new List<BuildingApiDto>();
 
                 foreach (var building in buildings)
@@ -1629,42 +1667,340 @@ namespace RentTogether.Dal
             }
         }
 
-        //public async Task<BuildingMessage> PostAsyncBuildingMessage(BuildingMessageDto buildingMessageDto){
-        //    try
-        //    {
-        //        var building = await  _rentTogetherDbContext.Buildings
-        //                                             .Include(x => x.BuildingPictures)
-        //                                             .ThenInclude(xx => xx.Building)
-        //                                             .Include(x => x.BuildingUsers)
-        //                                             .Include(x => x.Owner)
-        //                                             .SingleOrDefaultAsync(x => x.BuildingId == buildingMessageDto.BuildingId);
+            public async Task<bool> DeleteBuildingAsync(int buildingId)
+            {
+                try
+                {
+                    var building = await _rentTogetherDbContext.Buildings
+                                                               .Include(x => x.BuildingPictures)
+                                                               .ThenInclude(xx => xx.Building)
+                                                               .Include(x => x.BuildingUsers)
+                                                            .ThenInclude(xx => xx.User)
+                                                            .Include(x => x.BuildingMessages)
+                                                            .ThenInclude(xx => xx.Writer)
+                                                            .Include(x => x.Owner)
+                                                               .SingleOrDefaultAsync(x => x.BuildingId == buildingId);
+                    if (building == null)
+                        return false;
 
-        //        var user = await _rentTogetherDbContext.Users
-        //                                               .SingleOrDefaultAsync(x => x.UserId == buildingMessageDto.Writer.UserId);
-        //        if (building == null || user == null)
-        //            return null;
+                    _rentTogetherDbContext.Buildings.Remove(building);
+                    await _rentTogetherDbContext.SaveChangesAsync();
 
-        //        var buildingMessage = new BuildingMessage()
-        //        {
-        //            Building = building,
-        //            CreatedDate = DateTime.UtcNow,
-        //            IsReport = 0,
-        //            MessageText = buildingMessageDto.MessageText,
-        //            Writer = user
-        //        };
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
 
-        //        await _rentTogetherDbContext.BuildingMessages
-        //                                    .AddAsync(buildingMessage);
-                
-        //        await _rentTogetherDbContext.SaveChangesAsync();
+        public async Task<bool> DeleteBuildingForOwnerIdAsync(int buildingId, int ownerId)
+        {
+            try
+            {
+                var building = await _rentTogetherDbContext.Buildings
+                                                           .Include(x => x.BuildingPictures)
+                                                           .ThenInclude(xx => xx.Building)
+                                                           .Include(x => x.BuildingUsers)
+                                                        .ThenInclude(xx => xx.User)
+                                                        .Include(x => x.BuildingMessages)
+                                                        .ThenInclude(xx => xx.Writer)
+                                                        .Include(x => x.Owner)
+                                                           .SingleOrDefaultAsync(x => x.BuildingId == buildingId && x.Owner.UserId == ownerId);
+                if (building == null)
+                    return false;
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message);
-        //    }
-        //}
+                _rentTogetherDbContext.Buildings.Remove(building);
+                await _rentTogetherDbContext.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        
         #endregion
+
+        #region BuildingMessage
+
+        public async Task<BuildingMessageApiDto> PostAsyncBuildingMessage(BuildingMessageDto buildingMessageDto)
+        {
+            try
+            {
+                var building = await _rentTogetherDbContext.Buildings
+                                                             .Include(x => x.BuildingPictures)
+                                                             .ThenInclude(xx => xx.Building)
+                                                             .Include(x => x.BuildingUsers)
+                                                           .Include(x => x.BuildingMessages)
+                                                           .ThenInclude(xx => xx.Writer)
+                                                     .Include(x => x.Owner)
+                                                     .SingleOrDefaultAsync(x => x.BuildingId == buildingMessageDto.BuildingId);
+
+                var user = await _rentTogetherDbContext.Users
+                                                       .SingleOrDefaultAsync(x => x.UserId == buildingMessageDto.UserId);
+                if (building == null || user == null)
+                    return null;
+
+                var buildingMessage = new BuildingMessage()
+                {
+                    Building = building,
+                    CreatedDate = DateTime.UtcNow,
+                    IsReport = 0,
+                    MessageText = buildingMessageDto.MessageText,
+                    Writer = user
+                };
+
+                await _rentTogetherDbContext.BuildingMessages
+                                            .AddAsync(buildingMessage);
+
+                await _rentTogetherDbContext.SaveChangesAsync();
+
+                return _mapperHelper.MapBuildingMessageToBuildingMessageApiDto(buildingMessage);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<List<BuildingMessageApiDto>> GetBuildingMessagesAsync(int buildingId)
+        {
+            try
+            {
+
+                var building = await _rentTogetherDbContext.Buildings
+                                                           .Include(x => x.BuildingPictures)
+                                                           .ThenInclude(xx => xx.Building)
+                                                           .Include(x => x.BuildingUsers)
+                                                           .Include(x => x.BuildingMessages)
+                                                           .ThenInclude(xx => xx.Writer)
+                                                           .Include(x => x.Owner)
+                                                           .SingleOrDefaultAsync(x => x.BuildingId == buildingId);
+                if (building == null)
+                    return null;
+
+                var listMessageApiDto = new List<BuildingMessageApiDto>();
+
+                foreach (var buildingMessage in building.BuildingMessages)
+                {
+                    listMessageApiDto.Add(_mapperHelper.MapBuildingMessageToBuildingMessageApiDto(buildingMessage));
+                }
+
+                return listMessageApiDto;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> DeleteBuildingMessageAsync(int buildingMessageId)
+        {
+            try
+            {
+                var buildingMessage = await _rentTogetherDbContext.BuildingMessages
+                                                                  .Include(x => x.Writer)
+                                                                  .Include(x => x.Building)
+                                                                  .SingleOrDefaultAsync(x => x.BuildingMessageId == buildingMessageId);
+                if (buildingMessage == null)
+                    return false;
+
+                _rentTogetherDbContext.BuildingMessages.Remove(buildingMessage);
+                await _rentTogetherDbContext.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        #endregion
+
+        #region BuildingUsers
+
+        public async Task<BuildingUserApiDto> PostBuildingUserAsync(BuildingUserDto buildingUserDto)
+        {
+            try
+            {
+                var hasBuildingUser = await _rentTogetherDbContext.BuildingUsers
+                                                               .Include(x => x.Building)
+                                                               .Include(x => x.User)
+                                                               .AnyAsync(x => x.UserId == buildingUserDto.UserId);
+                //If user has already a rent
+                if (hasBuildingUser == true)
+                    return null;
+                
+                var building = await _rentTogetherDbContext.Buildings
+                                                           .Include(x => x.BuildingPictures)
+                                                           .ThenInclude(xx => xx.Building)
+                                                           .Include(x => x.BuildingUsers)
+                                                           .Include(x => x.BuildingMessages)
+                                                           .ThenInclude(xx => xx.Writer)
+                                                           .Include(x => x.Owner)
+                                                           .SingleOrDefaultAsync(x => x.BuildingId == buildingUserDto.BuildingId);
+
+                if (building == null || building.NbMaxRenters == building.BuildingUsers.Count)
+                    return null;
+
+                var user = await _rentTogetherDbContext.Users
+                                                       .SingleOrDefaultAsync(x => x.UserId == buildingUserDto.UserId);
+                if (user == null)
+                    return null;
+
+                var buildingUser = new BuildingUser()
+                {
+                    Building = building,
+                    BuildingId = building.BuildingId,
+                    User = user,
+                    UserId = user.UserId
+                };
+
+                building.NbRenters += 1;
+                building.BuildingUsers.Add(buildingUser);
+
+                if (building.NbRenters == building.NbMaxRenters)
+                    building.IsRent = 1;
+
+                _rentTogetherDbContext.Buildings
+                                      .Update(building);
+
+                await _rentTogetherDbContext.SaveChangesAsync();
+
+                return _mapperHelper.MapBuildingUserToBuildingUserApiDto(buildingUser);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> DeleteBuildingUserAsync(BuildingUserDto buildingUserDto)
+        {
+            try
+            {
+                var building = await _rentTogetherDbContext.Buildings
+                                                           .Include(x => x.BuildingPictures)
+                                                           .ThenInclude(xx => xx.Building)
+                                                           .Include(x => x.BuildingUsers)
+                                                           .Include(x => x.BuildingMessages)
+                                                           .ThenInclude(xx => xx.Writer)
+                                                           .Include(x => x.Owner)
+                                                           .SingleOrDefaultAsync(x => x.BuildingId == buildingUserDto.BuildingId);
+                
+                if (building == null)
+                    return false;
+                
+                var buildingUser = await _rentTogetherDbContext.BuildingUsers
+                                                                .Include(x => x.Building)
+                                                                .Include(x => x.User)
+                                                                .SingleOrDefaultAsync(x => x.BuildingId == buildingUserDto.BuildingId &&
+                                                                                     x.UserId == buildingUserDto.UserId);
+                if (buildingUser == null)
+                    return false;
+
+                building.NbRenters -= 1;
+                building.BuildingUsers.Remove(buildingUser);
+
+                _rentTogetherDbContext.Buildings.Update(building);
+                await _rentTogetherDbContext.SaveChangesAsync();
+
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        #endregion
+
+        #region BuildingPictures
+        public async Task<BuildingPictureApiDto> PostBuildingPictureAsync(BuildingPictureDto buildingPictureDto){
+            try
+            {
+                var building = await _rentTogetherDbContext.Buildings
+                                                           .Include(x => x.BuildingPictures)
+                                                           .ThenInclude(xx => xx.Building)
+                                                           .Include(x => x.BuildingUsers)
+                                                           .Include(x => x.BuildingMessages)
+                                                           .ThenInclude(xx => xx.Writer)
+                                                           .Include(x => x.Owner)
+                                                           .SingleOrDefaultAsync(x => x.BuildingId == buildingPictureDto.BuildingId);
+                
+                if (building == null || building.BuildingPictures.Count == 6)
+                    return null;
+                
+                var buildingPicture = new BuildingPicture()
+                {
+                    Building = building,
+                    FileToBase64 = buildingPictureDto.FileToBase64
+                };
+
+                await _rentTogetherDbContext.BuildingPictures.AddAsync(buildingPicture);
+                await _rentTogetherDbContext.SaveChangesAsync();
+
+                return _mapperHelper.MapBuildingPictureToBuildingPictureApiDto(buildingPicture);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<List<BuildingPictureApiDto>> GetBuildingPicturesAsync(int buildingId){
+            try
+            {
+                var buildingPictures = await _rentTogetherDbContext.BuildingPictures
+                                                                  .Include(x => x.Building)
+                                                                  .Where(x => x.Building.BuildingId == buildingId)
+                                                                  .ToListAsync();
+                if (!buildingPictures.Any())
+                    return null;
+                
+                var listBuildingPictures = new List<BuildingPictureApiDto>();
+
+                foreach (var buildingPicture in buildingPictures)
+                {
+                    listBuildingPictures.Add(_mapperHelper.MapBuildingPictureToBuildingPictureApiDto(buildingPicture));
+                }
+                return listBuildingPictures;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> DeleteBuildingPictureAsync(int buildingPictureId){
+            try
+            {
+                var buildingPicture = await _rentTogetherDbContext.BuildingPictures
+                                                                  .Include(x => x.Building)
+                                                                  .SingleOrDefaultAsync(x => x.BuildingPictureId == buildingPictureId);
+
+                if (buildingPicture == null)
+                    return false;
+
+                _rentTogetherDbContext.BuildingPictures.Remove(buildingPicture);
+                await _rentTogetherDbContext.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        #endregion
+
+
+
 
     }
 

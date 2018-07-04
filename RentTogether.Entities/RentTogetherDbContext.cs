@@ -28,6 +28,7 @@ namespace RentTogether.Entities
         public DbSet<PersonalityValue> PersonalityValues { get; set; }
         public DbSet<TargetLocation> TargetLocations { get; set; }
         public DbSet<MatchDetail> MatchDetails { get; set; }
+        public DbSet<BuildingPicture> BuildingPictures { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -93,12 +94,6 @@ namespace RentTogether.Entities
 			modelBuilder.Entity<User>()
 						.HasMany(x => x.FavoriteBuildings)
 						.WithOne(x => x.User);
-
-			//User BuildingMessages
-			modelBuilder.Entity<User>()
-						.HasMany(x => x.BuildingMessages)
-						.WithOne(x => x.Writer);
-			
 
             //Table Join User Building
 			modelBuilder.Entity<BuildingUser>()
@@ -232,10 +227,6 @@ namespace RentTogether.Entities
 			modelBuilder.Entity<BuildingMessage>()
 			            .HasKey(x => x.BuildingMessageId);
 			
-			modelBuilder.Entity<BuildingMessage>()
-			            .HasOne(x => x.Writer)
-			            .WithMany(x => x.BuildingMessages);
-
 			modelBuilder.Entity<BuildingMessage>()
 						.HasOne(x => x.Building)
                         .WithMany(x => x.BuildingMessages);

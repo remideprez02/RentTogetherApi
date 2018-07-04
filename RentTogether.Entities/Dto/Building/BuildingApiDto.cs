@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using RentTogether.Entities.Dto.BuildingMessage;
 using RentTogether.Entities.Dto.BuildingPicture;
 using RentTogether.Entities.Dto.BuildingUser;
 
@@ -16,6 +17,7 @@ namespace RentTogether.Entities.Dto.Building
         public List<BuildingUserApiDto> BuildingUserApiDtos { get; set; }
         public UserApiDto OwnerApiDto { get; set; }
         public List<BuildingPictureApiDto> BuildingPictureApiDtos { get; set; }
+        public List<BuildingMessageApiDto> BuildingMessageApiDtos { get; set; }
         public int Type { get; set; }
         public int NbRoom { get; set; }
         public int NbPiece { get; set; }

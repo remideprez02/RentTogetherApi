@@ -2,6 +2,7 @@
 using RentTogether.Entities;
 using RentTogether.Entities.Dto;
 using RentTogether.Entities.Dto.Building;
+using RentTogether.Entities.Dto.BuildingMessage;
 using RentTogether.Entities.Dto.BuildingPicture;
 using RentTogether.Entities.Dto.BuildingUser;
 using RentTogether.Entities.Dto.Match;
@@ -37,5 +38,6 @@ namespace RentTogether.Interfaces.Helpers
         BuildingPictureApiDto MapBuildingPictureToBuildingPictureApiDto(BuildingPicture buildingPicture);
         BuildingUserApiDto MapBuildingUserToBuildingUserApiDto(BuildingUser buildingUser);
         BuildingApiDto MapBuildingToBuildingApiDto(Building building);
+        BuildingMessageApiDto MapBuildingMessageToBuildingMessageApiDto(BuildingMessage buildingMessage);
     }
 }

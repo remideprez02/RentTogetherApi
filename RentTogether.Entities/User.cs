@@ -45,8 +45,6 @@ namespace RentTogether.Entities
         
         public Vote Vote { get; set; }
 
-		public List<BuildingMessage> BuildingMessages { get; set; }
-
 		public int? PersonalityFk { get; set; }
 		public int? Vote1Fk { get; set; }
 		public int? Vote2Fk { get; set; }

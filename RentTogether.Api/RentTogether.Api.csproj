@@ -28,4 +28,7 @@
     <ProjectReference Include="..\RentTogether.Dal\RentTogether.Dal.csproj" />
     <ProjectReference Include="..\RentTogether.Business\RentTogether.Business.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Controllers\BuildingController.cs" />
+  </ItemGroup>
 </Project>

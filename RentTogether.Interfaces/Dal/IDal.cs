@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using RentTogether.Entities;
 using RentTogether.Entities.Dto;
+using RentTogether.Entities.Dto.Building;
+using RentTogether.Entities.Dto.BuildingMessage;
+using RentTogether.Entities.Dto.BuildingPicture;
+using RentTogether.Entities.Dto.BuildingUser;
 using RentTogether.Entities.Dto.Conversation;
 using RentTogether.Entities.Dto.Match;
 using RentTogether.Entities.Dto.Media;
@@ -55,11 +59,9 @@ namespace RentTogether.Interfaces.Dal
         #endregion
 
         #region Personality
-        //Referencial
         Task<DetailPersonalityApiDto> PostAsyncDetailPersonality(DetailPersonalityDto detailPersonalityDto);
         Task<List<DetailPersonalityApiDto>> GetAsyncAllPersonalityReferencials();
         Task<List<PersonalityValueApiDto>> PatchAsyncPersonalityValuesByUserId(int userId, List<PersonalityValuePatchDto> personalityValuePatchDtos);
-        //Value/Personality
         Task<List<PersonalityValueApiDto>> PostAsyncPersonalityValues(List<PersonalityValueDto> personalityValueDtos, int userId);
         Task<PersonalityApiDto> GetPersonalityAsyncByUserId(int userId);
         #endregion
@@ -78,6 +80,26 @@ namespace RentTogether.Interfaces.Dal
         Task<List<TargetLocationApiDto>> PostAsyncTargetLocation(List<TargetLocationDto> targetLocationDtos, int userId);
         Task<List<TargetLocationApiDto>> PatchAsyncTargetLocation(List<TargetLocationPatchDto> targetLocationPatchDtos, int userId);
         Task<bool> DeleteAsyncTargetLocation(int targetLocationId);
+        #endregion
+
+        #region Building
+        Task<BuildingApiDto> PostAsyncBuilding(BuildingDto buildingDto);
+        Task<List<BuildingApiDto>> GetAsyncBuildingsForOwner(int userId);
+        Task<List<BuildingApiDto>> GetAsyncBuildingForRenter(int userId);
+        Task<BuildingApiDto> GetAsyncBuildingOfRenter(int userId);
+        Task<bool> DeleteBuildingAsync(int buildingId);
+        Task<bool> DeleteBuildingForOwnerIdAsync(int buildingId, int ownerId);
+
+        Task<BuildingMessageApiDto> PostAsyncBuildingMessage(BuildingMessageDto buildingMessageDto);
+        Task<List<BuildingMessageApiDto>> GetBuildingMessagesAsync(int buildingId);
+        Task<bool> DeleteBuildingMessageAsync(int buildingMessageId);
+
+        Task<BuildingUserApiDto> PostBuildingUserAsync(BuildingUserDto buildingUserDto);
+        Task<bool> DeleteBuildingUserAsync(BuildingUserDto buildingUserDto);
+
+        Task<BuildingPictureApiDto> PostBuildingPictureAsync(BuildingPictureDto buildingPictureDto);
+        Task<List<BuildingPictureApiDto>> GetBuildingPicturesAsync(int buildingId);
+        Task<bool> DeleteBuildingPictureAsync(int buildingPictureId);
         #endregion
     }
 }
