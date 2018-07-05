@@ -81,9 +81,11 @@ namespace RentTogether.Business.Services
         {
             return  await _dal.DeleteBuildingPictureAsync(buildingPictureId);
         }
+
         #endregion
 
         #region BuildingUsers
+
         public async Task<BuildingUserApiDto> PostBuildingUserAsync(BuildingUserDto buildingUserDto)
         {
             var buildingUser = await _dal.PostBuildingUserAsync(buildingUserDto);
@@ -95,24 +97,29 @@ namespace RentTogether.Business.Services
             var isSuccess = await _dal.DeleteBuildingUserAsync(buildingUserDto);
             return isSuccess;
         }
+
         #endregion
 
         #region BuildingMessages
+
         public async Task<BuildingMessageApiDto> PostAsyncBuildingMessage(BuildingMessageDto buildingMessageDto)
         {
             var buildingMessageApiDto = await _dal.PostAsyncBuildingMessage(buildingMessageDto);
             return buildingMessageApiDto;
         }
+
         public async Task<List<BuildingMessageApiDto>> GetBuildingMessagesAsync(int buildingId)
         {
             var buildingMessageApiDtos = await _dal.GetBuildingMessagesAsync(buildingId);
             return buildingMessageApiDtos;
         }
+
         public async Task<bool> DeleteBuildingMessageAsync(int buildingMessageId)
         {
             var isSuccess = await _dal.DeleteBuildingMessageAsync(buildingMessageId);
             return isSuccess;
         }
+
         #endregion
 
     }
