@@ -16,7 +16,7 @@ namespace RentTogether.Entities.Dto.Building
         public string City { get; set; }
         public List<BuildingUserApiDto> BuildingUserApiDtos { get; set; }
         public UserApiDto OwnerApiDto { get; set; }
-        public List<BuildingPictureApiDto> BuildingPictureApiDtos { get; set; }
+        public List<BuildingPictureInformationApiDto> BuildingPictureInformationApiDtos { get; set; }
         public List<BuildingMessageApiDto> BuildingMessageApiDtos { get; set; }
         public int Type { get; set; }
         public int NbRoom { get; set; }

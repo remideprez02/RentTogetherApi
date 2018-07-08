@@ -12,6 +12,7 @@ using RentTogether.Entities.Dto.Message;
 using RentTogether.Entities.Dto.Participant;
 using RentTogether.Entities.Dto.Personality.Detail;
 using RentTogether.Entities.Dto.Personality.Value;
+using RentTogether.Entities.Dto.SearchLocation;
 using RentTogether.Entities.Dto.TargetLocation;
 using RentTogether.Interfaces.Helpers;
 
@@ -255,14 +256,24 @@ namespace RentTogether.Common.Mapper
                 City = targetLocation.City,
                 TargetLocationId = targetLocation.TargetLocationId,
                 UserId = targetLocation.User.UserId,
-                PostalCode = targetLocation.PostalCode
+                PostalCode = targetLocation.PostalCode,
+                City2 = targetLocation.City2
             };
         }
         #endregion
 
         #region Building
 
-        public BuildingMessageApiDto MapBuildingMessageToBuildingMessageApiDto(BuildingMessage buildingMessage){
+        public BuildingPictureInformationApiDto MapBuildingPictureToBuildingPictureInformationApiDto(BuildingPicture buildingPicture){
+            return new BuildingPictureInformationApiDto()
+            {
+                BuildingId = buildingPicture.Building.BuildingId,
+                BuildingPictureId = buildingPicture.BuildingPictureId
+            };
+        }
+
+        public BuildingMessageApiDto MapBuildingMessageToBuildingMessageApiDto(BuildingMessage buildingMessage)
+        {
             return new BuildingMessageApiDto()
             {
                 BuildingId = buildingMessage.Building.BuildingId,
@@ -274,7 +285,8 @@ namespace RentTogether.Common.Mapper
             };
         }
 
-        public BuildingPictureApiDto MapBuildingPictureToBuildingPictureApiDto(BuildingPicture buildingPicture){
+        public BuildingPictureApiDto MapBuildingPictureToBuildingPictureApiDto(BuildingPicture buildingPicture)
+        {
             return new BuildingPictureApiDto()
             {
                 BuildingId = buildingPicture.Building.BuildingId,
@@ -283,7 +295,8 @@ namespace RentTogether.Common.Mapper
             };
         }
 
-        public BuildingUserApiDto MapBuildingUserToBuildingUserApiDto(BuildingUser buildingUser){
+        public BuildingUserApiDto MapBuildingUserToBuildingUserApiDto(BuildingUser buildingUser)
+        {
             return new BuildingUserApiDto()
             {
                 BuildingId = buildingUser.BuildingId,
@@ -291,9 +304,11 @@ namespace RentTogether.Common.Mapper
             };
         }
 
-        public BuildingApiDto MapBuildingToBuildingApiDto(Building building){
+        public BuildingApiDto MapBuildingToBuildingApiDto(Building building)
+        {
             var buildingApiDto = new BuildingApiDto
             {
+                BuildingId = building.BuildingId,
                 Address = building.Address,
                 Address2 = building.Address2,
                 Area = building.Area,
@@ -313,27 +328,57 @@ namespace RentTogether.Common.Mapper
                 NbMaxRenters = building.NbMaxRenters
             };
 
-            buildingApiDto.BuildingPictureApiDtos = new List<BuildingPictureApiDto>();
-
-            foreach (var buildingPicture in building.BuildingPictures)
+            if (building.BuildingPictures != null)
             {
-                buildingApiDto.BuildingPictureApiDtos.Add(MapBuildingPictureToBuildingPictureApiDto(buildingPicture));
+                buildingApiDto.BuildingPictureInformationApiDtos = new List<BuildingPictureInformationApiDto>();
+
+                foreach (var buildingPicture in building.BuildingPictures)
+                {
+                    buildingApiDto.BuildingPictureInformationApiDtos.Add(MapBuildingPictureToBuildingPictureInformationApiDto(buildingPicture));
+                }
             }
 
-            buildingApiDto.BuildingUserApiDtos = new List<BuildingUserApiDto>();
+            if (building.BuildingUsers != null)
+            {
+                buildingApiDto.BuildingUserApiDtos = new List<BuildingUserApiDto>();
 
-            foreach(var buildingUser in building.BuildingUsers){
-                buildingApiDto.BuildingUserApiDtos.Add(MapBuildingUserToBuildingUserApiDto(buildingUser));
+                foreach (var buildingUser in building.BuildingUsers)
+                {
+                    buildingApiDto.BuildingUserApiDtos.Add(MapBuildingUserToBuildingUserApiDto(buildingUser));
+                }
             }
 
-            buildingApiDto.BuildingMessageApiDtos = new List<BuildingMessageApiDto>();
-
-            foreach (var buildingMessage in building.BuildingMessages)
+            if (building.BuildingMessages != null)
             {
-                buildingApiDto.BuildingMessageApiDtos.Add(MapBuildingMessageToBuildingMessageApiDto(buildingMessage));
+                buildingApiDto.BuildingMessageApiDtos = new List<BuildingMessageApiDto>();
+
+                foreach (var buildingMessage in building.BuildingMessages)
+                {
+                    buildingApiDto.BuildingMessageApiDtos.Add(MapBuildingMessageToBuildingMessageApiDto(buildingMessage));
+                }
             }
 
             return buildingApiDto;
+        }
+        #endregion
+
+        #region SearchLocation
+        public List<SearchLocationApiDto> MapPostalCodeToSearchLocation(List<PostalCode> postalCodes)
+        {
+            var searchLocationApiDtos = new List<SearchLocationApiDto>();
+
+            foreach (var postalCode in postalCodes)
+            {
+                searchLocationApiDtos.Add(new SearchLocationApiDto()
+                {
+                    Id = postalCode.Id,
+                    Libelle = postalCode.Libelle,
+                    Libelle2 = postalCode.Libelle2,
+                    PostalCodeId = postalCode.PostalCodeId
+                });
+
+            }
+            return searchLocationApiDtos;
         }
         #endregion
     }

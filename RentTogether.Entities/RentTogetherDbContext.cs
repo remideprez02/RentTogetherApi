@@ -29,6 +29,7 @@ namespace RentTogether.Entities
         public DbSet<TargetLocation> TargetLocations { get; set; }
         public DbSet<MatchDetail> MatchDetails { get; set; }
         public DbSet<BuildingPicture> BuildingPictures { get; set; }
+        public DbSet<PostalCode> PostalCodes { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -123,8 +124,14 @@ namespace RentTogether.Entities
 
 			modelBuilder.Entity<Building>()
 						.HasMany(x => x.BuildingPictures)
-						.WithOne(x => x.Building);
+						.WithOne(x => x.Building)
+                        .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Building>()
+                        .HasMany(x => x.BuildingMessages)
+                        .WithOne(x => x.Building)
+                        .OnDelete(DeleteBehavior.Cascade);
+            
 			modelBuilder.Entity<Building>()
 						.HasOne(x => x.Owner);
                         
@@ -277,6 +284,9 @@ namespace RentTogether.Entities
 
             modelBuilder.Entity<MatchDetail>()
                         .HasOne(x => x.PersonalityReferencial);
+
+            modelBuilder.Entity<PostalCode>()
+                        .HasKey(x => x.Id);
         }
     }
 }

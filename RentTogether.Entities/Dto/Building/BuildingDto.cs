@@ -12,6 +12,7 @@ namespace RentTogether.Entities.Dto.Building
         public int NbRoom { get; set; }
         public int NbPiece { get; set; }
         public int NbRenters { get; set; }
+        public int NbMaxRenters { get; set; }
         public int Status { get; set; }
         public int Area { get; set; }
         public int Price { get; set; }

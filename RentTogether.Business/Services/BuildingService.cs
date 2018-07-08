@@ -5,12 +5,13 @@ using RentTogether.Entities.Dto.Building;
 using RentTogether.Entities.Dto.BuildingMessage;
 using RentTogether.Entities.Dto.BuildingPicture;
 using RentTogether.Entities.Dto.BuildingUser;
+using RentTogether.Interfaces.Business;
 using RentTogether.Interfaces.Dal;
 using RentTogether.Interfaces.Helpers;
 
 namespace RentTogether.Business.Services
 {
-    public class BuildingService
+    public class BuildingService : IBuildingService
     {
         private readonly IDal _dal;
         private readonly ICustomEncoder _customEncoder;
@@ -29,7 +30,7 @@ namespace RentTogether.Business.Services
             return buildingApiDto;
         }
 
-        public async Task<List<BuildingApiDto>> GetAsyncBuildings(int isOwner, int userId)
+        public async Task<List<BuildingApiDto>> GetAsyncBuilding(int isOwner, int userId)
         {
             if (isOwner == 0)
             {
@@ -38,7 +39,7 @@ namespace RentTogether.Business.Services
             }
             else
             {
-                var buildingApiDtos = await _dal.GetAsyncBuildingsForOwner(userId);
+                var buildingApiDtos = await _dal.GetAsyncBuildingsOfOwner(userId);
                 return buildingApiDtos;
             }
         }
@@ -71,10 +72,14 @@ namespace RentTogether.Business.Services
             return buildingPictureApiDto;
         }
 
-        public async Task<List<BuildingPictureApiDto>> GetBuildingPicturesAsync(int buildingId)
+        public async Task<BuildingPictureApiDto> GetBuildingPicturesAsync(int buildingId, int buildingPictureId)
         {
-            var buildingPictureApiDtos = await _dal.GetBuildingPicturesAsync(buildingId);
-            return buildingPictureApiDtos;
+            var buildingPictureApiDto = await _dal.GetBuildingPicturesAsync(buildingId, buildingPictureId);
+            return buildingPictureApiDto;
+        }
+
+        public async Task<List<BuildingPictureInformationApiDto>> GetBuildingPictureInformationsAsync(int buildingId){
+            return await _dal.GetBuildingPictureInformationsAsync(buildingId);
         }
 
         public async Task<bool> DeleteBuildingPictureAsync(int buildingPictureId)

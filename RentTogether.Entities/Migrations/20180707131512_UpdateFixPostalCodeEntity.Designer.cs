@@ -11,9 +11,10 @@ using System;
 namespace RentTogether.Entities.Migrations
 {
     [DbContext(typeof(RentTogetherDbContext))]
-    partial class RentTogetherDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180707131512_UpdateFixPostalCodeEntity")]
+    partial class UpdateFixPostalCodeEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -330,13 +331,13 @@ namespace RentTogether.Entities.Migrations
 
                     b.Property<string>("Gps");
 
-                    b.Property<string>("InseeCode");
+                    b.Property<int>("InseeCode");
 
                     b.Property<string>("Libelle");
 
                     b.Property<string>("Libelle2");
 
-                    b.Property<string>("PostalCodeId");
+                    b.Property<int>("PostalCodeId");
 
                     b.HasKey("Id");
 
@@ -349,8 +350,6 @@ namespace RentTogether.Entities.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("City");
-
-                    b.Property<string>("City2");
 
                     b.Property<string>("PostalCode");
 
@@ -483,8 +482,7 @@ namespace RentTogether.Entities.Migrations
                 {
                     b.HasOne("RentTogether.Entities.Building", "Building")
                         .WithMany("BuildingMessages")
-                        .HasForeignKey("BuildingId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("BuildingId");
 
                     b.HasOne("RentTogether.Entities.User", "Writer")
                         .WithMany()
@@ -495,8 +493,7 @@ namespace RentTogether.Entities.Migrations
                 {
                     b.HasOne("RentTogether.Entities.Building", "Building")
                         .WithMany("BuildingPictures")
-                        .HasForeignKey("BuildingId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("BuildingId");
                 });
 
             modelBuilder.Entity("RentTogether.Entities.BuildingUser", b =>

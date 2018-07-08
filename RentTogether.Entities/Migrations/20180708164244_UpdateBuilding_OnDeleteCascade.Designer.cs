@@ -11,9 +11,10 @@ using System;
 namespace RentTogether.Entities.Migrations
 {
     [DbContext(typeof(RentTogetherDbContext))]
-    partial class RentTogetherDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180708164244_UpdateBuilding_OnDeleteCascade")]
+    partial class UpdateBuilding_OnDeleteCascade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -351,6 +352,8 @@ namespace RentTogether.Entities.Migrations
                     b.Property<string>("City");
 
                     b.Property<string>("City2");
+
+                    b.Property<string>("InseeCode");
 
                     b.Property<string>("PostalCode");
 

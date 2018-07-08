@@ -6,10 +6,6 @@ namespace RentTogether.Entities
 {
     public class User
     {
-        public User()
-        {
-        }
-
         [Key]
         public int UserId { get; set; }
 
@@ -33,12 +29,9 @@ namespace RentTogether.Entities
 		public List<FavoriteUser> FavoriteUsers { get; set; }
 		public List<Message> Messages { get; set; }
 		public UserPicture UserPicture { get; set; }
-		public int? UserPictureFk { get; set; }
 		public List<Match> Matches { get; set; }
 		public Personality Personality { get; set; }
 		public DesiredPersonality DesiredPersonality { get; set; }
-		public int? DesiredPersonalityFk { get; set; }
-
         public List<TargetLocation> TargetLocations { get; set; }
 		public List<FavoriteBuilding> FavoriteBuildings { get; set; }
 		public List<BuildingUser> BuildingUsers { get; set; }
@@ -49,6 +42,8 @@ namespace RentTogether.Entities
 		public int? Vote1Fk { get; set; }
 		public int? Vote2Fk { get; set; }
         public int? MatchFk { get; set; }
+        public int? UserPictureFk { get; set; }
+        public int? DesiredPersonalityFk { get; set; }
        
     }
 }

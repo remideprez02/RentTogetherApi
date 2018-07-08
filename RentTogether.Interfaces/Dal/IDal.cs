@@ -15,6 +15,7 @@ using RentTogether.Entities.Dto.Participant;
 using RentTogether.Entities.Dto.Personality;
 using RentTogether.Entities.Dto.Personality.Detail;
 using RentTogether.Entities.Dto.Personality.Value;
+using RentTogether.Entities.Dto.SearchLocation;
 using RentTogether.Entities.Dto.TargetLocation;
 using RentTogether.Entities.Filters.Users;
 
@@ -84,7 +85,7 @@ namespace RentTogether.Interfaces.Dal
 
         #region Building
         Task<BuildingApiDto> PostAsyncBuilding(BuildingDto buildingDto);
-        Task<List<BuildingApiDto>> GetAsyncBuildingsForOwner(int userId);
+        Task<List<BuildingApiDto>> GetAsyncBuildingsOfOwner(int userId);
         Task<List<BuildingApiDto>> GetAsyncBuildingForRenter(int userId);
         Task<BuildingApiDto> GetAsyncBuildingOfRenter(int userId);
         Task<bool> DeleteBuildingAsync(int buildingId);
@@ -98,8 +99,14 @@ namespace RentTogether.Interfaces.Dal
         Task<bool> DeleteBuildingUserAsync(BuildingUserDto buildingUserDto);
 
         Task<BuildingPictureApiDto> PostBuildingPictureAsync(BuildingPictureDto buildingPictureDto);
-        Task<List<BuildingPictureApiDto>> GetBuildingPicturesAsync(int buildingId);
+        Task<BuildingPictureApiDto> GetBuildingPicturesAsync(int buildingId, int buildingPictureId);
+        Task<List<BuildingPictureInformationApiDto>> GetBuildingPictureInformationsAsync(int buildingId);
+
         Task<bool> DeleteBuildingPictureAsync(int buildingPictureId);
+        #endregion
+
+        #region SearchLocation
+        Task<List<SearchLocationApiDto>> GetSearchLocationsAsync(SearchLocationDto searchLocationDto);
         #endregion
     }
 }

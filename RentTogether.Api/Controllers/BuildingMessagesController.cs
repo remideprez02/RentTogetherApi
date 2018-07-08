@@ -86,7 +86,7 @@ namespace RentTogether.Api.Controllers
                             {
                                 return StatusCode(400, "Unable to create building message.");
                             }
-                            return Ok(buildingMessageDto);
+                            return Ok(buildingMessageApiDto);
                         }
                         return StatusCode(401, "Invalid token.");
                     }

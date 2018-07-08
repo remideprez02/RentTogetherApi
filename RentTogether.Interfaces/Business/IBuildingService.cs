@@ -23,7 +23,8 @@ namespace RentTogether.Interfaces.Business
         Task<bool> DeleteBuildingUserAsync(BuildingUserDto buildingUserDto);
 
         Task<BuildingPictureApiDto> PostBuildingPictureAsync(BuildingPictureDto buildingPictureDto);
-        Task<List<BuildingPictureApiDto>> GetBuildingPicturesAsync(int buildingId);
+        Task<BuildingPictureApiDto> GetBuildingPicturesAsync(int buildingId, int buildingPictureId);
+        Task<List<BuildingPictureInformationApiDto>> GetBuildingPictureInformationsAsync(int buildingId);
         Task<bool> DeleteBuildingPictureAsync(int buildingPictureId);
     }
 }

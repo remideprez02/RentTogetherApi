@@ -11,5 +11,7 @@ namespace RentTogether.Entities
         public User User { get; set; }
         public string PostalCode { get; set; }
         public string City { get; set; }
+        public string City2 { get; set; }
+
     }
 }

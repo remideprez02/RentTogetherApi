@@ -62,7 +62,7 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid authorization.");
         }
 
-        [Route("api/BuildingUsersController")]
+        [Route("api/BuildingUsers")]
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody]BuildingUserDto buildingUserDto)
         {

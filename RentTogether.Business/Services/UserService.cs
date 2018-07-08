@@ -162,7 +162,7 @@ namespace RentTogether.Business.Services
 			if (userRegisterDto.City == "" || userRegisterDto.PostalCode == "")
 				return new Tuple<bool, string>(false, "Invalid City or PostalCode");
 
-			if (userRegisterDto.PhoneNumber == "" || userRegisterDto.PhoneNumber.Length < 10)
+			if (userRegisterDto.PhoneNumber == "" || userRegisterDto.PhoneNumber.Length > 10)
 				return new Tuple<bool, string>(false, "Invalid UserEmail or Password");
 
 			if ((userRegisterDto.IsAdmin < 0 || userRegisterDto.IsAdmin > 1) ||

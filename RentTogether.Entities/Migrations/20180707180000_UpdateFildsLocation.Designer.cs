@@ -11,9 +11,10 @@ using System;
 namespace RentTogether.Entities.Migrations
 {
     [DbContext(typeof(RentTogetherDbContext))]
-    partial class RentTogetherDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180707180000_UpdateFildsLocation")]
+    partial class UpdateFildsLocation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -352,6 +353,8 @@ namespace RentTogether.Entities.Migrations
 
                     b.Property<string>("City2");
 
+                    b.Property<string>("InseeCode");
+
                     b.Property<string>("PostalCode");
 
                     b.Property<int?>("UserId");
@@ -483,8 +486,7 @@ namespace RentTogether.Entities.Migrations
                 {
                     b.HasOne("RentTogether.Entities.Building", "Building")
                         .WithMany("BuildingMessages")
-                        .HasForeignKey("BuildingId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("BuildingId");
 
                     b.HasOne("RentTogether.Entities.User", "Writer")
                         .WithMany()
@@ -495,8 +497,7 @@ namespace RentTogether.Entities.Migrations
                 {
                     b.HasOne("RentTogether.Entities.Building", "Building")
                         .WithMany("BuildingPictures")
-                        .HasForeignKey("BuildingId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("BuildingId");
                 });
 
             modelBuilder.Entity("RentTogether.Entities.BuildingUser", b =>
