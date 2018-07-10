@@ -1639,8 +1639,11 @@ namespace RentTogether.Dal
                                                             .Include(x => x.User)
                                                             .Where(x => x.User.UserId == userId)
                                                             .ToListAsync();
-                if (targetLocations.Count == 0)
+                if (!targetLocations.Any())
                     return null;
+                
+                var cities = new HashSet<string>(targetLocations.Select(item => item.City));
+                var postalCodes = new HashSet<string>(targetLocations.Select(item => item.PostalCode));
 
                 var query =  _rentTogetherDbContext.Buildings
                                                             .Include(x => x.BuildingPictures)
@@ -1651,12 +1654,12 @@ namespace RentTogether.Dal
                                                             .ThenInclude(xx => xx.Writer)
                                                             .Include(x => x.Owner)
                                                             .Where(x => x.IsRent == 0 &&
-                                                                   targetLocations.Select(xx => xx.City).Contains(x.City) &&
-                                                                   targetLocations.Select(xx => xx.PostalCode).Contains(x.PostalCode) &&
+                                                                   cities.Contains(x.City) &&
+                                                                   postalCodes.Contains(x.PostalCode) &&
                                                                    !x.BuildingUsers.Any(xx => xx.UserId == userId));
                 var buildings = query.ToList();
                                                             
-                if (buildings.Count == 0)
+                if (!buildings.Any())
                     return null;
 
                 var listBuildingApiDtos = new List<BuildingApiDto>();
@@ -1682,10 +1685,10 @@ namespace RentTogether.Dal
                                                            .Include(x => x.BuildingPictures)
                                                            .ThenInclude(xx => xx.Building)
                                                            .Include(x => x.BuildingUsers)
-                                                        .ThenInclude(xx => xx.User)
-                                                        .Include(x => x.BuildingMessages)
-                                                        .ThenInclude(xx => xx.Writer)
-                                                        .Include(x => x.Owner)
+                                                           .ThenInclude(xx => xx.User)
+                                                           .Include(x => x.BuildingMessages)
+                                                           .ThenInclude(xx => xx.Writer)
+                                                           .Include(x => x.Owner)
                                                            .SingleOrDefaultAsync(x => x.BuildingId == buildingId);
                 if (building == null)
                     return false;
