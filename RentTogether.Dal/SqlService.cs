@@ -1640,9 +1640,9 @@ namespace RentTogether.Dal
                                                             .Where(x => x.User.UserId == userId)
                                                             .ToListAsync();
                 if (targetLocations.Count == 0)
-                    return null; ;
+                    return null;
 
-                var buildings = await _rentTogetherDbContext.Buildings
+                var query =  _rentTogetherDbContext.Buildings
                                                             .Include(x => x.BuildingPictures)
                                                             .ThenInclude(xx => xx.Building)
                                                             .Include(x => x.BuildingUsers)
@@ -1653,8 +1653,9 @@ namespace RentTogether.Dal
                                                             .Where(x => x.IsRent == 0 &&
                                                                    targetLocations.Select(xx => xx.City).Contains(x.City) &&
                                                                    targetLocations.Select(xx => xx.PostalCode).Contains(x.PostalCode) &&
-                                                                   !x.BuildingUsers.Select(xx => xx.UserId).Contains(userId))
-                                                            .ToListAsync();
+                                                                   !x.BuildingUsers.Any(xx => xx.UserId == userId));
+                var buildings = query.ToList();
+                                                            
                 if (buildings.Count == 0)
                     return null;
 
@@ -1983,14 +1984,13 @@ namespace RentTogether.Dal
             }
         }
 
-        public async Task<BuildingPictureApiDto> GetBuildingPicturesAsync(int buildingId, int buildingPictureId)
+        public async Task<BuildingPictureApiDto> GetBuildingPicturesAsync(int buildingPictureId)
         {
             try
             {
                 var buildingPicture = await _rentTogetherDbContext.BuildingPictures
                                                                   .Include(x => x.Building)
-                                                                  .SingleOrDefaultAsync(x => x.Building.BuildingId == buildingId &&
-                                                                          x.BuildingPictureId == buildingPictureId);
+                                                                  .SingleOrDefaultAsync(x => x.BuildingPictureId == buildingPictureId);
                 if (buildingPicture == null)
                     return null;
 

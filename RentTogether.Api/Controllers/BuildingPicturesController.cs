@@ -31,12 +31,12 @@ namespace RentTogether.Api.Controllers
             _customEncoder = customEncoder;
             _userService = userService;
         }
-        [Route("api/Building/{buildingId}/BuildingPictures/{buildingPictureId}")]
+        [Route("api/BuildingPictures/{buildingPictureId}")]
         [HttpGet]
-        public async Task<IActionResult> Get(int buildingId, int buildingPictureId)
+        public async Task<IActionResult> Get(int buildingPictureId)
         {
             //Get header token
-            if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues) && buildingId > -1 && buildingPictureId > -1)
+            if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues) && buildingPictureId > -1)
             {
                 var token = _customEncoder.DecodeBearerAuth(headerValues.First());
                 if (token != null)
@@ -48,7 +48,7 @@ namespace RentTogether.Api.Controllers
                         if ((await _authenticationService.CheckIfTokenIsValidAsync(token) && user.IsAdmin == 1) || await _authenticationService.CheckIfTokenIsValidAsync(token, user.UserId))
                         {
 
-                            var buildingPictureApiDto = await _buildingService.GetBuildingPicturesAsync(buildingId, buildingPictureId);
+                            var buildingPictureApiDto = await _buildingService.GetBuildingPicturesAsync(buildingPictureId);
 
                             if (buildingPictureApiDto == null)
                             {

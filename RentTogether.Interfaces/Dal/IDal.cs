@@ -99,7 +99,7 @@ namespace RentTogether.Interfaces.Dal
         Task<bool> DeleteBuildingUserAsync(BuildingUserDto buildingUserDto);
 
         Task<BuildingPictureApiDto> PostBuildingPictureAsync(BuildingPictureDto buildingPictureDto);
-        Task<BuildingPictureApiDto> GetBuildingPicturesAsync(int buildingId, int buildingPictureId);
+        Task<BuildingPictureApiDto> GetBuildingPicturesAsync(int buildingPictureId);
         Task<List<BuildingPictureInformationApiDto>> GetBuildingPictureInformationsAsync(int buildingId);
 
         Task<bool> DeleteBuildingPictureAsync(int buildingPictureId);

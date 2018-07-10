@@ -34,14 +34,10 @@ namespace RentTogether.Business.Services
         {
             if (isOwner == 0)
             {
-                var buildingApiDtos = await _dal.GetAsyncBuildingForRenter(userId);
-                return buildingApiDtos;
+                return  await _dal.GetAsyncBuildingForRenter(userId);
             }
-            else
-            {
-                var buildingApiDtos = await _dal.GetAsyncBuildingsOfOwner(userId);
-                return buildingApiDtos;
-            }
+
+            return await _dal.GetAsyncBuildingsOfOwner(userId);
         }
 
         public async Task<bool> DeleteBuildingAsync(int buildingId, int userId, int isAdmin)
@@ -72,9 +68,9 @@ namespace RentTogether.Business.Services
             return buildingPictureApiDto;
         }
 
-        public async Task<BuildingPictureApiDto> GetBuildingPicturesAsync(int buildingId, int buildingPictureId)
+        public async Task<BuildingPictureApiDto> GetBuildingPicturesAsync(int buildingPictureId)
         {
-            var buildingPictureApiDto = await _dal.GetBuildingPicturesAsync(buildingId, buildingPictureId);
+            var buildingPictureApiDto = await _dal.GetBuildingPicturesAsync(buildingPictureId);
             return buildingPictureApiDto;
         }
 
