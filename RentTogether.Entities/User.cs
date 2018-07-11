@@ -35,6 +35,7 @@ namespace RentTogether.Entities
         public List<TargetLocation> TargetLocations { get; set; }
 		public List<FavoriteBuilding> FavoriteBuildings { get; set; }
 		public List<BuildingUser> BuildingUsers { get; set; }
+        public List<BuildingHistory> BuildingHistories { get; set; }
         
         public Vote Vote { get; set; }
 

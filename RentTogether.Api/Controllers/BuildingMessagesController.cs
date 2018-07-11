@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using RentTogether.Entities.Dto.BuildingMessage;
@@ -13,7 +14,7 @@ using RentTogether.Interfaces.Helpers;
 namespace RentTogether.Api.Controllers
 {
 
-    public class BuildingMessagesController : Controller
+    public class BuildingMessagesController : ODataController
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly ICustomEncoder _customEncoder;
@@ -29,6 +30,7 @@ namespace RentTogether.Api.Controllers
             _userService = userService;
         }
 
+        [EnableQuery]
         [Route("api/BuildingMessages/{buildingId}")]
         [HttpGet]
         public async Task<IActionResult> Get(int buildingId)
@@ -63,6 +65,7 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid authorization.");
         }
 
+        [EnableQuery]
         [Route("api/BuildingMessages")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]BuildingMessageDto buildingMessageDto)
@@ -97,6 +100,7 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid authorization.");
         }
 
+        [EnableQuery]
         [Route("api/BuildingMessages/{buildingMessageId}")]
         [HttpDelete]
         public async Task<IActionResult> Delete(int buildingMessageId)

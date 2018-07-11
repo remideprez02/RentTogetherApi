@@ -1650,8 +1650,6 @@ namespace RentTogether.Dal
                                                             .ThenInclude(xx => xx.Building)
                                                             .Include(x => x.BuildingUsers)
                                                             .ThenInclude(xx => xx.User)
-                                                            .Include(x => x.BuildingMessages)
-                                                            .ThenInclude(xx => xx.Writer)
                                                             .Include(x => x.Owner)
                                                             .Where(x => x.IsRent == 0 &&
                                                                    cities.Contains(x.City) &&

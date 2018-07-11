@@ -348,15 +348,7 @@ namespace RentTogether.Common.Mapper
                 }
             }
 
-            if (building.BuildingMessages != null)
-            {
                 buildingApiDto.BuildingMessageApiDtos = new List<BuildingMessageApiDto>();
-
-                foreach (var buildingMessage in building.BuildingMessages)
-                {
-                    buildingApiDto.BuildingMessageApiDtos.Add(MapBuildingMessageToBuildingMessageApiDto(buildingMessage));
-                }
-            }
 
             return buildingApiDto;
         }

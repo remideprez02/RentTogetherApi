@@ -10,7 +10,6 @@ using RentTogether.Interfaces.Business;
 using RentTogether.Interfaces.Helpers;
 using RentTogether.Common.Helpers;
 using RentTogether.Entities.Dto;
-using RentTogether.Entities.Filters.Users;
 using Microsoft.AspNet.OData;
 using RentTogether.Entities;
 using Microsoft.EntityFrameworkCore;

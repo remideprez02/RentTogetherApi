@@ -11,7 +11,6 @@
   <ItemGroup>
     <Folder Include="Dto\" />
     <Folder Include="Dto\Message\" />
-    <Folder Include="Filters\" />
     <Folder Include="Dto\Conversation\" />
     <Folder Include="Dto\Personality\" />
     <Folder Include="Dto\Participant\" />
@@ -39,6 +38,7 @@
     <Compile Remove="Demand.cs" />
     <Compile Remove="DesiredBuilding.cs" />
     <Compile Remove="Dto\Personality\Value\PersonalityValueDetailApiDto.cs" />
+    <Compile Remove="Filters\Users\UserFilters.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Dto\Personality\Value\PersonalityValueDetailApiDto.config" />

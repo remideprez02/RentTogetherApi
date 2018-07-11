@@ -30,6 +30,7 @@ namespace RentTogether.Entities
         public DbSet<MatchDetail> MatchDetails { get; set; }
         public DbSet<BuildingPicture> BuildingPictures { get; set; }
         public DbSet<PostalCode> PostalCodes { get; set; }
+        public DbSet<BuildingHistory> BuildingHistories { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -95,6 +96,11 @@ namespace RentTogether.Entities
 			modelBuilder.Entity<User>()
 						.HasMany(x => x.FavoriteBuildings)
 						.WithOne(x => x.User);
+
+            //User BuildingHistory
+            modelBuilder.Entity<User>()
+                        .HasMany(x => x.BuildingHistories)
+                        .WithOne(x => x.User);
 
             //Table Join User Building
 			modelBuilder.Entity<BuildingUser>()
@@ -287,6 +293,13 @@ namespace RentTogether.Entities
 
             modelBuilder.Entity<PostalCode>()
                         .HasKey(x => x.Id);
+
+            modelBuilder.Entity<BuildingHistory>()
+                        .HasKey(x => x.BuildingHistoryId);
+            
+            modelBuilder.Entity<BuildingHistory>()
+                        .HasOne(x => x.User)
+                        .WithMany(x => x.BuildingHistories);
         }
     }
 }

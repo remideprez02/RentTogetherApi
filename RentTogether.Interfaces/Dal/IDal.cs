@@ -17,7 +17,6 @@ using RentTogether.Entities.Dto.Personality.Detail;
 using RentTogether.Entities.Dto.Personality.Value;
 using RentTogether.Entities.Dto.SearchLocation;
 using RentTogether.Entities.Dto.TargetLocation;
-using RentTogether.Entities.Filters.Users;
 
 namespace RentTogether.Interfaces.Dal
 {

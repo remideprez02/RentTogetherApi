@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using RentTogether.Entities;
 using RentTogether.Entities.Dto;
-using RentTogether.Entities.Filters.Users;
 
 namespace RentTogether.Interfaces.Business
 {

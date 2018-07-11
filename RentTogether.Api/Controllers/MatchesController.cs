@@ -29,14 +29,9 @@ namespace RentTogether.Api.Controllers
             _customEncoder = customEncoder;
             _userService = userService;
         }
-        // GET: api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
 
         // GET api/values/5
+        [EnableQuery]
         [HttpGet]
         [Route("api/Matches/{userId}")]
         public async Task<IActionResult> Get(int userId)
@@ -65,6 +60,7 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid Authorization.");
         }
 
+        [EnableQuery]
         [HttpGet]
         [Route("api/Matches/{userId}/GetValidateMatches")]
         public async Task<IActionResult> GetValidateMatches(int userId)
@@ -93,6 +89,7 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid Authorization.");
         }
 
+        [EnableQuery]
         [HttpGet]
         [Route("api/Matches/{userId}/GetAllMatches")]
         public async Task<IActionResult> GetAllMatches(int userId)
@@ -121,7 +118,7 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid Authorization.");
         }
 
-        // POST api/values
+        [EnableQuery]
         [HttpPost]
         [Route("api/Matches")]
         public async Task<IActionResult> Post([FromBody]MatchDto matchDto)
@@ -150,6 +147,7 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid Authorization.");
         }
 
+        [EnableQuery]
         [Route("api/Matches/{userId}")]
         [HttpPatch]
         public async Task<IActionResult> Patch(int userId)
@@ -186,6 +184,7 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid Authorization.");
         }
 
+        [EnableQuery]
         [Route("api/Matches/{matchId}")]
         [HttpDelete]
         public async Task<IActionResult> Delete(int matchId)

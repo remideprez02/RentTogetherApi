@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Threading.Tasks;
 using RentTogether.Entities;
 using RentTogether.Entities.Dto;
-using RentTogether.Entities.Filters.Users;
 using RentTogether.Interfaces.Business;
 using RentTogether.Interfaces.Dal;
 using RentTogether.Interfaces.Helpers;
