@@ -11,9 +11,10 @@ using System;
 namespace RentTogether.Entities.Migrations
 {
     [DbContext(typeof(RentTogetherDbContext))]
-    partial class RentTogetherDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180714121840_AddCity2BuildingEntity")]
+    partial class AddCity2BuildingEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,6 +57,8 @@ namespace RentTogether.Entities.Migrations
                     b.Property<string>("PostalCode");
 
                     b.Property<int>("Price");
+
+                    b.Property<int>("Status");
 
                     b.Property<string>("Title");
 

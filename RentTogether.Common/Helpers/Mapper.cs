@@ -313,6 +313,7 @@ namespace RentTogether.Common.Mapper
                 Address2 = building.Address2,
                 Area = building.Area,
                 City = building.City,
+                City2 = building.City2,
                 Description = building.Description,
                 NbPiece = building.NbPiece,
                 NbRenters = building.NbRenters,
@@ -321,7 +322,6 @@ namespace RentTogether.Common.Mapper
                 Parking = building.Parking,
                 PostalCode = building.PostalCode,
                 Price = building.Price,
-                Status = building.Status,
                 Title = building.Title,
                 Type = building.Type,
                 IsRent = building.IsRent,
@@ -368,7 +368,6 @@ namespace RentTogether.Common.Mapper
                     Libelle2 = postalCode.Libelle2,
                     PostalCodeId = postalCode.PostalCodeId
                 });
-
             }
             return searchLocationApiDtos;
         }

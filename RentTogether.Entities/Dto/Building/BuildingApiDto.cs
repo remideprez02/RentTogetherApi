@@ -14,6 +14,7 @@ namespace RentTogether.Entities.Dto.Building
         public string Address2 { get; set; }
         public string PostalCode { get; set; }
         public string City { get; set; }
+        public string City2 { get; set; }
         public List<BuildingUserApiDto> BuildingUserApiDtos { get; set; }
         public UserApiDto OwnerApiDto { get; set; }
         public List<BuildingPictureInformationApiDto> BuildingPictureInformationApiDtos { get; set; }
@@ -23,7 +24,6 @@ namespace RentTogether.Entities.Dto.Building
         public int NbPiece { get; set; }
         public int NbRenters { get; set; }
         public int NbMaxRenters { get; set; }
-        public int Status { get; set; }
         public int Area { get; set; }
         public int Price { get; set; }
         public int Parking { get; set; }

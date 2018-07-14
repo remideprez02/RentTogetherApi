@@ -1554,7 +1554,6 @@ namespace RentTogether.Dal
                     Parking = buildingDto.Parking,
                     PostalCode = buildingDto.PostalCode,
                     Price = buildingDto.Price,
-                    Status = buildingDto.Status,
                     Title = buildingDto.Title,
                     Type = buildingDto.Type
                 };
@@ -1637,11 +1636,15 @@ namespace RentTogether.Dal
         {
             try
             {
+                var user = await _rentTogetherDbContext.Users
+                                                       .Include(x => x.BuildingHistories)
+                                                       .SingleOrDefaultAsync(x => x.UserId == userId);
+                
                 var targetLocations = await _rentTogetherDbContext.TargetLocations
                                                             .Include(x => x.User)
                                                             .Where(x => x.User.UserId == userId)
                                                             .ToListAsync();
-                if (!targetLocations.Any())
+                if (!targetLocations.Any() || user == null)
                     return null;
 
                 var cities = new HashSet<string>(targetLocations.Select(item => item.City));
@@ -1662,9 +1665,50 @@ namespace RentTogether.Dal
                 if (!buildings.Any())
                     return null;
 
+                //Si l'utilisateur n'a pas d'historique
+                if(!user.BuildingHistories.Any())
+                {
+                    var buildingHistories = new List<BuildingHistory>();
+                    foreach (var building in buildings)
+                    {
+                        buildingHistories.Add(new BuildingHistory()
+                        {
+                            Building = building,
+                            HasSeen = 0,
+                            User = user
+                        });
+                    }
+                    await _rentTogetherDbContext.BuildingHistories.AddRangeAsync(buildingHistories);
+                    await _rentTogetherDbContext.SaveChangesAsync();
+                }
+                //Si l'utilisateur na pas encore ce building en historique
+                else
+                {
+                    var newBuildingHistories = new List<BuildingHistory>();
+
+                    foreach (var building in buildings)
+                    {
+                        if(!user.BuildingHistories.Any(x => x.Building.BuildingId == building.BuildingId))
+                        {
+                            newBuildingHistories.Add(new BuildingHistory()
+                            {
+                                Building = building,
+                                HasSeen = 0,
+                                User = user
+                            });
+                        }
+                    }
+                    await _rentTogetherDbContext.BuildingHistories.AddRangeAsync(newBuildingHistories);
+                    await _rentTogetherDbContext.SaveChangesAsync();
+                }
+
+                var orderedBuilding = user.BuildingHistories.OrderBy(x => x.HasSeen == 0).ToList();
+
+                var order = new List<int>(orderedBuilding.Select(x => x.Building.BuildingId));
+
                 var listBuildingApiDtos = new List<BuildingApiDto>();
 
-                foreach (var building in buildings)
+                foreach (var building in buildings.OrderBy(x => order.IndexOf(x.BuildingId)))
                 {
                     listBuildingApiDtos.Add(_mapperHelper.MapBuildingToBuildingApiDto(building));
                 }
@@ -2119,7 +2163,7 @@ namespace RentTogether.Dal
             {
                 var user = await _rentTogetherDbContext.Users
                                                        .SingleOrDefaultAsync(x => x.UserId == favoriteBuildingDto.UserId);
-                
+
                 var building = await _rentTogetherDbContext.Buildings
                                                            .Include(x => x.BuildingPictures)
                                                            .ThenInclude(xx => xx.Building)
@@ -2137,7 +2181,7 @@ namespace RentTogether.Dal
                                                                             .Where(x => x.User.UserId == favoriteBuildingDto.UserId)
                                                                            .ToListAsync();
                 //Insert
-                if(!existingFavoriteBuildings.Any())
+                if (!existingFavoriteBuildings.Any())
                 {
                     var favoriteBuilding = new FavoriteBuilding
                     {
@@ -2164,7 +2208,7 @@ namespace RentTogether.Dal
                                                                               x.User.UserId == favoriteBuildingDto.UserId);
                     if (exist != null)
                         return null;
-                    
+
                     var favoriteBuilding = new FavoriteBuilding
                     {
                         TargetBuildings = new List<Building>()
@@ -2194,7 +2238,8 @@ namespace RentTogether.Dal
             }
         }
 
-        public async Task<List<BuildingApiDto>> GetFavoriteBuildingsByUserIdAsync(int userId){
+        public async Task<List<BuildingApiDto>> GetFavoriteBuildingsByUserIdAsync(int userId)
+        {
             try
             {
                 var favoriteBuildings = await _rentTogetherDbContext.FavoriteBuildings
@@ -2206,10 +2251,10 @@ namespace RentTogether.Dal
 
                 if (!favoriteBuildings.Any())
                     return null;
-                
+
                 var hashSetBuildingId = new HashSet<int>(favoriteBuildings.Select(x => x.BuildingId));
-                
-                var query =  _rentTogetherDbContext.Buildings
+
+                var query = _rentTogetherDbContext.Buildings
                                                             .Include(x => x.BuildingPictures)
                                                             .ThenInclude(xx => xx.Building)
                                                             .Include(x => x.BuildingUsers)
@@ -2258,8 +2303,6 @@ namespace RentTogether.Dal
             }
         }
         #endregion
-
-
     }
 
 }
