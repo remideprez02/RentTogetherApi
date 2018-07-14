@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using RentTogether.Entities;
 using RentTogether.Entities.Dto;
 using RentTogether.Entities.Dto.Building;
+using RentTogether.Entities.Dto.BuildingHistory;
 using RentTogether.Entities.Dto.BuildingMessage;
 using RentTogether.Entities.Dto.BuildingPicture;
 using RentTogether.Entities.Dto.BuildingUser;
@@ -351,6 +352,16 @@ namespace RentTogether.Common.Mapper
                 buildingApiDto.BuildingMessageApiDtos = new List<BuildingMessageApiDto>();
 
             return buildingApiDto;
+        }
+
+        public BuildingHistoryApiDto MapBuildingHistoryToBuildingHistoryApiDto(BuildingHistory buildingHistory){
+            return new BuildingHistoryApiDto()
+            {
+                BuildingHistoryId = buildingHistory.BuildingHistoryId,
+                BuildingId = buildingHistory.Building.BuildingId,
+                HasSeen = buildingHistory.HasSeen,
+                UserId = buildingHistory.User.UserId
+            };
         }
         #endregion
 

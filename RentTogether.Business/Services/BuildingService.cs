@@ -131,6 +131,10 @@ namespace RentTogether.Business.Services
         public async Task<BuildingHistoryApiDto> PostBuildingHistoryAsync(BuildingHistoryDto buildingHistoryDto){
             return await _dal.PostBuildingHistoryAsync(buildingHistoryDto);
         }
+
+        public async Task<List<BuildingHistoryApiDto>> GetBuildingHistoriesByUserIdAsync(int userId){
+            return await _dal.GetBuildingHistoriesByUserIdAsync(userId);
+        }
         #endregion
 
         #region FavoriteBuilding

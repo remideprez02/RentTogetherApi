@@ -30,6 +30,7 @@ namespace RentTogether.Interfaces.Business
         Task<bool> DeleteBuildingPictureAsync(int buildingPictureId);
 
         Task<BuildingHistoryApiDto> PostBuildingHistoryAsync(BuildingHistoryDto buildingHistoryDto);
+        Task<List<BuildingHistoryApiDto>> GetBuildingHistoriesByUserIdAsync(int userId);
 
         Task<FavoriteBuildingApiDto> PostFavoriteBuildingAsync(FavoriteBuildingDto favoriteBuildingDto);
         Task<List<BuildingApiDto>> GetFavoriteBuildingsByUserIdAsync(int userId);

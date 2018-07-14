@@ -112,6 +112,7 @@ namespace RentTogether.Interfaces.Dal
 
         #region BuildingHistory
         Task<BuildingHistoryApiDto> PostBuildingHistoryAsync(BuildingHistoryDto buildingHistoryDto);
+        Task<List<BuildingHistoryApiDto>> GetBuildingHistoriesByUserIdAsync(int userId);
         #endregion
 
         #region FavoriteBuilding

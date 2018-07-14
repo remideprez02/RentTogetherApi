@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using RentTogether.Entities;
 using RentTogether.Entities.Dto;
 using RentTogether.Entities.Dto.Building;
+using RentTogether.Entities.Dto.BuildingHistory;
 using RentTogether.Entities.Dto.BuildingMessage;
 using RentTogether.Entities.Dto.BuildingPicture;
 using RentTogether.Entities.Dto.BuildingUser;
@@ -42,6 +43,7 @@ namespace RentTogether.Interfaces.Helpers
         BuildingApiDto MapBuildingToBuildingApiDto(Building building);
         BuildingMessageApiDto MapBuildingMessageToBuildingMessageApiDto(BuildingMessage buildingMessage);
         BuildingPictureInformationApiDto MapBuildingPictureToBuildingPictureInformationApiDto(BuildingPicture buildingPicture);
+        BuildingHistoryApiDto MapBuildingHistoryToBuildingHistoryApiDto(BuildingHistory buildingHistory);
 
         List<SearchLocationApiDto> MapPostalCodeToSearchLocation(List<PostalCode> postalCodes);
 

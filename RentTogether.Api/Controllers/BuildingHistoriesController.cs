@@ -46,13 +46,13 @@ namespace RentTogether.Api.Controllers
                         if ((await _authenticationService.CheckIfTokenIsValidAsync(token) && user.IsAdmin == 1) || await _authenticationService.CheckIfTokenIsValidAsync(token, user.UserId))
                         {
 
-                            var buildingApiDtos = await _buildingService.GetAsyncBuilding(user.IsOwner, userId);
+                            var buildingHistoriesApiDto = await _buildingService.GetBuildingHistoriesByUserIdAsync(userId);
 
-                            if (buildingApiDtos == null)
+                            if (buildingHistoriesApiDto == null)
                             {
-                                return StatusCode(400, "Building(s) not found.");
+                                return StatusCode(400, "Building(s) History not found.");
                             }
-                            return Ok(buildingApiDtos);
+                            return Ok(buildingHistoriesApiDto);
                         }
                         return StatusCode(401, "Invalid token.");
                     }

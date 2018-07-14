@@ -1638,6 +1638,7 @@ namespace RentTogether.Dal
             {
                 var user = await _rentTogetherDbContext.Users
                                                        .Include(x => x.BuildingHistories)
+                                                       .ThenInclude(xx => xx.Building)
                                                        .SingleOrDefaultAsync(x => x.UserId == userId);
                 
                 var targetLocations = await _rentTogetherDbContext.TargetLocations
@@ -1664,44 +1665,7 @@ namespace RentTogether.Dal
 
                 if (!buildings.Any())
                     return null;
-
-                //Si l'utilisateur n'a pas d'historique
-                if(!user.BuildingHistories.Any())
-                {
-                    var buildingHistories = new List<BuildingHistory>();
-                    foreach (var building in buildings)
-                    {
-                        buildingHistories.Add(new BuildingHistory()
-                        {
-                            Building = building,
-                            HasSeen = 0,
-                            User = user
-                        });
-                    }
-                    await _rentTogetherDbContext.BuildingHistories.AddRangeAsync(buildingHistories);
-                    await _rentTogetherDbContext.SaveChangesAsync();
-                }
-                //Si l'utilisateur na pas encore ce building en historique
-                else
-                {
-                    var newBuildingHistories = new List<BuildingHistory>();
-
-                    foreach (var building in buildings)
-                    {
-                        if(!user.BuildingHistories.Any(x => x.Building.BuildingId == building.BuildingId))
-                        {
-                            newBuildingHistories.Add(new BuildingHistory()
-                            {
-                                Building = building,
-                                HasSeen = 0,
-                                User = user
-                            });
-                        }
-                    }
-                    await _rentTogetherDbContext.BuildingHistories.AddRangeAsync(newBuildingHistories);
-                    await _rentTogetherDbContext.SaveChangesAsync();
-                }
-
+               
                 var orderedBuilding = user.BuildingHistories.OrderBy(x => x.HasSeen == 0).ToList();
 
                 var order = new List<int>(orderedBuilding.Select(x => x.Building.BuildingId));
@@ -2147,6 +2111,34 @@ namespace RentTogether.Dal
                     HasSeen = buildingHistory.HasSeen,
                     UserId = buildingHistory.User.UserId
                 };
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<List<BuildingHistoryApiDto>> GetBuildingHistoriesByUserIdAsync(int userId){
+            try
+            {
+                var user = await _rentTogetherDbContext.Users
+                                                       .Include(x => x.BuildingHistories)
+                                                       .ThenInclude(xx => xx.Building)
+                                                       .Include(x => x.BuildingHistories)
+                                                       .ThenInclude(xx => xx.User)
+                                                       .SingleOrDefaultAsync(x => x.UserId == userId);
+                if (user == null)
+                    return null;
+
+                var buildingHistories = new List<BuildingHistoryApiDto>();
+
+                foreach (var buildingHistory in user.BuildingHistories)
+                {
+                    buildingHistories.Add(_mapperHelper.MapBuildingHistoryToBuildingHistoryApiDto(buildingHistory));
+                }
+
+                return buildingHistories;
 
             }
             catch (Exception ex)
