@@ -6,5 +6,6 @@ namespace RentTogether.Entities
         public int BuildingHistoryId { get; set; }
         public int HasSeen { get; set; }
         public User User { get; set; }
+        public Building Building { get; set; }
     }
 }

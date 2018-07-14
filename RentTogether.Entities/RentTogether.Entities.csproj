@@ -25,6 +25,8 @@
     <Folder Include="Dto\BuildingPicture\" />
     <Folder Include="Dto\BuildingMessage\" />
     <Folder Include="Dto\SearchLocation\" />
+    <Folder Include="Dto\BuildingHistory\" />
+    <Folder Include="Dto\FavoriteBuilding\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-beta4" />

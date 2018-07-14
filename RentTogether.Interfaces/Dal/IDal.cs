@@ -4,10 +4,12 @@ using System.Threading.Tasks;
 using RentTogether.Entities;
 using RentTogether.Entities.Dto;
 using RentTogether.Entities.Dto.Building;
+using RentTogether.Entities.Dto.BuildingHistory;
 using RentTogether.Entities.Dto.BuildingMessage;
 using RentTogether.Entities.Dto.BuildingPicture;
 using RentTogether.Entities.Dto.BuildingUser;
 using RentTogether.Entities.Dto.Conversation;
+using RentTogether.Entities.Dto.FavoriteBuilding;
 using RentTogether.Entities.Dto.Match;
 using RentTogether.Entities.Dto.Media;
 using RentTogether.Entities.Dto.Message;
@@ -106,6 +108,16 @@ namespace RentTogether.Interfaces.Dal
 
         #region SearchLocation
         Task<List<SearchLocationApiDto>> GetSearchLocationsAsync(SearchLocationDto searchLocationDto);
+        #endregion
+
+        #region BuildingHistory
+        Task<BuildingHistoryApiDto> PostBuildingHistoryAsync(BuildingHistoryDto buildingHistoryDto);
+        #endregion
+
+        #region FavoriteBuilding
+        Task<FavoriteBuildingApiDto> PostFavoriteBuildingAsync(FavoriteBuildingDto favoriteBuildingDto);
+        Task<List<BuildingApiDto>> GetFavoriteBuildingsByUserIdAsync(int userId);
+        Task<bool> DeleteFavoriteBuildingByBuildingIdAsync(int buildingId, int userId);
         #endregion
     }
 }

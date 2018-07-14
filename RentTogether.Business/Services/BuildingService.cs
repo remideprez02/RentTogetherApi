@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RentTogether.Entities.Dto.Building;
+using RentTogether.Entities.Dto.BuildingHistory;
 using RentTogether.Entities.Dto.BuildingMessage;
 using RentTogether.Entities.Dto.BuildingPicture;
 using RentTogether.Entities.Dto.BuildingUser;
+using RentTogether.Entities.Dto.FavoriteBuilding;
 using RentTogether.Interfaces.Business;
 using RentTogether.Interfaces.Dal;
 using RentTogether.Interfaces.Helpers;
@@ -34,7 +36,7 @@ namespace RentTogether.Business.Services
         {
             if (isOwner == 0)
             {
-                return  await _dal.GetAsyncBuildingForRenter(userId);
+                return await _dal.GetAsyncBuildingForRenter(userId);
             }
 
             return await _dal.GetAsyncBuildingsOfOwner(userId);
@@ -52,7 +54,8 @@ namespace RentTogether.Business.Services
             }
         }
 
-        public async Task<BuildingApiDto> GetAsyncBuildingOfRenter(int userId){
+        public async Task<BuildingApiDto> GetAsyncBuildingOfRenter(int userId)
+        {
             return await _dal.GetAsyncBuildingOfRenter(userId);
         }
 
@@ -74,13 +77,14 @@ namespace RentTogether.Business.Services
             return buildingPictureApiDto;
         }
 
-        public async Task<List<BuildingPictureInformationApiDto>> GetBuildingPictureInformationsAsync(int buildingId){
+        public async Task<List<BuildingPictureInformationApiDto>> GetBuildingPictureInformationsAsync(int buildingId)
+        {
             return await _dal.GetBuildingPictureInformationsAsync(buildingId);
         }
 
         public async Task<bool> DeleteBuildingPictureAsync(int buildingPictureId)
         {
-            return  await _dal.DeleteBuildingPictureAsync(buildingPictureId);
+            return await _dal.DeleteBuildingPictureAsync(buildingPictureId);
         }
 
         #endregion
@@ -121,6 +125,26 @@ namespace RentTogether.Business.Services
             return isSuccess;
         }
 
+        #endregion
+
+        #region BuildingHistory
+        public async Task<BuildingHistoryApiDto> PostBuildingHistoryAsync(BuildingHistoryDto buildingHistoryDto){
+            return await _dal.PostBuildingHistoryAsync(buildingHistoryDto);
+        }
+        #endregion
+
+        #region FavoriteBuilding
+        public async Task<FavoriteBuildingApiDto> PostFavoriteBuildingAsync(FavoriteBuildingDto favoriteBuildingDto){
+            return await _dal.PostFavoriteBuildingAsync(favoriteBuildingDto);
+        }
+
+        public async Task<List<BuildingApiDto>> GetFavoriteBuildingsByUserIdAsync(int userId){
+            return await _dal.GetFavoriteBuildingsByUserIdAsync(userId);
+        }
+
+        public async Task<bool> DeleteFavoriteBuildingByBuildingIdAsync(int buildingId, int userId){
+            return await _dal.DeleteFavoriteBuildingByBuildingIdAsync(buildingId, userId);
+        }
         #endregion
 
     }

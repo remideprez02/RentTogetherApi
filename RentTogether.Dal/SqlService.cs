@@ -21,6 +21,8 @@ using RentTogether.Entities.Dto.BuildingMessage;
 using RentTogether.Entities.Dto.BuildingUser;
 using RentTogether.Entities.Dto.BuildingPicture;
 using RentTogether.Entities.Dto.SearchLocation;
+using RentTogether.Entities.Dto.BuildingHistory;
+using RentTogether.Entities.Dto.FavoriteBuilding;
 
 namespace RentTogether.Dal
 {
@@ -1641,11 +1643,11 @@ namespace RentTogether.Dal
                                                             .ToListAsync();
                 if (!targetLocations.Any())
                     return null;
-                
+
                 var cities = new HashSet<string>(targetLocations.Select(item => item.City));
                 var postalCodes = new HashSet<string>(targetLocations.Select(item => item.PostalCode));
 
-                var query =  _rentTogetherDbContext.Buildings
+                var query = _rentTogetherDbContext.Buildings
                                                             .Include(x => x.BuildingPictures)
                                                             .ThenInclude(xx => xx.Building)
                                                             .Include(x => x.BuildingUsers)
@@ -1656,7 +1658,7 @@ namespace RentTogether.Dal
                                                                    postalCodes.Contains(x.PostalCode) &&
                                                                    !x.BuildingUsers.Any(xx => xx.UserId == userId));
                 var buildings = query.ToList();
-                                                            
+
                 if (!buildings.Any())
                     return null;
 
@@ -1851,7 +1853,7 @@ namespace RentTogether.Dal
                                                            .Include(x => x.Owner)
                                                            .SingleOrDefaultAsync(x => x.BuildingId == buildingUserDto.BuildingId);
 
-                if (building == null || (building.BuildingUsers.Count != 0 && building.NbMaxRenters ==  building.BuildingUsers.Count))
+                if (building == null || (building.BuildingUsers.Count != 0 && building.NbMaxRenters == building.BuildingUsers.Count))
                     return null;
 
                 var user = await _rentTogetherDbContext.Users
@@ -1961,7 +1963,8 @@ namespace RentTogether.Dal
             }
         }
 
-        public async Task<List<BuildingPictureInformationApiDto>> GetBuildingPictureInformationsAsync(int buildingId){
+        public async Task<List<BuildingPictureInformationApiDto>> GetBuildingPictureInformationsAsync(int buildingId)
+        {
             try
             {
                 var buildingPictures = await _rentTogetherDbContext.BuildingPictures
@@ -1995,7 +1998,7 @@ namespace RentTogether.Dal
                 if (buildingPicture == null)
                     return null;
 
-                    return _mapperHelper.MapBuildingPictureToBuildingPictureApiDto(buildingPicture);
+                return _mapperHelper.MapBuildingPictureToBuildingPictureApiDto(buildingPicture);
 
             }
             catch (Exception ex)
@@ -2030,7 +2033,8 @@ namespace RentTogether.Dal
         #endregion
 
         #region SearchLocation
-        public async Task<List<SearchLocationApiDto>> GetSearchLocationsAsync(SearchLocationDto searchLocationDto){
+        public async Task<List<SearchLocationApiDto>> GetSearchLocationsAsync(SearchLocationDto searchLocationDto)
+        {
             try
             {
                 var searchLocationApiDto = new List<SearchLocationApiDto>();
@@ -2045,21 +2049,208 @@ namespace RentTogether.Dal
                                                               .Take(25)
                                                               .ToListAsync();
 
-                if(!string.IsNullOrEmpty(searchLocationDto.Libelle) && string.IsNullOrEmpty(searchLocationDto.PostalCodeId))
+                if (!string.IsNullOrEmpty(searchLocationDto.Libelle) && string.IsNullOrEmpty(searchLocationDto.PostalCodeId))
                     postalCodes = await _rentTogetherDbContext.PostalCodes
                                                               .Where(x => x.Libelle.Contains(searchLocationDto.Libelle))
                                                               .Take(25)
                                                               .ToListAsync();
 
-                if(!string.IsNullOrEmpty(searchLocationDto.PostalCodeId) && string.IsNullOrEmpty(searchLocationDto.Libelle))
+                if (!string.IsNullOrEmpty(searchLocationDto.PostalCodeId) && string.IsNullOrEmpty(searchLocationDto.Libelle))
                     postalCodes = await _rentTogetherDbContext.PostalCodes
                                                               .Where(x => x.PostalCodeId.Contains(searchLocationDto.PostalCodeId))
                                                               .Take(25)
                                                               .ToListAsync();
 
                 return _mapperHelper.MapPostalCodeToSearchLocation(postalCodes);
+
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        #endregion
+
+        #region BuildingHistory
+        public async Task<BuildingHistoryApiDto> PostBuildingHistoryAsync(BuildingHistoryDto buildingHistoryDto)
+        {
+            try
+            {
+                var user = await _rentTogetherDbContext.Users
+                                                       .SingleOrDefaultAsync(x => x.UserId == buildingHistoryDto.UserId);
+                var building = await _rentTogetherDbContext.Buildings
+                                                           .SingleOrDefaultAsync(x => x.BuildingId == buildingHistoryDto.BuildingId);
+                if (user == null || building == null)
+                    return null;
+
+                var buildingHistory = new BuildingHistory()
+                {
+                    Building = building,
+                    HasSeen = 1,
+                    User = user
+                };
+
+                await _rentTogetherDbContext.BuildingHistories
+                                            .AddAsync(buildingHistory);
+
+                await _rentTogetherDbContext.SaveChangesAsync();
+
+                return new BuildingHistoryApiDto()
+                {
+                    BuildingHistoryId = buildingHistory.BuildingHistoryId,
+                    BuildingId = buildingHistory.Building.BuildingId,
+                    HasSeen = buildingHistory.HasSeen,
+                    UserId = buildingHistory.User.UserId
+                };
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        #endregion
+
+        #region FavoriteBuilding
+        public async Task<FavoriteBuildingApiDto> PostFavoriteBuildingAsync(FavoriteBuildingDto favoriteBuildingDto)
+        {
+            try
+            {
+                var user = await _rentTogetherDbContext.Users
+                                                       .SingleOrDefaultAsync(x => x.UserId == favoriteBuildingDto.UserId);
+                
+                var building = await _rentTogetherDbContext.Buildings
+                                                           .Include(x => x.BuildingPictures)
+                                                           .ThenInclude(xx => xx.Building)
+                                                           .Include(x => x.BuildingUsers)
+                                                           .Include(x => x.BuildingMessages)
+                                                           .ThenInclude(xx => xx.Writer)
+                                                           .Include(x => x.Owner)
+                                                           .SingleOrDefaultAsync(x => x.BuildingId == favoriteBuildingDto.BuildingId);
+                if (user == null || building == null)
+                    return null;
+
+                var existingFavoriteBuildings = await _rentTogetherDbContext.FavoriteBuildings
+                                                        .Include(x => x.User)
+                                                        .Include(x => x.TargetBuildings)
+                                                                            .Where(x => x.User.UserId == favoriteBuildingDto.UserId)
+                                                                           .ToListAsync();
+                //Insert
+                if(!existingFavoriteBuildings.Any())
+                {
+                    var favoriteBuilding = new FavoriteBuilding
+                    {
+                        TargetBuildings = new List<Building>()
+                    };
+
+                    favoriteBuilding.TargetBuildings.Add(building);
+                    favoriteBuilding.User = user;
+
+                    await _rentTogetherDbContext.FavoriteBuildings.AddAsync(favoriteBuilding);
+                    await _rentTogetherDbContext.SaveChangesAsync();
+
+                    return new FavoriteBuildingApiDto()
+                    {
+                        BuildingId = building.BuildingId,
+                        FavoriteBuildingId = favoriteBuilding.FavoriteBuildingId,
+                        UserId = user.UserId
+                    };
+                }
+                //Update
+                else
+                {
+                    var exist = existingFavoriteBuildings.SingleOrDefault(x => x.TargetBuildings.Any(xx => xx.BuildingId == favoriteBuildingDto.BuildingId) &&
+                                                                              x.User.UserId == favoriteBuildingDto.UserId);
+                    if (exist != null)
+                        return null;
                     
-                    
+                    var favoriteBuilding = new FavoriteBuilding
+                    {
+                        TargetBuildings = new List<Building>()
+                    };
+
+                    favoriteBuilding.TargetBuildings.Add(building);
+                    favoriteBuilding.User = user;
+
+                    existingFavoriteBuildings.Add(favoriteBuilding);
+
+                    _rentTogetherDbContext.FavoriteBuildings.UpdateRange(existingFavoriteBuildings);
+                    await _rentTogetherDbContext.SaveChangesAsync();
+
+                    return new FavoriteBuildingApiDto()
+                    {
+                        BuildingId = building.BuildingId,
+                        FavoriteBuildingId = existingFavoriteBuildings.FirstOrDefault(x => x.User.UserId == user.UserId &&
+                                                                                      x.TargetBuildings.Any(xs => xs.BuildingId == building.BuildingId)).FavoriteBuildingId,
+                        UserId = user.UserId
+                    };
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<List<BuildingApiDto>> GetFavoriteBuildingsByUserIdAsync(int userId){
+            try
+            {
+                var favoriteBuildings = await _rentTogetherDbContext.FavoriteBuildings
+                                                                    .Include(x => x.TargetBuildings)
+                                                                    .Include(x => x.User)
+                                                                    .Where(x => x.User.UserId == userId)
+                                                                    .SelectMany(x => x.TargetBuildings)
+                                                                    .ToListAsync();
+
+                if (!favoriteBuildings.Any())
+                    return null;
+                
+                var hashSetBuildingId = new HashSet<int>(favoriteBuildings.Select(x => x.BuildingId));
+                
+                var query =  _rentTogetherDbContext.Buildings
+                                                            .Include(x => x.BuildingPictures)
+                                                            .ThenInclude(xx => xx.Building)
+                                                            .Include(x => x.BuildingUsers)
+                                                            .ThenInclude(xx => xx.User)
+                                                            .Include(x => x.Owner)
+                                                            .Where(x => hashSetBuildingId.Contains(x.BuildingId));
+                var buildings = query.ToList();
+
+                if (!buildings.Any())
+                    return null;
+
+                var buildingApiDtos = new List<BuildingApiDto>();
+                foreach (var building in buildings)
+                {
+                    buildingApiDtos.Add(_mapperHelper.MapBuildingToBuildingApiDto(building));
+                }
+
+                return buildingApiDtos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> DeleteFavoriteBuildingByBuildingIdAsync(int buildingId, int userId)
+        {
+            try
+            {
+                var favoriteBuilding = await _rentTogetherDbContext.FavoriteBuildings
+                                                                   .Include(x => x.TargetBuildings)
+                                                                   .Include(x => x.User)
+                                                                   .SingleOrDefaultAsync(x => x.TargetBuildings.Select(xx => xx.BuildingId).Contains(buildingId) &&
+                                                                                         x.User.UserId == userId);
+                if (favoriteBuilding == null)
+                    return false;
+
+                _rentTogetherDbContext.FavoriteBuildings.Remove(favoriteBuilding);
+                await _rentTogetherDbContext.SaveChangesAsync();
+
+                return true;
             }
             catch (Exception ex)
             {

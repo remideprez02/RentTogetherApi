@@ -6,9 +6,6 @@ namespace RentTogether.Entities
 {
     public class FavoriteBuilding
     {
-        public FavoriteBuilding()
-        {
-        }
         [Key]
 		public int FavoriteBuildingId { get; set; }
 		public List<Building> TargetBuildings { get; set; }

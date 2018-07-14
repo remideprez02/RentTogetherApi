@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RentTogether.Entities.Dto.Building;
+using RentTogether.Entities.Dto.BuildingHistory;
 using RentTogether.Entities.Dto.BuildingMessage;
 using RentTogether.Entities.Dto.BuildingPicture;
 using RentTogether.Entities.Dto.BuildingUser;
+using RentTogether.Entities.Dto.FavoriteBuilding;
 
 namespace RentTogether.Interfaces.Business
 {
@@ -26,5 +28,11 @@ namespace RentTogether.Interfaces.Business
         Task<BuildingPictureApiDto> GetBuildingPicturesAsync(int buildingPictureId);
         Task<List<BuildingPictureInformationApiDto>> GetBuildingPictureInformationsAsync(int buildingId);
         Task<bool> DeleteBuildingPictureAsync(int buildingPictureId);
+
+        Task<BuildingHistoryApiDto> PostBuildingHistoryAsync(BuildingHistoryDto buildingHistoryDto);
+
+        Task<FavoriteBuildingApiDto> PostFavoriteBuildingAsync(FavoriteBuildingDto favoriteBuildingDto);
+        Task<List<BuildingApiDto>> GetFavoriteBuildingsByUserIdAsync(int userId);
+        Task<bool> DeleteFavoriteBuildingByBuildingIdAsync(int buildingId, int userId);
     }
 }
