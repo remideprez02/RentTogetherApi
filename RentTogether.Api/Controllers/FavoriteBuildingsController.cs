@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,6 +33,7 @@ namespace RentTogether.Api.Controllers
             _userService = userService;
         }
 
+        //Get favorite buildings by User Id
         [Route("api/FavoriteBuildings/{userId}")]
         [HttpGet]
         public async Task<IActionResult> Get(int userId)
@@ -63,6 +69,11 @@ namespace RentTogether.Api.Controllers
         }
 
 
+        /// <summary>
+        /// Post the specified favoriteBuildingDto.
+        /// </summary>
+        /// <returns>The post.</returns>
+        /// <param name="favoriteBuildingDto">Favorite building dto.</param>
         [Route("api/FavoriteBuildings")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]FavoriteBuildingDto favoriteBuildingDto)
@@ -97,6 +108,12 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid authorization.");
         }
 
+        /// <summary>
+        /// Delete the specified buildingId and userId.
+        /// </summary>
+        /// <returns>The delete.</returns>
+        /// <param name="buildingId">Building identifier.</param>
+        /// <param name="userId">User identifier.</param>
         [Route("api/FavoriteBuildings/{buildingId}/User/{userID}")]
         [HttpDelete]
         public async Task<IActionResult> Delete(int buildingId, int userId)

@@ -1,9 +1,14 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using RentTogether.Interfaces.Helpers;
 
 namespace RentTogether.Common.Helpers
 {
-    public class LoggingEvents
+    public static class LoggingEvents
     {
         public const int GenerateItems = 1000;
         public const int ListItems = 1001;

@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,8 +12,6 @@ using Microsoft.Extensions.Primitives;
 using RentTogether.Entities.Dto.BuildingHistory;
 using RentTogether.Interfaces.Business;
 using RentTogether.Interfaces.Helpers;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace RentTogether.Api.Controllers
 {
@@ -29,6 +32,7 @@ namespace RentTogether.Api.Controllers
             _userService = userService;
         }
 
+        //Get List Building History By UserId
         [Route("api/BuildingHistories/{userId}")]
         [HttpGet]
         public async Task<IActionResult> Get(int userId)
@@ -63,6 +67,11 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid authorization.");
         }
 
+        /// <summary>
+        /// Post the specified buildingHistoryDto.
+        /// </summary>
+        /// <returns>The post.</returns>
+        /// <param name="buildingHistoryDto">Building history dto.</param>
         [Route("api/BuildingHistories")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]BuildingHistoryDto buildingHistoryDto)

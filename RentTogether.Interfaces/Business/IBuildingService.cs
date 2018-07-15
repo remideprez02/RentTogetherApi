@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RentTogether.Entities.Dto.Building;
@@ -16,6 +21,7 @@ namespace RentTogether.Interfaces.Business
         Task<List<BuildingApiDto>> GetAsyncBuilding(int isOwner, int userId);
         Task<BuildingApiDto> GetAsyncBuildingOfRenter(int userId);
         Task<bool> DeleteBuildingAsync(int buildingId, int userId, int isAdmin);
+        Task<BuildingApiDto> UpdateBuildingAsync(BuildingUpdateDto buildingUpdateDto);
 
         Task<BuildingMessageApiDto> PostAsyncBuildingMessage(BuildingMessageDto buildingMessageDto);
         Task<List<BuildingMessageApiDto>> GetBuildingMessagesAsync(int buildingId);

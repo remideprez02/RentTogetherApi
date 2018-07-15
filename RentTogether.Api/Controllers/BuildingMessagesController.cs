@@ -1,5 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.OData;
@@ -30,6 +33,7 @@ namespace RentTogether.Api.Controllers
             _userService = userService;
         }
 
+        //Get Messages from Building By Building Id
         [EnableQuery]
         [Route("api/BuildingMessages/{buildingId}")]
         [HttpGet]
@@ -65,6 +69,11 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid authorization.");
         }
 
+        /// <summary>
+        /// Post the specified buildingMessageDto.
+        /// </summary>
+        /// <returns>The post.</returns>
+        /// <param name="buildingMessageDto">Building message dto.</param>
         [EnableQuery]
         [Route("api/BuildingMessages")]
         [HttpPost]
@@ -100,6 +109,11 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid authorization.");
         }
 
+        /// <summary>
+        /// Delete the specified buildingMessageId.
+        /// </summary>
+        /// <returns>The delete.</returns>
+        /// <param name="buildingMessageId">Building message identifier.</param>
         [EnableQuery]
         [Route("api/BuildingMessages/{buildingMessageId}")]
         [HttpDelete]

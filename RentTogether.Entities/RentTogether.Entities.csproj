@@ -29,11 +29,11 @@
     <Folder Include="Dto\FavoriteBuilding\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-beta4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Validation.cs" />
@@ -41,6 +41,8 @@
     <Compile Remove="DesiredBuilding.cs" />
     <Compile Remove="Dto\Personality\Value\PersonalityValueDetailApiDto.cs" />
     <Compile Remove="Filters\Users\UserFilters.cs" />
+    <Compile Remove="Dto\BuildingPicture\:Users:remi:Documents:ProjetsESGI:Core:RentTogether.Dal:SqlService.cs" />
+    <Compile Remove="Dto\BuildingPicture\:Users:remi:Documents:ProjetsESGI:Core:RentTogether.Dal:SqlService:UserSqlService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Dto\Personality\Value\PersonalityValueDetailApiDto.config" />

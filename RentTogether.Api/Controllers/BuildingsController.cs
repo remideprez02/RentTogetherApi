@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,6 +34,11 @@ namespace RentTogether.Api.Controllers
             _userService = userService;
         }
 
+        /// <summary>
+        /// Get the specified userId.
+        /// </summary>
+        /// <returns>The get.</returns>
+        /// <param name="userId">User identifier.</param>
         [Route("api/Building/{userId}")]
         [HttpGet]
         public async Task<IActionResult> Get(int userId)
@@ -63,6 +73,11 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid authorization.");
         }
 
+        /// <summary>
+        /// Gets the building of renter.
+        /// </summary>
+        /// <returns>The building of renter.</returns>
+        /// <param name="userId">User identifier.</param>
         [Route("api/Building/BuildingUser/{userId}")]
         [HttpGet]
         public async Task<IActionResult> GetBuildingOfRenter(int userId)
@@ -97,6 +112,11 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid authorization.");
         }
 
+        /// <summary>
+        /// Post the specified buildingDto.
+        /// </summary>
+        /// <returns>The post.</returns>
+        /// <param name="buildingDto">Building dto.</param>
         [Route("api/Building")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]BuildingDto buildingDto)
@@ -131,6 +151,12 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid authorization.");
         }
 
+        /// <summary>
+        /// Delete the specified buildingId and userId.
+        /// </summary>
+        /// <returns>The delete.</returns>
+        /// <param name="buildingId">Building identifier.</param>
+        /// <param name="userId">User identifier.</param>
         [Route("api/Building/{buildingId}/User/{userId}")]
         [HttpDelete]
         public async Task<IActionResult> Delete(int buildingId, int userId)
@@ -155,6 +181,45 @@ namespace RentTogether.Api.Controllers
                                 return StatusCode(404, "Unable to delete building.");
                             }
                             return StatusCode(204, "Building has been deleted.");
+                        }
+                        return StatusCode(401, "Invalid token.");
+                    }
+                    return StatusCode(403, "Invalid user.");
+                }
+                return StatusCode(401, "Invalid authorization.");
+            }
+            return StatusCode(401, "Invalid authorization.");
+        }
+
+        /// <summary>
+        /// Put the specified buildingUpdateDto.
+        /// </summary>
+        /// <returns>The put.</returns>
+        /// <param name="buildingUpdateDto">Building update dto.</param>
+        [Route("api/Building")]
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody]BuildingUpdateDto buildingUpdateDto)
+        {
+            //Get header token
+            if (Request.Headers.TryGetValue("Authorization", out StringValues headerValues))
+            {
+                var token = _customEncoder.DecodeBearerAuth(headerValues.First());
+                if (token != null)
+                {
+                    var user = await _userService.GetUserAsyncByToken(token);
+                    if (user != null)
+                    {
+                        //Verify if the token exist and is not expire
+                        if ((await _authenticationService.CheckIfTokenIsValidAsync(token) && user.IsAdmin == 1) || await _authenticationService.CheckIfTokenIsValidAsync(token, user.UserId))
+                        {
+
+                            var buildingApiDto = await _buildingService.UpdateBuildingAsync(buildingUpdateDto);
+
+                            if (buildingApiDto == null)
+                            {
+                                return StatusCode(400, "Unable to update building.");
+                            }
+                            return Ok(buildingApiDto);
                         }
                         return StatusCode(401, "Invalid token.");
                     }

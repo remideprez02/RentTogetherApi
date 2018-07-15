@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -30,6 +35,7 @@ namespace RentTogether.Api.Controllers
             _mapperHelper = mapperHelper;
         }
 
+        //Get Messages By UserId
         [Route("api/Messages/{userId}")]
         [HttpGet]
         [EnableQuery]
@@ -59,6 +65,11 @@ namespace RentTogether.Api.Controllers
 			return StatusCode(401, "Invalid authorization.");
         }
 
+        /// <summary>
+        /// Gets the messages by conversation identifier.
+        /// </summary>
+        /// <returns>The messages by conversation identifier.</returns>
+        /// <param name="conversationId">Conversation identifier.</param>
 		[Route("api/Conversations/{conversationId}/Messages")]
         [HttpGet]
         [EnableQuery]
@@ -91,7 +102,11 @@ namespace RentTogether.Api.Controllers
 			return StatusCode(401, "Invalid authorization.");
         }
 
-        //POST User
+        /// <summary>
+        /// Post the specified messageDto.
+        /// </summary>
+        /// <returns>The post.</returns>
+        /// <param name="messageDto">Message dto.</param>
         [Route("api/Messages")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]MessageDto messageDto)

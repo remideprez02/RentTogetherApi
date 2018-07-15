@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
@@ -9,9 +14,6 @@ namespace RentTogether.Common.Helpers
 {
     public class CustomEncoder : ICustomEncoder
     {
-        public CustomEncoder()
-        {
-        }
 
         /// <summary>
         /// Base64s the encode.
@@ -59,6 +61,11 @@ namespace RentTogether.Common.Helpers
             return null;
         }
 
+        /// <summary>
+        /// Decodes the bearer auth.
+        /// </summary>
+        /// <returns>The bearer auth.</returns>
+        /// <param name="encodeBearerAuth">Encode bearer auth.</param>
         public string DecodeBearerAuth(string encodeBearerAuth)
         {
             if (encodeBearerAuth.Substring(0, 6) == "Bearer")
@@ -68,14 +75,19 @@ namespace RentTogether.Common.Helpers
             return null;
         }
 
+        /// <summary>
+        /// Files to base64.
+        /// </summary>
+        /// <returns>The to base64.</returns>
+        /// <param name="file">File.</param>
 		public string FileToBase64(IFormFile file)
-		{
-			using(var memoryStream = new MemoryStream())
-			{
-				file.CopyTo(memoryStream);
-				var fileBytes = memoryStream.ToArray();
-				return Convert.ToBase64String(fileBytes);
-			}
-		}
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                file.CopyTo(memoryStream);
+                var fileBytes = memoryStream.ToArray();
+                return Convert.ToBase64String(fileBytes);
+            }
+        }
     }
 }

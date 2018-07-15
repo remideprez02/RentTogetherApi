@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +32,11 @@ namespace RentTogether.Api.Controllers
             _userService = userService;
         }
 
-        //GET Conversation
+        /// <summary>
+        /// Get the specified participant.
+        /// </summary>
+        /// <returns>The get.</returns>
+        /// <param name="userId">User identifier.</param>
         [Route("api/Participants/{userId}")]
         [HttpGet]
         [EnableQuery]
@@ -42,7 +51,7 @@ namespace RentTogether.Api.Controllers
                     //Verify if the token exist and is not expire
                     if (await _authenticationService.CheckIfTokenIsValidAsync(token, userId))
                     {
-                        //Verify if messages for this userId exist
+                        
 						var participant = await _participantService.GetParticipantAsyncByUserId(userId);
 						if (participant == null)
                         {
@@ -57,7 +66,10 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid Authorization.");
         }
 
-        //GET Conversation
+        /// <summary>
+        /// Get this participants.
+        /// </summary>
+        /// <returns>The get.</returns>
         [Route("api/Participants")]
         [HttpGet]
         [EnableQuery]
@@ -92,7 +104,11 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid Authorization.");
         }
 
-        //POST Conversation
+        /// <summary>
+        /// Post the specified participantDto.
+        /// </summary>
+        /// <returns>The post.</returns>
+        /// <param name="participantDto">Participant dto.</param>
         [Route("api/Participants")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]List<ParticipantDto> participantDto)

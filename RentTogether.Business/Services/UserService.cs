@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -56,10 +61,10 @@ namespace RentTogether.Business.Services
             var user = await _dal.GetUserAsyncById(id);
             if (user != null)
             {
-                var userAPiDto = _mapperHelper.MapUserToUserApiDto(await _dal.GetUserAsyncById(id));
+                var userAPiDto = _mapperHelper.MapUserToUserApiDto(user);
                 return userAPiDto;
             }
-			return null;
+            return null;
         }
 
         /// <summary>
@@ -76,7 +81,8 @@ namespace RentTogether.Business.Services
             var time = user.TokenExpirationDate.ToUniversalTime();
 
             //Check if user token is not UpToDate
-            if(user.TokenExpirationDate.ToUniversalTime() < DateTime.UtcNow){
+            if (user.TokenExpirationDate.ToUniversalTime() < DateTime.UtcNow)
+            {
                 //Update token user
                 var userApiDtoUpdate = _authenticationService.RequestToken(user);
 
@@ -97,11 +103,10 @@ namespace RentTogether.Business.Services
         /// <param name="token">Token.</param>
         public async Task<bool> DeleteUserByIdAsync(int userId, string token)
         {
-			var isValid = await _authenticationService.CheckIfTokenIsValidAsync(token, userId);
-			var user = await _dal.GetUserAsyncByToken(token);
-            
-            
-			if (user.IsAdmin == 1 || isValid)
+            var isValid = await _authenticationService.CheckIfTokenIsValidAsync(token, userId);
+            var user = await _dal.GetUserAsyncByToken(token);
+
+            if (user.IsAdmin == 1 || isValid)
             {
                 var userDeleted = await _dal.DeleteUserByIdAsync(userId);
 
@@ -114,10 +119,16 @@ namespace RentTogether.Business.Services
             return false;
         }
 
+        /// <summary>
+        /// Updates the user async.
+        /// </summary>
+        /// <returns>The user async.</returns>
+        /// <param name="userApiDto">User API dto.</param>
+        /// <param name="token">Token.</param>
         public async Task<UserApiDto> UpdateUserAsync(UserApiDto userApiDto, string token)
         {
             var isValid = await _authenticationService.CheckIfTokenIsValidAsync(userApiDto.Token, userApiDto.UserId);
-			var user = await _dal.GetUserAsyncByToken(token);
+            var user = await _dal.GetUserAsyncByToken(token);
 
             if (user.IsAdmin == 1 || isValid)
             {
@@ -132,9 +143,13 @@ namespace RentTogether.Business.Services
             return null;
         }
 
+        /// <summary>
+        /// Gets all users async.
+        /// </summary>
+        /// <returns>The all users async.</returns>
 		public async Task<List<UserApiDto>> GetAllUsersAsync()
         {
-			var users = await _dal.GetAllUserAsync();
+            var users = await _dal.GetAllUserAsync();
 
             if (users == null)
             {
@@ -143,6 +158,11 @@ namespace RentTogether.Business.Services
             return users;
         }
 
+        /// <summary>
+        /// Gets the user async by token.
+        /// </summary>
+        /// <returns>The user async by token.</returns>
+        /// <param name="token">Token.</param>
         public async Task<UserApiDto> GetUserAsyncByToken(string token)
         {
             var user = await _dal.GetUserAsyncByToken(token);
@@ -153,25 +173,35 @@ namespace RentTogether.Business.Services
             return null;
         }
 
+        /// <summary>
+        /// Checks if user model is valid.
+        /// </summary>
+        /// <returns>The if user model is valid.</returns>
+        /// <param name="userRegisterDto">User register dto.</param>
 		public Tuple<bool, string> CheckIfUserModelIsValid(UserRegisterDto userRegisterDto)
-		{
-			if (userRegisterDto.Email == "" || userRegisterDto.Password == "")
-				return new Tuple<bool, string>(false, "Invalid UserEmail or Password");
+        {
+            if (userRegisterDto.Email == "" || userRegisterDto.Password == "")
+                return new Tuple<bool, string>(false, "Invalid UserEmail or Password");
 
-			if (userRegisterDto.City == "" || userRegisterDto.PostalCode == "")
-				return new Tuple<bool, string>(false, "Invalid City or PostalCode");
+            if (userRegisterDto.City == "" || userRegisterDto.PostalCode == "")
+                return new Tuple<bool, string>(false, "Invalid City or PostalCode");
 
-			if (userRegisterDto.PhoneNumber == "" || userRegisterDto.PhoneNumber.Length > 10)
-				return new Tuple<bool, string>(false, "Invalid UserEmail or Password");
+            if (userRegisterDto.PhoneNumber == "" || userRegisterDto.PhoneNumber.Length > 10)
+                return new Tuple<bool, string>(false, "Invalid UserEmail or Password");
 
-			if ((userRegisterDto.IsAdmin < 0 || userRegisterDto.IsAdmin > 1) ||
-				(userRegisterDto.IsOwner < 0 || userRegisterDto.IsOwner > 1) ||
-				(userRegisterDto.IsRoomer < 0 || userRegisterDto.IsRoomer > 1))
-				return new Tuple<bool, string>(false, "Invalid User Type");
+            if ((userRegisterDto.IsAdmin < 0 || userRegisterDto.IsAdmin > 1) ||
+                (userRegisterDto.IsOwner < 0 || userRegisterDto.IsOwner > 1) ||
+                (userRegisterDto.IsRoomer < 0 || userRegisterDto.IsRoomer > 1))
+                return new Tuple<bool, string>(false, "Invalid User Type");
 
-			return new Tuple<bool, string>(true, "");
-		}
+            return new Tuple<bool, string>(true, "");
+        }
 
+        /// <summary>
+        /// Patchs the user.
+        /// </summary>
+        /// <returns>The user.</returns>
+        /// <param name="userPatchApiDto">User patch API dto.</param>
         public async Task<UserApiDto> PatchUser(UserPatchApiDto userPatchApiDto)
         {
             try
@@ -185,5 +215,5 @@ namespace RentTogether.Business.Services
                 throw new Exception(ex.Message);
             }
         }
-	}
+    }
 }

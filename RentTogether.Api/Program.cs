@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,11 +29,6 @@ namespace RentTogether
                 try
                 {
                     var context = services.GetRequiredService<RentTogetherDbContext>();
-
-                    //Attention aux données déjà enregistrées, ici on supprimer la Database avant de la créee
-                    //context.Database.EnsureDeleted();
-                    //context.Database.EnsureCreated()
-                    //context.Database.Migrate();
                     context.SaveChanges();
                 }
                 catch (Exception ex)
@@ -41,7 +41,6 @@ namespace RentTogether
 
             host.Run();
             Console.ReadKey();
-
         }
 
         public static IWebHost BuildWebHost(string[] args) =>

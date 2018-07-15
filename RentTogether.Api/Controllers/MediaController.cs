@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.OData;
@@ -26,6 +31,13 @@ namespace RentTogether.Api.Controllers
 			_mediaService = mediaService;
 			_customEncoder = customEncoder;
         }
+
+        /// <summary>
+        /// Posts the user picture.
+        /// </summary>
+        /// <returns>The user picture.</returns>
+        /// <param name="file">File.</param>
+        /// <param name="userId">User identifier.</param>
 		[Route("api/Media")]
         [HttpPost]
 		public async Task<IActionResult> PostUserPicture(IFormFile file, int userId)
@@ -64,6 +76,11 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid authorization.");
 		}
 
+        /// <summary>
+        /// Gets the user picture.
+        /// </summary>
+        /// <returns>The user picture.</returns>
+        /// <param name="userId">User identifier.</param>
 		[Route("api/Media/{userId}")]
         [HttpGet]
         [EnableQuery]

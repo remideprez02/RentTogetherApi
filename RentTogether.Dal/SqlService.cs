@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +28,7 @@ using RentTogether.Entities.Dto.BuildingPicture;
 using RentTogether.Entities.Dto.SearchLocation;
 using RentTogether.Entities.Dto.BuildingHistory;
 using RentTogether.Entities.Dto.FavoriteBuilding;
+using Microsoft.Extensions.Logging;
 
 namespace RentTogether.Dal
 {
@@ -30,15 +36,17 @@ namespace RentTogether.Dal
     {
         private readonly RentTogetherDbContext _rentTogetherDbContext;
         private readonly IMapperHelper _mapperHelper;
-        private readonly IMatchesGenerator _matchesGenerator;
+        private readonly ILogger<SqlService> _logger;
 
-        public SqlService(RentTogetherDbContext rentTogetherDbContext, IMapperHelper mapperHelper, IMatchesGenerator matchesGenerator)
+        public SqlService(RentTogetherDbContext rentTogetherDbContext, IMapperHelper mapperHelper, ILogger<SqlService> logger)
         {
             _rentTogetherDbContext = rentTogetherDbContext;
             _mapperHelper = mapperHelper;
-            _matchesGenerator = matchesGenerator;
+            _logger = logger;
         }
+
         #region Users
+
         /// <summary>
         /// Creates the user.
         /// </summary>
@@ -54,7 +62,8 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while inserting User.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
@@ -75,7 +84,8 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while checking if User exist.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
@@ -93,8 +103,10 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting User.");
+                throw new Exception(ex.Message, ex);
             }
+
         }
 
         /// <summary>
@@ -117,7 +129,8 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting User.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
@@ -135,7 +148,8 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting User token expiration.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
@@ -163,7 +177,8 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while deleting User.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
@@ -191,7 +206,8 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while updating User.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
@@ -216,7 +232,8 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting All Users.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
@@ -238,7 +255,8 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting User.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
@@ -256,13 +274,15 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while patching User.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
         #endregion
 
         #region Messages
+
         /// <summary>
         /// Gets the messages async by user identifier.
         /// </summary>
@@ -291,7 +311,8 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting Messages.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
@@ -340,7 +361,8 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while inserting Message.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
@@ -371,7 +393,8 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting Messages.");
+                throw new Exception(ex.Message, ex);
             }
         }
         #endregion
@@ -406,7 +429,8 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while inserting Conversation.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
@@ -488,7 +512,8 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting Conversations.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
@@ -568,7 +593,8 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting Conversations.");
+                throw new Exception(ex.Message, ex);
             }
         }
         #endregion
@@ -597,7 +623,8 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting Participant.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
@@ -630,7 +657,8 @@ namespace RentTogether.Dal
 
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting Participants.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
@@ -699,13 +727,20 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while inserting Participants.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
         #endregion
 
         #region Media
+
+        /// <summary>
+        /// Posts the async user picture.
+        /// </summary>
+        /// <returns>The async user picture.</returns>
+        /// <param name="fileDto">File dto.</param>
         public async Task<FileApiDto> PostAsyncUserPicture(FileDto fileDto)
         {
             try
@@ -748,10 +783,16 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while inserting User Picture.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
+        /// <summary>
+        /// Gets the async user picture by user identifier.
+        /// </summary>
+        /// <returns>The async user picture by user identifier.</returns>
+        /// <param name="userId">User identifier.</param>
         public async Task<FileApiDto> GetAsyncUserPictureByUserId(int userId)
         {
             try
@@ -767,7 +808,8 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting User Picture.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
@@ -775,6 +817,11 @@ namespace RentTogether.Dal
 
         #region Personality
 
+        /// <summary>
+        /// Posts the async detail personality.
+        /// </summary>
+        /// <returns>The async detail personality.</returns>
+        /// <param name="detailPersonalityDto">Detail personality dto.</param>
         public async Task<DetailPersonalityApiDto> PostAsyncDetailPersonality(DetailPersonalityDto detailPersonalityDto)
         {
             try
@@ -797,10 +844,15 @@ namespace RentTogether.Dal
 
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while inserting Personality Detail.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
+        /// <summary>
+        /// Gets the async all personality referencials.
+        /// </summary>
+        /// <returns>The async all personality referencials.</returns>
         public async Task<List<DetailPersonalityApiDto>> GetAsyncAllPersonalityReferencials()
         {
             try
@@ -819,28 +871,35 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting Personality Details.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
+        /// <summary>
+        /// Posts the async personality values.
+        /// </summary>
+        /// <returns>The async personality values.</returns>
+        /// <param name="personalityValueDtos">Personality value dtos.</param>
+        /// <param name="userId">User identifier.</param>
         public async Task<List<PersonalityValueApiDto>> PostAsyncPersonalityValues(List<PersonalityValueDto> personalityValueDtos, int userId)
         {
             try
             {
                 var user = await _rentTogetherDbContext.Users
-                                       .Include(x => x.Personality)
-                                       .ThenInclude(xx => xx.PersonalityValues)
+                                                       .Include(x => x.Personality)
+                                                       .ThenInclude(xx => xx.PersonalityValues)
                                                        .ThenInclude(xxx => xxx.PersonalityReferencial)
-                                       .Include(x => x.Personality)
-                                       .ThenInclude(xx => xx.User)
-                                       .SingleOrDefaultAsync(x => x.UserId == userId);
+                                                       .Include(x => x.Personality)
+                                                       .ThenInclude(xx => xx.User)
+                                                       .SingleOrDefaultAsync(x => x.UserId == userId);
 
                 var personalityValues = new List<PersonalityValue>();
 
                 foreach (var personalityValue in personalityValueDtos)
                 {
                     var personalityReferencial = await _rentTogetherDbContext.PersonalityReferencials
-                                                                       .SingleOrDefaultAsync(x => x.PersonalityReferencialId == personalityValue.PersonalityReferencialId);
+                                                                             .SingleOrDefaultAsync(x => x.PersonalityReferencialId == personalityValue.PersonalityReferencialId);
                     if (user.Personality == null)
                     {
                         user.Personality = new Personality
@@ -868,7 +927,6 @@ namespace RentTogether.Dal
 
                 if (user.Personality == null)
                 {
-
                     //Set Personality User
                     var personality = new Personality()
                     {
@@ -905,10 +963,16 @@ namespace RentTogether.Dal
 
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while inserting Personality Values.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
+        /// <summary>
+        /// Gets the personality async by user identifier.
+        /// </summary>
+        /// <returns>The personality async by user identifier.</returns>
+        /// <param name="userId">User identifier.</param>
         public async Task<PersonalityApiDto> GetPersonalityAsyncByUserId(int userId)
         {
             try
@@ -939,10 +1003,17 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting Personality.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
+        /// <summary>
+        /// Patchs the async personality values by user identifier.
+        /// </summary>
+        /// <returns>The async personality values by user identifier.</returns>
+        /// <param name="userId">User identifier.</param>
+        /// <param name="personalityValuePatchDtos">Personality value patch dtos.</param>
         public async Task<List<PersonalityValueApiDto>> PatchAsyncPersonalityValuesByUserId(int userId, List<PersonalityValuePatchDto> personalityValuePatchDtos)
         {
             try
@@ -981,12 +1052,19 @@ namespace RentTogether.Dal
 
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while patching Personality Values.");
+                throw new Exception(ex.Message, ex);
             }
         }
         #endregion
 
         #region Match
+
+        /// <summary>
+        /// Posts the async match.
+        /// </summary>
+        /// <returns>The async match.</returns>
+        /// <param name="matchDto">Match dto.</param>
         public async Task<MatchApiDto> PostAsyncMatch(MatchDto matchDto)
         {
             try
@@ -1000,6 +1078,7 @@ namespace RentTogether.Dal
                 if (match == null)
                     return null;
 
+                //Set user status and targetUser status
                 if (matchDto.StatusUser == 1)
                     match.StatusUser = 1;
 
@@ -1027,10 +1106,16 @@ namespace RentTogether.Dal
 
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while inserting Match.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
+        /// <summary>
+        /// Gets the async all matches.
+        /// </summary>
+        /// <returns>The async all matches.</returns>
+        /// <param name="userId">User identifier.</param>
         public async Task<List<MatchApiDto>> GetAsyncAllMatches(int userId)
         {
             try
@@ -1050,6 +1135,7 @@ namespace RentTogether.Dal
                                                            .ThenInclude(xxx => xxx.PersonalityReferencial)
                                                            .Include(x => x.TargetLocations)
                                                            .SingleOrDefaultAsync(x => x.UserId == userId);
+
                 var matchApiDtos = new List<MatchApiDto>();
 
                 if (user.Matches == null)
@@ -1064,11 +1150,17 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting Matches.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
 
+        /// <summary>
+        /// Gets the async list matches.
+        /// </summary>
+        /// <returns>The async list matches.</returns>
+        /// <param name="userId">User identifier.</param>
         public async Task<List<MatchApiDto>> GetAsyncListMatches(int userId)
         {
             try
@@ -1097,6 +1189,7 @@ namespace RentTogether.Dal
 
                 var matchApiDtos = new List<MatchApiDto>();
 
+                //If user has already matches
                 if (user.Matches.Any(x => x.StatusUser == 0))
                 {
                     foreach (var userMatch in user.Matches.Where(x => x.StatusUser == 0 && x.StatusTargetUser != 2))
@@ -1125,10 +1218,13 @@ namespace RentTogether.Dal
                                                                user.TargetLocations.Select(xx => xx.City).Any(b => x.TargetLocations.Select(bb => bb.City).Contains(b)) &&
                                                                user.TargetLocations.Select(xx => xx.PostalCode).Any(b => x.TargetLocations.Select(bb => bb.PostalCode).Contains(b)))
                                                         .ToListAsync();
+
                 if (users.Count == 0)
                     return null;
+
                 var usersToClean = new List<User>();
-                //Enleve les match où status = 2
+
+                //Retrieve users to clean where matches status 2
                 foreach (var userClean in users)
                 {
                     foreach (var m in userClean.Matches)
@@ -1138,7 +1234,6 @@ namespace RentTogether.Dal
                             if (m.StatusTargetUser == 2)
                                 usersToClean.Add(userClean);
                         }
-
                     }
                     if (user.Matches.Any(x => x.TargetUser.UserId == userClean.UserId && x.StatusUser == 1))
                     {
@@ -1146,6 +1241,7 @@ namespace RentTogether.Dal
                     }
                 }
 
+                //Remove users where matches status 2
                 foreach (var userCln in usersToClean)
                 {
                     users.Remove(userCln);
@@ -1159,8 +1255,10 @@ namespace RentTogether.Dal
 
                 var result = 0;
                 var matchFail = false;
+
                 foreach (var userTarget in users)
                 {
+                    //Check if user is valid for match
                     foreach (var userTargetPersonalityValue in userTarget.Personality.PersonalityValues)
                     {
                         var userValue = user.Personality.PersonalityValues.FirstOrDefault(x => x.PersonalityReferencial.PersonalityReferencialId == userTargetPersonalityValue.PersonalityReferencial.PersonalityReferencialId);
@@ -1169,26 +1267,29 @@ namespace RentTogether.Dal
                         {
                             var variation = 100 * (userTargetPersonalityValue.Value - userValue.Value) / userValue.Value;
 
-                            //If variation is negative
+                            //Check variation
+                            //If < 0
                             if (variation <= 0)
                             {
                                 result = 100 - (variation * -1);
                             }
+                            //Else variation > 0
                             else
                             {
                                 result = (variation - 100) * -1;
                             }
 
-                            if (result < 50)
-                            {
+                            //If percent match < 50, match fail
+                            if(result < 50)
                                 matchFail = true;
-                            }
+
                             result = 0;
                         }
                     }
 
                     if (matchFail == false)
                     {
+                        //Get values foreach personalityValues
                         foreach (var userTargetPersonalityValue in userTarget.Personality.PersonalityValues)
                         {
 
@@ -1197,33 +1298,43 @@ namespace RentTogether.Dal
                             {
                                 var variation = 100 * (userTargetPersonalityValue.Value - userValue.Value) / userValue.Value;
 
-                                //If variation is negative
+                                //Check variation
+                                //If < 0
                                 if (variation <= 0)
                                 {
                                     result = 100 - (variation * -1);
                                 }
+                                //Else variation > 0
                                 else
                                 {
                                     result = (variation - 100) * -1;
                                 }
 
+                                //Add match details
                                 matchDetails.Add(new MatchDetail()
                                 {
                                     PersonalityReferencial = userValue.PersonalityReferencial,
                                     Percent = result,
                                     Value = userTargetPersonalityValue.Value
                                 });
+
                                 result = 0;
                             }
                         }
+
+                        //Set status if target user has user in match
                         var status = users.SingleOrDefault(x => x.UserId == userTarget.UserId)?.Matches.FirstOrDefault(x => x?.User.UserId == userTarget.UserId)?.StatusUser;
                         var statusToAdd = status ?? 0;
+
                         var total = 0;
                         matchDetails.ForEach(m =>
                         {
                             total = total + m.Percent;
                         });
+
+                        //Set average match between users
                         var average = total / matchDetails.Count;
+
                         newUserMatches.Add(new Match()
                         {
                             User = user,
@@ -1241,29 +1352,40 @@ namespace RentTogether.Dal
                 if (newUserMatches == null)
                     return null;
 
+                //Add matches to user
                 await _rentTogetherDbContext.Matches.AddRangeAsync(newUserMatches);
                 await _rentTogetherDbContext.SaveChangesAsync();
 
+                //Map match
                 foreach (var match in newUserMatches)
                 {
                     matchApiDtos.Add(_mapperHelper.MapMatchToMatchApiDto(match));
                 }
                 var matchDetailApiDtos = new List<MatchDetailApiDto>();
 
+                //Map match details
                 foreach (var matchDetail in newUserMatches.SelectMany(x => x.MatchDetails))
                 {
                     matchDetailApiDtos.Add(_mapperHelper.MapMapDetailToMatchDetailApiDto(matchDetail));
                 }
+
+                //Add match delails inside matches
                 matchApiDtos.SelectMany(x => x.MatchDetailApiDtos).ToList().AddRange(matchDetailApiDtos);
 
                 return matchApiDtos;
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting Matches.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
+        /// <summary>
+        /// Gets the async validate matches.
+        /// </summary>
+        /// <returns>The async validate matches.</returns>
+        /// <param name="userId">User identifier.</param>
         public async Task<List<MatchApiDto>> GetAsyncValidateMatches(int userId)
         {
             try
@@ -1288,10 +1410,16 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting Matches.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
+        /// <summary>
+        /// Patchs the async matches.
+        /// </summary>
+        /// <returns>The async matches.</returns>
+        /// <param name="userId">User identifier.</param>
         public async Task<List<MatchApiDto>> PatchAsyncMatches(int userId)
         {
             try
@@ -1321,6 +1449,7 @@ namespace RentTogether.Dal
                                                   .Where(x => x.TargetUser.UserId == userId && x.StatusTargetUser == 2)
                                                   .ToListAsync();
 
+                //Reset TargetUser matches
                 if (matchesTargetUser != null)
                 {
                     foreach (var matchTargetUser in matchesTargetUser)
@@ -1332,6 +1461,8 @@ namespace RentTogether.Dal
                 }
 
                 var matchApiDtos = new List<MatchApiDto>();
+
+                //Reset User matches
                 foreach (var match in user.Matches.Where(x => x.StatusUser == 2))
                 {
                     match.StatusUser = 0;
@@ -1345,10 +1476,16 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while patching Matches.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
+        /// <summary>
+        /// Deletes the async match.
+        /// </summary>
+        /// <returns>The async match.</returns>
+        /// <param name="matchId">Match identifier.</param>
         public async Task<bool> DeleteAsyncMatch(int matchId)
         {
             try
@@ -1385,13 +1522,20 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while deleting Matches.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
         #endregion
 
         #region TargetLocation
+
+        /// <summary>
+        /// Gets the async target locations by user identifier.
+        /// </summary>
+        /// <returns>The async target locations by user identifier.</returns>
+        /// <param name="userId">User identifier.</param>
         public async Task<List<TargetLocationApiDto>> GetAsyncTargetLocationsByUserId(int userId)
         {
             try
@@ -1401,7 +1545,7 @@ namespace RentTogether.Dal
                                                                   .Where(x => x.User.UserId == userId)
                                                                   .ToListAsync();
 
-                if (targetLocations == null || targetLocations.Count == 0)
+                if (!targetLocations.Any())
                     return null;
 
                 var targetLocationApiDtos = new List<TargetLocationApiDto>();
@@ -1415,10 +1559,17 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting Target Locations.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
+        /// <summary>
+        /// Posts the async target location.
+        /// </summary>
+        /// <returns>The async target location.</returns>
+        /// <param name="targetLocationDtos">Target location dtos.</param>
+        /// <param name="userId">User identifier.</param>
         public async Task<List<TargetLocationApiDto>> PostAsyncTargetLocation(List<TargetLocationDto> targetLocationDtos, int userId)
         {
             try
@@ -1455,10 +1606,17 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while inserting Target Locations.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
+        /// <summary>
+        /// Patchs the async target location.
+        /// </summary>
+        /// <returns>The async target location.</returns>
+        /// <param name="targetLocationPatchDtos">Target location patch dtos.</param>
+        /// <param name="userId">User identifier.</param>
         public async Task<List<TargetLocationApiDto>> PatchAsyncTargetLocation(List<TargetLocationPatchDto> targetLocationPatchDtos, int userId)
         {
             try
@@ -1468,7 +1626,7 @@ namespace RentTogether.Dal
                                                                  .Where(x => x.User.UserId == userId)
                                                                  .ToListAsync();
 
-                if (targetLocations == null || targetLocations.Count == 0)
+                if (!targetLocations.Any())
                     return null;
 
                 foreach (var targetLocation in targetLocations)
@@ -1502,10 +1660,16 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while patching Target Locations.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
+        /// <summary>
+        /// Deletes the async target location.
+        /// </summary>
+        /// <returns>The async target location.</returns>
+        /// <param name="targetLocationId">Target location identifier.</param>
         public async Task<bool> DeleteAsyncTargetLocation(int targetLocationId)
         {
             try
@@ -1523,13 +1687,19 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while deleting Target Location.");
+                throw new Exception(ex.Message, ex);
             }
         }
         #endregion
 
         #region Building
 
+        /// <summary>
+        /// Posts the async building.
+        /// </summary>
+        /// <returns>The async building.</returns>
+        /// <param name="buildingDto">Building dto.</param>
         public async Task<BuildingApiDto> PostAsyncBuilding(BuildingDto buildingDto)
         {
             try
@@ -1566,10 +1736,16 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while inserting Building.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
+        /// <summary>
+        /// Gets the async buildings of owner.
+        /// </summary>
+        /// <returns>The async buildings of owner.</returns>
+        /// <param name="userId">User identifier.</param>
         public async Task<List<BuildingApiDto>> GetAsyncBuildingsOfOwner(int userId)
         {
             try
@@ -1598,10 +1774,16 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting Buildings.");
+                throw new Exception(ex.Message, ex);
             }
-
         }
+
+        /// <summary>
+        /// Gets the async building of renter.
+        /// </summary>
+        /// <returns>The async building of renter.</returns>
+        /// <param name="userId">User identifier.</param>
         public async Task<BuildingApiDto> GetAsyncBuildingOfRenter(int userId)
         {
             try
@@ -1629,9 +1811,16 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting Building.");
+                throw new Exception(ex.Message, ex);
             }
         }
+
+        /// <summary>
+        /// Gets the async building for renter.
+        /// </summary>
+        /// <returns>The async building for renter.</returns>
+        /// <param name="userId">User identifier.</param>
         public async Task<List<BuildingApiDto>> GetAsyncBuildingForRenter(int userId)
         {
             try
@@ -1640,11 +1829,11 @@ namespace RentTogether.Dal
                                                        .Include(x => x.BuildingHistories)
                                                        .ThenInclude(xx => xx.Building)
                                                        .SingleOrDefaultAsync(x => x.UserId == userId);
-                
+
                 var targetLocations = await _rentTogetherDbContext.TargetLocations
-                                                            .Include(x => x.User)
-                                                            .Where(x => x.User.UserId == userId)
-                                                            .ToListAsync();
+                                                                  .Include(x => x.User)
+                                                                  .Where(x => x.User.UserId == userId)
+                                                                  .ToListAsync();
                 if (!targetLocations.Any() || user == null)
                     return null;
 
@@ -1652,20 +1841,20 @@ namespace RentTogether.Dal
                 var postalCodes = new HashSet<string>(targetLocations.Select(item => item.PostalCode));
 
                 var query = _rentTogetherDbContext.Buildings
-                                                            .Include(x => x.BuildingPictures)
-                                                            .ThenInclude(xx => xx.Building)
-                                                            .Include(x => x.BuildingUsers)
-                                                            .ThenInclude(xx => xx.User)
-                                                            .Include(x => x.Owner)
-                                                            .Where(x => x.IsRent == 0 &&
-                                                                   cities.Contains(x.City) &&
-                                                                   postalCodes.Contains(x.PostalCode) &&
-                                                                   !x.BuildingUsers.Any(xx => xx.UserId == userId));
+                                                  .Include(x => x.BuildingPictures)
+                                                  .ThenInclude(xx => xx.Building)
+                                                  .Include(x => x.BuildingUsers)
+                                                  .ThenInclude(xx => xx.User)
+                                                  .Include(x => x.Owner)
+                                                  .Where(x => x.IsRent == 0 &&
+                                                         cities.Contains(x.City) &&
+                                                         postalCodes.Contains(x.PostalCode) &&
+                                                         !x.BuildingUsers.Any(xx => xx.UserId == userId));
                 var buildings = query.ToList();
 
                 if (!buildings.Any())
                     return null;
-               
+
                 var orderedBuilding = user.BuildingHistories.OrderBy(x => x.HasSeen == 0).ToList();
 
                 var order = new List<int>(orderedBuilding.Select(x => x.Building.BuildingId));
@@ -1681,10 +1870,16 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting Buildings.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
+        /// <summary>
+        /// Deletes the building async.
+        /// </summary>
+        /// <returns>The building async.</returns>
+        /// <param name="buildingId">Building identifier.</param>
         public async Task<bool> DeleteBuildingAsync(int buildingId)
         {
             try
@@ -1708,10 +1903,17 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while deleting Building.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
+        /// <summary>
+        /// Deletes the building for owner identifier async.
+        /// </summary>
+        /// <returns>The building for owner identifier async.</returns>
+        /// <param name="buildingId">Building identifier.</param>
+        /// <param name="ownerId">Owner identifier.</param>
         public async Task<bool> DeleteBuildingForOwnerIdAsync(int buildingId, int ownerId)
         {
             try
@@ -1720,10 +1922,10 @@ namespace RentTogether.Dal
                                                            .Include(x => x.BuildingPictures)
                                                            .ThenInclude(xx => xx.Building)
                                                            .Include(x => x.BuildingUsers)
-                                                        .ThenInclude(xx => xx.User)
-                                                        .Include(x => x.BuildingMessages)
-                                                        .ThenInclude(xx => xx.Writer)
-                                                        .Include(x => x.Owner)
+                                                            .ThenInclude(xx => xx.User)
+                                                            .Include(x => x.BuildingMessages)
+                                                            .ThenInclude(xx => xx.Writer)
+                                                            .Include(x => x.Owner)
                                                            .SingleOrDefaultAsync(x => x.BuildingId == buildingId && x.Owner.UserId == ownerId);
                 if (building == null)
                     return false;
@@ -1735,7 +1937,44 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while deleting Building.");
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// Updates the building async.
+        /// </summary>
+        /// <returns>The building async.</returns>
+        /// <param name="buildingUpdateDto">Building update dto.</param>
+        public async Task<BuildingApiDto> UpdateBuildingAsync(BuildingUpdateDto buildingUpdateDto)
+        {
+            try
+            {
+                var building = await _rentTogetherDbContext.Buildings
+                                                           .Include(x => x.BuildingPictures)
+                                                           .ThenInclude(xx => xx.Building)
+                                                           .Include(x => x.BuildingUsers)
+                                                            .ThenInclude(xx => xx.User)
+                                                            .Include(x => x.BuildingMessages)
+                                                            .ThenInclude(xx => xx.Writer)
+                                                            .Include(x => x.Owner)
+                                                           .SingleOrDefaultAsync(x => x.BuildingId == buildingUpdateDto.BuildingId);
+                if (building == null)
+                    return null;
+
+                var updateBuilding = _mapperHelper.MapBuildingUpdateDtoToBuilding(buildingUpdateDto, building);
+
+                _rentTogetherDbContext.Buildings.Update(updateBuilding);
+                await _rentTogetherDbContext.SaveChangesAsync();
+
+                return _mapperHelper.MapBuildingToBuildingApiDto(updateBuilding);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message, "An error occurred while updating Building.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
@@ -1743,6 +1982,11 @@ namespace RentTogether.Dal
 
         #region BuildingMessage
 
+        /// <summary>
+        /// Posts the async building message.
+        /// </summary>
+        /// <returns>The async building message.</returns>
+        /// <param name="buildingMessageDto">Building message dto.</param>
         public async Task<BuildingMessageApiDto> PostAsyncBuildingMessage(BuildingMessageDto buildingMessageDto)
         {
             try
@@ -1751,10 +1995,10 @@ namespace RentTogether.Dal
                                                              .Include(x => x.BuildingPictures)
                                                              .ThenInclude(xx => xx.Building)
                                                              .Include(x => x.BuildingUsers)
-                                                           .Include(x => x.BuildingMessages)
-                                                           .ThenInclude(xx => xx.Writer)
-                                                     .Include(x => x.Owner)
-                                                     .SingleOrDefaultAsync(x => x.BuildingId == buildingMessageDto.BuildingId);
+                                                             .Include(x => x.BuildingMessages)
+                                                             .ThenInclude(xx => xx.Writer)
+                                                             .Include(x => x.Owner)
+                                                             .SingleOrDefaultAsync(x => x.BuildingId == buildingMessageDto.BuildingId);
 
                 var user = await _rentTogetherDbContext.Users
                                                        .SingleOrDefaultAsync(x => x.UserId == buildingMessageDto.UserId);
@@ -1779,10 +2023,16 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while inserting Building Message.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
+        /// <summary>
+        /// Gets the building messages async.
+        /// </summary>
+        /// <returns>The building messages async.</returns>
+        /// <param name="buildingId">Building identifier.</param>
         public async Task<List<BuildingMessageApiDto>> GetBuildingMessagesAsync(int buildingId)
         {
             try
@@ -1810,10 +2060,16 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting Building Message.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
+        /// <summary>
+        /// Deletes the building message async.
+        /// </summary>
+        /// <returns>The building message async.</returns>
+        /// <param name="buildingMessageId">Building message identifier.</param>
         public async Task<bool> DeleteBuildingMessageAsync(int buildingMessageId)
         {
             try
@@ -1832,7 +2088,8 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while deleting Building Message.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
@@ -1840,6 +2097,11 @@ namespace RentTogether.Dal
 
         #region BuildingUsers
 
+        /// <summary>
+        /// Posts the building user async.
+        /// </summary>
+        /// <returns>The building user async.</returns>
+        /// <param name="buildingUserDto">Building user dto.</param>
         public async Task<BuildingUserApiDto> PostBuildingUserAsync(BuildingUserDto buildingUserDto)
         {
             try
@@ -1893,10 +2155,16 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while inserting Building User.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
+        /// <summary>
+        /// Deletes the building user async.
+        /// </summary>
+        /// <returns>The building user async.</returns>
+        /// <param name="buildingUserDto">Building user dto.</param>
         public async Task<bool> DeleteBuildingUserAsync(BuildingUserDto buildingUserDto)
         {
             try
@@ -1932,12 +2200,18 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while deleting Building User.");
+                throw new Exception(ex.Message, ex);
             }
         }
         #endregion
 
         #region BuildingPictures
+        /// <summary>
+        /// Posts the building picture async.
+        /// </summary>
+        /// <returns>The building picture async.</returns>
+        /// <param name="buildingPictureDto">Building picture dto.</param>
         public async Task<BuildingPictureApiDto> PostBuildingPictureAsync(BuildingPictureDto buildingPictureDto)
         {
             try
@@ -1967,10 +2241,16 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while inserting Building Picture.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
+        /// <summary>
+        /// Gets the building picture informations async.
+        /// </summary>
+        /// <returns>The building picture informations async.</returns>
+        /// <param name="buildingId">Building identifier.</param>
         public async Task<List<BuildingPictureInformationApiDto>> GetBuildingPictureInformationsAsync(int buildingId)
         {
             try
@@ -1992,10 +2272,16 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting Building Picture Informations.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
+        /// <summary>
+        /// Gets the building pictures async.
+        /// </summary>
+        /// <returns>The building pictures async.</returns>
+        /// <param name="buildingPictureId">Building picture identifier.</param>
         public async Task<BuildingPictureApiDto> GetBuildingPicturesAsync(int buildingPictureId)
         {
             try
@@ -2011,12 +2297,16 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting Building Picture.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
-
-
+        /// <summary>
+        /// Deletes the building picture async.
+        /// </summary>
+        /// <returns>The building picture async.</returns>
+        /// <param name="buildingPictureId">Building picture identifier.</param>
         public async Task<bool> DeleteBuildingPictureAsync(int buildingPictureId)
         {
             try
@@ -2035,12 +2325,19 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while deleting Building Picture.");
+                throw new Exception(ex.Message, ex);
             }
         }
         #endregion
 
         #region SearchLocation
+
+        /// <summary>
+        /// Gets the search locations async.
+        /// </summary>
+        /// <returns>The search locations async.</returns>
+        /// <param name="searchLocationDto">Search location dto.</param>
         public async Task<List<SearchLocationApiDto>> GetSearchLocationsAsync(SearchLocationDto searchLocationDto)
         {
             try
@@ -2075,12 +2372,19 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting Search Locations.");
+                throw new Exception(ex.Message, ex);
             }
         }
         #endregion
 
         #region BuildingHistory
+
+        /// <summary>
+        /// Posts the building history async.
+        /// </summary>
+        /// <returns>The building history async.</returns>
+        /// <param name="buildingHistoryDto">Building history dto.</param>
         public async Task<BuildingHistoryApiDto> PostBuildingHistoryAsync(BuildingHistoryDto buildingHistoryDto)
         {
             try
@@ -2115,11 +2419,18 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while inserting Building History.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
-        public async Task<List<BuildingHistoryApiDto>> GetBuildingHistoriesByUserIdAsync(int userId){
+        /// <summary>
+        /// Gets the building histories by user identifier async.
+        /// </summary>
+        /// <returns>The building histories by user identifier async.</returns>
+        /// <param name="userId">User identifier.</param>
+        public async Task<List<BuildingHistoryApiDto>> GetBuildingHistoriesByUserIdAsync(int userId)
+        {
             try
             {
                 var user = await _rentTogetherDbContext.Users
@@ -2143,12 +2454,19 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting Building Histories.");
+                throw new Exception(ex.Message, ex);
             }
         }
         #endregion
 
         #region FavoriteBuilding
+
+        /// <summary>
+        /// Posts the favorite building async.
+        /// </summary>
+        /// <returns>The favorite building async.</returns>
+        /// <param name="favoriteBuildingDto">Favorite building dto.</param>
         public async Task<FavoriteBuildingApiDto> PostFavoriteBuildingAsync(FavoriteBuildingDto favoriteBuildingDto)
         {
             try
@@ -2168,10 +2486,10 @@ namespace RentTogether.Dal
                     return null;
 
                 var existingFavoriteBuildings = await _rentTogetherDbContext.FavoriteBuildings
-                                                        .Include(x => x.User)
-                                                        .Include(x => x.TargetBuildings)
+                                                                            .Include(x => x.User)
+                                                                            .Include(x => x.TargetBuildings)
                                                                             .Where(x => x.User.UserId == favoriteBuildingDto.UserId)
-                                                                           .ToListAsync();
+                                                                            .ToListAsync();
                 //Insert
                 if (!existingFavoriteBuildings.Any())
                 {
@@ -2197,7 +2515,7 @@ namespace RentTogether.Dal
                 else
                 {
                     var exist = existingFavoriteBuildings.SingleOrDefault(x => x.TargetBuildings.Any(xx => xx.BuildingId == favoriteBuildingDto.BuildingId) &&
-                                                                              x.User.UserId == favoriteBuildingDto.UserId);
+                                                                               x.User.UserId == favoriteBuildingDto.UserId);
                     if (exist != null)
                         return null;
 
@@ -2226,10 +2544,16 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while inserting Favorite Building.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
+        /// <summary>
+        /// Gets the favorite buildings by user identifier async.
+        /// </summary>
+        /// <returns>The favorite buildings by user identifier async.</returns>
+        /// <param name="userId">User identifier.</param>
         public async Task<List<BuildingApiDto>> GetFavoriteBuildingsByUserIdAsync(int userId)
         {
             try
@@ -2247,12 +2571,12 @@ namespace RentTogether.Dal
                 var hashSetBuildingId = new HashSet<int>(favoriteBuildings.Select(x => x.BuildingId));
 
                 var query = _rentTogetherDbContext.Buildings
-                                                            .Include(x => x.BuildingPictures)
-                                                            .ThenInclude(xx => xx.Building)
-                                                            .Include(x => x.BuildingUsers)
-                                                            .ThenInclude(xx => xx.User)
-                                                            .Include(x => x.Owner)
-                                                            .Where(x => hashSetBuildingId.Contains(x.BuildingId));
+                                                  .Include(x => x.BuildingPictures)
+                                                  .ThenInclude(xx => xx.Building)
+                                                  .Include(x => x.BuildingUsers)
+                                                  .ThenInclude(xx => xx.User)
+                                                  .Include(x => x.Owner)
+                                                  .Where(x => hashSetBuildingId.Contains(x.BuildingId));
                 var buildings = query.ToList();
 
                 if (!buildings.Any())
@@ -2268,10 +2592,17 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while getting Favorite Buildings.");
+                throw new Exception(ex.Message, ex);
             }
         }
 
+        /// <summary>
+        /// Deletes the favorite building by building identifier async.
+        /// </summary>
+        /// <returns>The favorite building by building identifier async.</returns>
+        /// <param name="buildingId">Building identifier.</param>
+        /// <param name="userId">User identifier.</param>
         public async Task<bool> DeleteFavoriteBuildingByBuildingIdAsync(int buildingId, int userId)
         {
             try
@@ -2291,7 +2622,8 @@ namespace RentTogether.Dal
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError(ex, ex.Message, "An error occurred while deleting Favorite Building.");
+                throw new Exception(ex.Message, ex);
             }
         }
         #endregion

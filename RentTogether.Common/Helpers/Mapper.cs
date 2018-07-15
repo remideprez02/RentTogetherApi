@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.Collections.Generic;
 using RentTogether.Entities;
 using RentTogether.Entities.Dto;
@@ -27,8 +32,14 @@ namespace RentTogether.Common.Mapper
         {
             _customEncoder = customEncoder;
         }
+
         #region User
 
+        /// <summary>
+        /// Maps the user register dto to user.
+        /// </summary>
+        /// <returns>The user register dto to user.</returns>
+        /// <param name="userRegisterDto">User register dto.</param>
         public User MapUserRegisterDtoToUser(UserRegisterDto userRegisterDto)
         {
 
@@ -47,6 +58,11 @@ namespace RentTogether.Common.Mapper
             };
         }
 
+        /// <summary>
+        /// Maps the user to user API dto.
+        /// </summary>
+        /// <returns>The user to user API dto.</returns>
+        /// <param name="user">User.</param>
         public UserApiDto MapUserToUserApiDto(User user)
         {
 
@@ -69,6 +85,12 @@ namespace RentTogether.Common.Mapper
             };
         }
 
+        /// <summary>
+        /// Maps the update user API dto to user.
+        /// </summary>
+        /// <returns>The update user API dto to user.</returns>
+        /// <param name="userApiDto">User API dto.</param>
+        /// <param name="user">User.</param>
         public User MapUpdateUserApiDtoToUser(UserApiDto userApiDto, User user)
         {
             user.Description = userApiDto.Description;
@@ -86,6 +108,12 @@ namespace RentTogether.Common.Mapper
             return user;
         }
 
+        /// <summary>
+        /// Maps the user patch API dto to user.
+        /// </summary>
+        /// <returns>The user patch API dto to user.</returns>
+        /// <param name="user">User.</param>
+        /// <param name="userPatchApiDto">User patch API dto.</param>
         public User MapUserPatchApiDtoToUser(User user, UserPatchApiDto userPatchApiDto)
         {
             if (!string.IsNullOrEmpty(userPatchApiDto.PhoneNumber))
@@ -126,6 +154,12 @@ namespace RentTogether.Common.Mapper
         #endregion
 
         #region Participant
+
+        /// <summary>
+        /// Maps the participant to participant API dto.
+        /// </summary>
+        /// <returns>The participant to participant API dto.</returns>
+        /// <param name="participant">Participant.</param>
         public ParticipantApiDto MapParticipantToParticipantApiDto(Participant participant)
         {
 
@@ -156,6 +190,12 @@ namespace RentTogether.Common.Mapper
         #endregion
 
         #region Message
+
+        /// <summary>
+        /// Maps the message to message API dto.
+        /// </summary>
+        /// <returns>The message to message API dto.</returns>
+        /// <param name="message">Message.</param>
         public MessageApiDto MapMessageToMessageApiDto(Message message)
         {
             return new MessageApiDto()
@@ -172,6 +212,11 @@ namespace RentTogether.Common.Mapper
 
         #region UserPicture
 
+        /// <summary>
+        /// Maps the user picture to file API dto.
+        /// </summary>
+        /// <returns>The user picture to file API dto.</returns>
+        /// <param name="userPicture">User picture.</param>
         public FileApiDto MapUserPictureToFileApiDto(UserPicture userPicture)
         {
             return new FileApiDto()
@@ -186,6 +231,11 @@ namespace RentTogether.Common.Mapper
 
         #region Personality
 
+        /// <summary>
+        /// Maps the personality referencial to detail personality API dto.
+        /// </summary>
+        /// <returns>The personality referencial to detail personality API dto.</returns>
+        /// <param name="personalityReferencial">Personality referencial.</param>
         public DetailPersonalityApiDto MapPersonalityReferencialToDetailPersonalityApiDto(PersonalityReferencial personalityReferencial)
         {
             return new DetailPersonalityApiDto()
@@ -200,6 +250,11 @@ namespace RentTogether.Common.Mapper
             };
         }
 
+        /// <summary>
+        /// Maps the personality value to personality value API dto.
+        /// </summary>
+        /// <returns>The personality value to personality value API dto.</returns>
+        /// <param name="personalityValue">Personality value.</param>
         public PersonalityValueApiDto MapPersonalityValueToPersonalityValueApiDto(PersonalityValue personalityValue)
         {
             return new PersonalityValueApiDto()
@@ -213,6 +268,11 @@ namespace RentTogether.Common.Mapper
 
         #region Match   
 
+        /// <summary>
+        /// Maps the match to match API dto.
+        /// </summary>
+        /// <returns>The match to match API dto.</returns>
+        /// <param name="match">Match.</param>
         public MatchApiDto MapMatchToMatchApiDto(Match match)
         {
             var matchApiDto = new MatchApiDto()
@@ -237,6 +297,11 @@ namespace RentTogether.Common.Mapper
             return matchApiDto;
         }
 
+        /// <summary>
+        /// Maps the map detail to match detail API dto.
+        /// </summary>
+        /// <returns>The map detail to match detail API dto.</returns>
+        /// <param name="matchDetail">Match detail.</param>
         public MatchDetailApiDto MapMapDetailToMatchDetailApiDto(MatchDetail matchDetail)
         {
             return new MatchDetailApiDto()
@@ -250,6 +315,12 @@ namespace RentTogether.Common.Mapper
         #endregion
 
         #region TargetLocation
+
+        /// <summary>
+        /// Maps the target location to target location API dto.
+        /// </summary>
+        /// <returns>The target location to target location API dto.</returns>
+        /// <param name="targetLocation">Target location.</param>
         public TargetLocationApiDto MapTargetLocationToTargetLocationApiDto(TargetLocation targetLocation)
         {
             return new TargetLocationApiDto()
@@ -265,7 +336,13 @@ namespace RentTogether.Common.Mapper
 
         #region Building
 
-        public BuildingPictureInformationApiDto MapBuildingPictureToBuildingPictureInformationApiDto(BuildingPicture buildingPicture){
+        /// <summary>
+        /// Maps the building picture to building picture information API dto.
+        /// </summary>
+        /// <returns>The building picture to building picture information API dto.</returns>
+        /// <param name="buildingPicture">Building picture.</param>
+        public BuildingPictureInformationApiDto MapBuildingPictureToBuildingPictureInformationApiDto(BuildingPicture buildingPicture)
+        {
             return new BuildingPictureInformationApiDto()
             {
                 BuildingId = buildingPicture.Building.BuildingId,
@@ -273,6 +350,11 @@ namespace RentTogether.Common.Mapper
             };
         }
 
+        /// <summary>
+        /// Maps the building message to building message API dto.
+        /// </summary>
+        /// <returns>The building message to building message API dto.</returns>
+        /// <param name="buildingMessage">Building message.</param>
         public BuildingMessageApiDto MapBuildingMessageToBuildingMessageApiDto(BuildingMessage buildingMessage)
         {
             return new BuildingMessageApiDto()
@@ -286,6 +368,11 @@ namespace RentTogether.Common.Mapper
             };
         }
 
+        /// <summary>
+        /// Maps the building picture to building picture API dto.
+        /// </summary>
+        /// <returns>The building picture to building picture API dto.</returns>
+        /// <param name="buildingPicture">Building picture.</param>
         public BuildingPictureApiDto MapBuildingPictureToBuildingPictureApiDto(BuildingPicture buildingPicture)
         {
             return new BuildingPictureApiDto()
@@ -296,6 +383,11 @@ namespace RentTogether.Common.Mapper
             };
         }
 
+        /// <summary>
+        /// Maps the building user to building user API dto.
+        /// </summary>
+        /// <returns>The building user to building user API dto.</returns>
+        /// <param name="buildingUser">Building user.</param>
         public BuildingUserApiDto MapBuildingUserToBuildingUserApiDto(BuildingUser buildingUser)
         {
             return new BuildingUserApiDto()
@@ -305,6 +397,11 @@ namespace RentTogether.Common.Mapper
             };
         }
 
+        /// <summary>
+        /// Maps the building to building API dto.
+        /// </summary>
+        /// <returns>The building to building API dto.</returns>
+        /// <param name="building">Building.</param>
         public BuildingApiDto MapBuildingToBuildingApiDto(Building building)
         {
             var buildingApiDto = new BuildingApiDto
@@ -349,12 +446,18 @@ namespace RentTogether.Common.Mapper
                 }
             }
 
-                buildingApiDto.BuildingMessageApiDtos = new List<BuildingMessageApiDto>();
+            buildingApiDto.BuildingMessageApiDtos = new List<BuildingMessageApiDto>();
 
             return buildingApiDto;
         }
 
-        public BuildingHistoryApiDto MapBuildingHistoryToBuildingHistoryApiDto(BuildingHistory buildingHistory){
+        /// <summary>
+        /// Maps the building history to building history API dto.
+        /// </summary>
+        /// <returns>The building history to building history API dto.</returns>
+        /// <param name="buildingHistory">Building history.</param>
+        public BuildingHistoryApiDto MapBuildingHistoryToBuildingHistoryApiDto(BuildingHistory buildingHistory)
+        {
             return new BuildingHistoryApiDto()
             {
                 BuildingHistoryId = buildingHistory.BuildingHistoryId,
@@ -363,9 +466,57 @@ namespace RentTogether.Common.Mapper
                 UserId = buildingHistory.User.UserId
             };
         }
+
+        /// <summary>
+        /// Maps the building update dto to building.
+        /// </summary>
+        /// <returns>The building update dto to building.</returns>
+        /// <param name="buildingUpdateDto">Building update dto.</param>
+        /// <param name="building">Building.</param>
+        public Building MapBuildingUpdateDtoToBuilding(BuildingUpdateDto buildingUpdateDto, Building building)
+        {
+            if (!string.IsNullOrEmpty(buildingUpdateDto.Address))
+                building.Address = buildingUpdateDto.Address;
+
+            if (!string.IsNullOrEmpty(buildingUpdateDto.Address2))
+                building.Address2 = buildingUpdateDto.Address2;
+
+            if (!string.IsNullOrEmpty(buildingUpdateDto.City))
+                building.City = buildingUpdateDto.City;
+
+            if (!string.IsNullOrEmpty(buildingUpdateDto.City2))
+                building.City2 = buildingUpdateDto.City2;
+
+            if (!string.IsNullOrEmpty(buildingUpdateDto.PostalCode))
+                building.PostalCode = buildingUpdateDto.PostalCode;
+
+            if (!string.IsNullOrEmpty(buildingUpdateDto.Description))
+                building.Description = buildingUpdateDto.Description;
+
+            if (!string.IsNullOrEmpty(buildingUpdateDto.Title))
+                building.Title = buildingUpdateDto.Title;
+
+            building.IsRent = buildingUpdateDto.IsRent ?? building.IsRent;
+            building.NbMaxRenters = buildingUpdateDto.NbMaxRenters ?? building.NbMaxRenters;
+            building.NbPiece = buildingUpdateDto.NbPiece ?? building.NbPiece;
+            building.NbRenters = buildingUpdateDto.NbRenters ?? building.NbRenters;
+            building.NbRoom = buildingUpdateDto.NbRoom ?? building.NbRoom;
+            building.Parking = buildingUpdateDto.Parking ?? building.Parking;
+            building.Price = buildingUpdateDto.Price ?? building.Price;
+            building.Type = buildingUpdateDto.Type ?? building.Type;
+            building.Area = buildingUpdateDto.Area ?? building.Area;
+
+            return building;
+        }
         #endregion
 
         #region SearchLocation
+
+        /// <summary>
+        /// Maps the postal code to search location.
+        /// </summary>
+        /// <returns>The postal code to search location.</returns>
+        /// <param name="postalCodes">Postal codes.</param>
         public List<SearchLocationApiDto> MapPostalCodeToSearchLocation(List<PostalCode> postalCodes)
         {
             var searchLocationApiDtos = new List<SearchLocationApiDto>();

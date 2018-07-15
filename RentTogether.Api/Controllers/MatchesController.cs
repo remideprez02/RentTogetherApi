@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,7 +35,7 @@ namespace RentTogether.Api.Controllers
             _userService = userService;
         }
 
-        // GET api/values/5
+        // GET Matches by User Id
         [EnableQuery]
         [HttpGet]
         [Route("api/Matches/{userId}")]
@@ -45,7 +50,7 @@ namespace RentTogether.Api.Controllers
                     //Verify if the token exist and is not expire
                     if (await _authenticationService.CheckIfTokenIsValidAsync(token, userId))
                     {
-                        //Verify if messages for this userId exist
+                        
                         var matchApiDtos = await _matchService.GetAsyncListMatches(userId);
                         if (matchApiDtos == null || matchApiDtos.Count <= 0)
                         {
@@ -60,6 +65,11 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid Authorization.");
         }
 
+        /// <summary>
+        /// Gets the validate matches.
+        /// </summary>
+        /// <returns>The validate matches.</returns>
+        /// <param name="userId">User identifier.</param>
         [EnableQuery]
         [HttpGet]
         [Route("api/Matches/{userId}/GetValidateMatches")]
@@ -74,7 +84,7 @@ namespace RentTogether.Api.Controllers
                     //Verify if the token exist and is not expire
                     if (await _authenticationService.CheckIfTokenIsValidAsync(token, userId))
                     {
-                        //Verify if messages for this userId exist
+                        
                         var matchApiDtos = await _matchService.GetAsyncValidateMatches(userId);
                         if (matchApiDtos == null || matchApiDtos.Count <= 0)
                         {
@@ -89,6 +99,11 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid Authorization.");
         }
 
+        /// <summary>
+        /// Gets all matches.
+        /// </summary>
+        /// <returns>The all matches.</returns>
+        /// <param name="userId">User identifier.</param>
         [EnableQuery]
         [HttpGet]
         [Route("api/Matches/{userId}/GetAllMatches")]
@@ -103,7 +118,7 @@ namespace RentTogether.Api.Controllers
                     //Verify if the token exist and is not expire
                     if (await _authenticationService.CheckIfTokenIsValidAsync(token, userId))
                     {
-                        //Verify if messages for this userId exist
+                        
                         var matchApiDtos = await _matchService.GetAsyncAllMatches(userId);
                         if (matchApiDtos == null || matchApiDtos.Count <= 0)
                         {
@@ -118,6 +133,11 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid Authorization.");
         }
 
+        /// <summary>
+        /// Post the specified matchDto.
+        /// </summary>
+        /// <returns>The post.</returns>
+        /// <param name="matchDto">Match dto.</param>
         [EnableQuery]
         [HttpPost]
         [Route("api/Matches")]
@@ -147,6 +167,11 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid Authorization.");
         }
 
+        /// <summary>
+        /// Patch the specified match by userId.
+        /// </summary>
+        /// <returns>The patch.</returns>
+        /// <param name="userId">User identifier.</param>
         [EnableQuery]
         [Route("api/Matches/{userId}")]
         [HttpPatch]
@@ -184,6 +209,11 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid Authorization.");
         }
 
+        /// <summary>
+        /// Delete the specified matchId.
+        /// </summary>
+        /// <returns>The delete.</returns>
+        /// <param name="matchId">Match identifier.</param>
         [EnableQuery]
         [Route("api/Matches/{matchId}")]
         [HttpDelete]

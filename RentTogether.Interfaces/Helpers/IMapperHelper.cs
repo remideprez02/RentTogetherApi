@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.Collections.Generic;
 using RentTogether.Entities;
 using RentTogether.Entities.Dto;
@@ -44,8 +49,8 @@ namespace RentTogether.Interfaces.Helpers
         BuildingMessageApiDto MapBuildingMessageToBuildingMessageApiDto(BuildingMessage buildingMessage);
         BuildingPictureInformationApiDto MapBuildingPictureToBuildingPictureInformationApiDto(BuildingPicture buildingPicture);
         BuildingHistoryApiDto MapBuildingHistoryToBuildingHistoryApiDto(BuildingHistory buildingHistory);
+        Building MapBuildingUpdateDtoToBuilding(BuildingUpdateDto buildingUpdateDto, Building building);
 
         List<SearchLocationApiDto> MapPostalCodeToSearchLocation(List<PostalCode> postalCodes);
-
     }
 }

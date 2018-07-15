@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,6 +37,10 @@ namespace RentTogether.Api.Controllers
             _personalityService = personalityService;
         }
 
+        /// <summary>
+        /// Gets all personality referencials.
+        /// </summary>
+        /// <returns>The all personality referencials.</returns>
         [Route("api/PersonalitiesDetails")]
         [HttpGet]
         [EnableQuery]
@@ -47,7 +56,7 @@ namespace RentTogether.Api.Controllers
                     if (await _authenticationService.CheckIfTokenIsValidAsync(token))
                     {
                         var user = await _userService.GetUserAsyncByToken(token);
-                        if (user!= null)
+                        if (user != null)
                         {
                             //Verify if personalities exist
                             var personalitiesApiDtos = await _personalityService.GetAsyncAllPersonalityReferencials();
@@ -66,7 +75,11 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid authorization.");
         }
 
-        //POST User
+        /// <summary>
+        /// Post the specified detailPersonalityDto.
+        /// </summary>
+        /// <returns>The post.</returns>
+        /// <param name="detailPersonalityDto">Detail personality dto.</param>
         [Route("api/PersonalitiesDetails")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]DetailPersonalityDto detailPersonalityDto)
@@ -99,6 +112,5 @@ namespace RentTogether.Api.Controllers
             }
             return StatusCode(401, "Invalid authorization.");
         }
-
     }
 }

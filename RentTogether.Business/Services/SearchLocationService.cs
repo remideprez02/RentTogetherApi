@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RentTogether.Entities.Dto.SearchLocation;
@@ -15,7 +20,13 @@ namespace RentTogether.Business.Services
             _dal = dal;
         }
 
-        public async Task<List<SearchLocationApiDto>> GetSearchLocationsAsync(SearchLocationDto searchLocationDto){
+        /// <summary>
+        /// Gets the search locations async.
+        /// </summary>
+        /// <returns>The search locations async.</returns>
+        /// <param name="searchLocationDto">Search location dto.</param>
+        public async Task<List<SearchLocationApiDto>> GetSearchLocationsAsync(SearchLocationDto searchLocationDto)
+        {
             return await _dal.GetSearchLocationsAsync(searchLocationDto);
         }
     }

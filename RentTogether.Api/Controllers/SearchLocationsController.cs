@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,7 +17,7 @@ using RentTogether.Interfaces.Helpers;
 
 namespace RentTogether.Api.Controllers
 {
-    
+
     public class SearchLocationsController : Controller
     {
         private readonly IUserService _userService;
@@ -21,7 +26,7 @@ namespace RentTogether.Api.Controllers
         private readonly ISearchLocationService _searchLocationService;
         private readonly IMapperHelper _mapperHelper;
 
-        public SearchLocationsController(IUserService userService,IAuthenticationService authenticationService,
+        public SearchLocationsController(IUserService userService, IAuthenticationService authenticationService,
                                          ICustomEncoder customEncoder, IMapperHelper mapperHelper, ISearchLocationService searchLocationService)
         {
             _userService = userService;
@@ -32,6 +37,11 @@ namespace RentTogether.Api.Controllers
         }
 
 
+        /// <summary>
+        /// Post the specified searchLocationDto.
+        /// </summary>
+        /// <returns>The post.</returns>
+        /// <param name="searchLocationDto">Search location dto.</param>
         [Route("api/SearchLocations")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]SearchLocationDto searchLocationDto)

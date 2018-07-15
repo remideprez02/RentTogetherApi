@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,6 +38,11 @@ namespace RentTogether.Api.Controllers
             _personalityService = personalityService;
         }
 
+        /// <summary>
+        /// Gets the personality by user identifier.
+        /// </summary>
+        /// <returns>The personality by user identifier.</returns>
+        /// <param name="userId">User identifier.</param>
         [Route("api/Personalities/{userId}")]
         [HttpGet]
         [EnableQuery]
@@ -62,7 +72,12 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid authorization.");
         }
 
-        //POST User
+        /// <summary>
+        /// Posts the personality values.
+        /// </summary>
+        /// <returns>The personality values.</returns>
+        /// <param name="personalityValueDtos">Personality value dtos.</param>
+        /// <param name="userId">User identifier.</param>
         [Route("api/Personalities/{userId}")]
         [HttpPost]
         public async Task<IActionResult> PostPersonalityValues([FromBody]List<PersonalityValueDto> personalityValueDtos, int userId)
@@ -91,6 +106,12 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid authorization.");
         }
 
+        /// <summary>
+        /// Patch the specified personalityValuePatchDtos and userId.
+        /// </summary>
+        /// <returns>The patch.</returns>
+        /// <param name="personalityValuePatchDtos">Personality value patch dtos.</param>
+        /// <param name="userId">User identifier.</param>
         [Route("api/Personalities/{userId}")]
         [HttpPatch]
         public async Task<IActionResult> Patch([FromBody]List<PersonalityValuePatchDto> personalityValuePatchDtos, int userId)
@@ -111,7 +132,7 @@ namespace RentTogether.Api.Controllers
                             //Verify if the token exist and is not expire
                             if (await _authenticationService.CheckIfTokenIsValidAsync(token, userId))
                             {
-                                //Verify if messages for this userId exist
+                                
                                 var personalityValuesApiDtos = await _personalityService.PatchAsyncPersonalityValuesByUserId(userId, personalityValuePatchDtos);
                                 if (personalityValuesApiDtos == null)
                                 {

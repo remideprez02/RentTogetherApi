@@ -1,4 +1,9 @@
-﻿using System.Linq;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System.Linq;
 using System.Text;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNet.OData.Formatter;
@@ -8,6 +13,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using RentTogether.Business.Services;
@@ -45,6 +51,9 @@ namespace RentTogether
             //ssl
             //services.Configure<MvcOptions>(options => options.Filters.Add(new RequireHttpsAttribute();
 
+            //SignalR
+            services.AddSignalR();
+
             //CORS
             services.AddCors(options =>
             {
@@ -60,7 +69,6 @@ namespace RentTogether
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IMapperHelper, Mapper>();
-            services.AddTransient<IMatchesGenerator, MatchesGenerator>();
             services.AddTransient<ICustomEncoder, CustomEncoder>();
             services.AddTransient<IMessageService, MessageService>();
 			services.AddTransient<IConversationService, ConversationService>();
@@ -110,7 +118,8 @@ namespace RentTogether
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, RentTogetherModelBuilder rentTogetherModelBuilder)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, RentTogetherModelBuilder rentTogetherModelBuilder,
+                              ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -118,6 +127,10 @@ namespace RentTogether
             }
 			app.UseStaticFiles();
 
+            loggerFactory.AddFile("Logs/renttogetherapi.txt");
+
+            //SignalR
+            //app.UseSignalR();
 
             //ssl
             //var options = new RewriteOptions().AddRedirectToHttps();
@@ -142,6 +155,7 @@ namespace RentTogether
 
             app.UseCors("CorsPolicy");
             app.UseAuthentication();
+
 			//ODATA
             app.UseMvc(routeBuilder =>
             {

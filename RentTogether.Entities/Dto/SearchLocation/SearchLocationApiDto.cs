@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 namespace RentTogether.Entities.Dto.SearchLocation
 {
     public class SearchLocationApiDto

@@ -1,19 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
     <Folder Include="Models\" />
+    <Folder Include="Hubs\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.0-beta4" />
+    <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0-dev-00024" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="2.4.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.0.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="2.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.1" />
   </ItemGroup>
@@ -30,5 +30,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Controllers\BuildingController.cs" />
+    <Compile Remove="Models\LoginViewModel.cs" />
   </ItemGroup>
 </Project>

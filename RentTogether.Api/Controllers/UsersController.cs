@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -56,7 +61,7 @@ namespace RentTogether.Api.Controllers
                     if (await _authenticationService.CheckIfTokenIsValidAsync(token, id))
                     {
                         //Verify if user exist
-                        var user = _userService.GetUserApiDtoAsyncById(id);
+                        var user = await _userService.GetUserApiDtoAsyncById(id);
                         if (user == null)
                         {
                             return StatusCode(404, "User Not Found.");
@@ -70,11 +75,13 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid Authorization.");
         }
 
-        // Get All Users if IsAdmin
+        /// <summary>
+        /// Get all users.
+        /// </summary>
+        /// <returns>The get.</returns>
         [Route("api/Users")]
         [HttpGet]
         [EnableQuery]
-        //[RequireHttps]
         public async Task<IActionResult> Get()
         {
             //Get header token
@@ -105,7 +112,11 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid Authorization.");
         }
 
-        //POST User
+        /// <summary>
+        /// Post the specified userRegisterDto.
+        /// </summary>
+        /// <returns>The post.</returns>
+        /// <param name="userRegisterDto">User register dto.</param>
         [Route("api/Users")]
         [HttpPost]
         [EnableQuery]
@@ -126,7 +137,11 @@ namespace RentTogether.Api.Controllers
             return StatusCode(400, isValid.Item2);
         }
 
-        //PUT User
+        /// <summary>
+        /// Put the specified userApiDto.
+        /// </summary>
+        /// <returns>The put.</returns>
+        /// <param name="userApiDto">User API dto.</param>
         [Route("api/Users/{id}")]
         [HttpPut]
         public async Task<IActionResult> Put([FromBody]UserApiDto userApiDto)
@@ -154,7 +169,11 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401);
         }
 
-        //DELETE User
+        /// <summary>
+        /// Delete the specified id.
+        /// </summary>
+        /// <returns>The delete.</returns>
+        /// <param name="id">Identifier.</param>
         [Route("api/Users/{id}")]
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
@@ -178,6 +197,11 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401);
         }
 
+        /// <summary>
+        /// Patch the specified userPatchApiDto.
+        /// </summary>
+        /// <returns>The patch.</returns>
+        /// <param name="userPatchApiDto">User patch API dto.</param>
         [HttpPatch]
         [Route("api/Users")]
         public async Task<IActionResult> Patch([FromBody]UserPatchApiDto userPatchApiDto)

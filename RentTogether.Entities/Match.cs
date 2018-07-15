@@ -1,5 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
 using System.ComponentModel.DataAnnotations;
 
 namespace RentTogether.Entities

@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using Microsoft.AspNetCore.Http;
 
 namespace RentTogether.Entities.Dto.BuildingPicture

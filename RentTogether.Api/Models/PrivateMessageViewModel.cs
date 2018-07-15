@@ -4,16 +4,13 @@
 //
 
 using System;
-
-namespace RentTogether.Entities.Dto.Message
+namespace RentTogether.Api.Models
 {
-    public class MessageApiDto
+    public class PrivateMessageViewModel
     {
-		public int MessageId { get; set; }
-
         public string MessageText { get; set; }
         public DateTime CreatedDate { get; set; }
         public int UserId { get; set; }
-        public int IsReport { get; set; }
+        public int ConversationId { get; set; }
     }
 }

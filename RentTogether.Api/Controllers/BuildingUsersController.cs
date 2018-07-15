@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,6 +33,11 @@ namespace RentTogether.Api.Controllers
             _userService = userService;
         }
 
+        /// <summary>
+        /// Post the specified buildingUserDto.
+        /// </summary>
+        /// <returns>The post.</returns>
+        /// <param name="buildingUserDto">Building user dto.</param>
         [Route("api/BuildingUsers")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]BuildingUserDto buildingUserDto)
@@ -62,6 +72,11 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid authorization.");
         }
 
+        /// <summary>
+        /// Delete the specified buildingUserDto.
+        /// </summary>
+        /// <returns>The delete.</returns>
+        /// <param name="buildingUserDto">Building user dto.</param>
         [Route("api/BuildingUsers")]
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody]BuildingUserDto buildingUserDto)

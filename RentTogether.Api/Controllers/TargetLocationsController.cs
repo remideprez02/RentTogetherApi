@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,6 +37,11 @@ namespace RentTogether.Api.Controllers
             _targetLocationService = targetLocationService;
         }
 
+        /// <summary>
+        /// Get the specified userId.
+        /// </summary>
+        /// <returns>The get.</returns>
+        /// <param name="userId">User identifier.</param>
         [Route("api/TargetLocations/{userId}")]
         [HttpGet]
         [EnableQuery]
@@ -78,6 +88,12 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid Authorization.");
         }
 
+        /// <summary>
+        /// Post the specified targetLocationDto and userId.
+        /// </summary>
+        /// <returns>The post.</returns>
+        /// <param name="targetLocationDto">Target location dto.</param>
+        /// <param name="userId">User identifier.</param>
         [Route("api/TargetLocations/{userId}")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]List<TargetLocationDto> targetLocationDto, int userId)
@@ -105,7 +121,7 @@ namespace RentTogether.Api.Controllers
                                 }
                                 return Ok(targetLocationApiDto);
                             }
-                            if(user.IsAdmin == 1 && await _authenticationService.CheckIfTokenIsValidAsync(token))
+                            if (user.IsAdmin == 1 && await _authenticationService.CheckIfTokenIsValidAsync(token))
                             {
                                 var targetLocationApiDto = await _targetLocationService.PostAsyncTargetLocation(targetLocationDto, userId);
                                 if (targetLocationApiDto == null)
@@ -126,6 +142,12 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid Authorization.");
         }
 
+        /// <summary>
+        /// Patch the specified targetLocationPatchDtos and userId.
+        /// </summary>
+        /// <returns>The patch.</returns>
+        /// <param name="targetLocationPatchDtos">Target location patch dtos.</param>
+        /// <param name="userId">User identifier.</param>
         [Route("api/TargetLocations/{userId}")]
         [HttpPatch]
         public async Task<IActionResult> Patch([FromBody]List<TargetLocationPatchDto> targetLocationPatchDtos, int userId)
@@ -165,7 +187,7 @@ namespace RentTogether.Api.Controllers
                                 }
                                 return Ok(targetLocationApiDto);
                             }
-     
+
                             return StatusCode(401, "Invalid Token.");
                         }
                         return StatusCode(403, "Invalid data model.");
@@ -177,6 +199,11 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid Authorization.");
         }
 
+        /// <summary>
+        /// Delete the specified targetLocationId.
+        /// </summary>
+        /// <returns>The delete.</returns>
+        /// <param name="targetLocationId">Target location identifier.</param>
         [Route("api/TargetLocations/{targetLocationId}")]
         [HttpDelete]
         public async Task<IActionResult> Delete(int targetLocationId)

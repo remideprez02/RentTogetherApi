@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentTogether.Interfaces", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentTogether.Entities", "RentTogether.Entities\RentTogether.Entities.csproj", "{0A373E46-350A-43AB-A6B4-268F756047C5}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "RentTogether.Api", "RentTogether.Api\RentTogether.Api.csproj", "{9E7BFB1F-D92A-4201-9873-4D641508BE94}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentTogether.Api", "RentTogether.Api\RentTogether.Api.csproj", "{9E7BFB1F-D92A-4201-9873-4D641508BE94}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

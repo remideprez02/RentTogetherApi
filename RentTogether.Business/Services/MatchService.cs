@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RentTogether.Entities.Dto.Match;
@@ -15,22 +20,63 @@ namespace RentTogether.Business.Services
             _dal = dal;
         }
 
-        public async Task<MatchApiDto> PostAsyncMatch(MatchDto matchDto){
+        /// <summary>
+        /// Posts the async match.
+        /// </summary>
+        /// <returns>The async match.</returns>
+        /// <param name="matchDto">Match dto.</param>
+        public async Task<MatchApiDto> PostAsyncMatch(MatchDto matchDto)
+        {
             return await _dal.PostAsyncMatch(matchDto);
         }
-        public async Task<List<MatchApiDto>> GetAsyncListMatches(int userId){
+
+        /// <summary>
+        /// Gets the async list matches.
+        /// </summary>
+        /// <returns>The async list matches.</returns>
+        /// <param name="userId">User identifier.</param>
+        public async Task<List<MatchApiDto>> GetAsyncListMatches(int userId)
+        {
             return await _dal.GetAsyncListMatches(userId);
         }
-        public async Task<List<MatchApiDto>> PatchAsyncMatches(int userId){
+
+        /// <summary>
+        /// Patchs the async matches.
+        /// </summary>
+        /// <returns>The async matches.</returns>
+        /// <param name="userId">User identifier.</param>
+        public async Task<List<MatchApiDto>> PatchAsyncMatches(int userId)
+        {
             return await _dal.PatchAsyncMatches(userId);
         }
-        public async Task<bool> DeleteAsyncMatch(int matchId){
+
+        /// <summary>
+        /// Deletes the async match.
+        /// </summary>
+        /// <returns>The async match.</returns>
+        /// <param name="matchId">Match identifier.</param>
+        public async Task<bool> DeleteAsyncMatch(int matchId)
+        {
             return await _dal.DeleteAsyncMatch(matchId);
         }
-        public async Task<List<MatchApiDto>> GetAsyncAllMatches(int userId){
+
+        /// <summary>
+        /// Gets the async all matches.
+        /// </summary>
+        /// <returns>The async all matches.</returns>
+        /// <param name="userId">User identifier.</param>
+        public async Task<List<MatchApiDto>> GetAsyncAllMatches(int userId)
+        {
             return await _dal.GetAsyncAllMatches(userId);
         }
-        public async Task<List<MatchApiDto>> GetAsyncValidateMatches(int userId){
+
+        /// <summary>
+        /// Gets the async validate matches.
+        /// </summary>
+        /// <returns>The async validate matches.</returns>
+        /// <param name="userId">User identifier.</param>
+        public async Task<List<MatchApiDto>> GetAsyncValidateMatches(int userId)
+        {
             return await _dal.GetAsyncValidateMatches(userId);
         }
     }

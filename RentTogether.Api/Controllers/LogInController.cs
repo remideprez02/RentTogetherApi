@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,14 +40,12 @@ namespace RentTogether.Api.Controllers
         // Get Authentication (Basic Auth)
         [Route("api/Login")]
         [HttpGet]
-        //[RequireHttps]
         public async Task<IActionResult> Get()
         {
             //Get header basic
             if (Request.Headers.TryGetValue("Authorization", out Microsoft.Extensions.Primitives.StringValues headerValues))
             {
                 var decodedBasicAuth = _customEncoder.DecodeBasicAuth(headerValues.ToString());
-                //_logger.LogInformation(LoggingEvents.BasicAuthInProgress, "VERIFY BASIC AUTH");
                 //If not null
                 if (decodedBasicAuth != null && decodedBasicAuth.Item1 != "" && decodedBasicAuth.Item2 != "")
                 {
@@ -55,12 +58,10 @@ namespace RentTogether.Api.Controllers
                     var userApiDto = await _userService.GetUserByBasicAuthenticationAsync(userLoginDto);
                     if (userApiDto == null)
                     {
-                        //_logger.LogWarning(LoggingEvents.GetItem, "GetById({ID}) NOT FOUND", userApiDto.UserId);
                         return StatusCode(404, "LogIn Not Found.");
                     }
                     return Json(userApiDto);
                 }
-                //_logger.LogWarning(LoggingEvents.BasicAuthFailed, "BASIC AUTH FAILED");
                 return StatusCode(401, "Invalid authorization.");
             }
 			return StatusCode(401, "Invalid authorization.");

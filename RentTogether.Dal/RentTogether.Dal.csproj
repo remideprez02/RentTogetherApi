@@ -7,4 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\RentTogether.Interfaces\RentTogether.Interfaces.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="SqlService\BuildingHistorySqlService.cs" />
+  </ItemGroup>
 </Project>

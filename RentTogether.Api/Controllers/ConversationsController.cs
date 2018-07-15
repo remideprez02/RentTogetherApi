@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -44,7 +46,7 @@ namespace RentTogether.Api.Controllers
                         //Verify if the token exist and is not expire
 						if (await _authenticationService.CheckIfTokenIsValidAsync(token, userId))
                         {
-                            //Verify if messages for this userId exist
+                            
 							var conversations = await _conversationService.GetConversationsAsyncByUserId(userId);
 							if(conversations == null){
                             return StatusCode(404, "Convertation(s) not found.");
@@ -78,7 +80,7 @@ namespace RentTogether.Api.Controllers
                         //Verify if the token exist and is not expire
 						if (await _authenticationService.CheckIfTokenIsValidAsync(token, user.UserId))
                         {
-                            //Verify if messages for this userId exist
+                            
 							var conversations = await _conversationService.GetAllConversationsAsync();
                             if (conversations == null)
                             {
@@ -96,7 +98,11 @@ namespace RentTogether.Api.Controllers
         }
 
 
-		//POST Conversation
+		/// <summary>
+        /// Post the specified conversationDto.
+        /// </summary>
+        /// <returns>The post.</returns>
+        /// <param name="conversationDto">Conversation dto.</param>
 		[Route("api/Conversations")]
 		[HttpPost]
         public async Task<IActionResult> Post([FromBody]ConversationDto conversationDto)
@@ -110,7 +116,7 @@ namespace RentTogether.Api.Controllers
                     //Verify if the token exist and is not expire
 					if (await _authenticationService.CheckIfTokenIsValidAsync(token))
                         {
-                            //Verify if messages for this userId exist
+                            
                             var conversation = await _conversationService.AddConversationAsync(conversationDto);
 							if(conversation == null){
 								return StatusCode(404, "Unable to create conversation.");

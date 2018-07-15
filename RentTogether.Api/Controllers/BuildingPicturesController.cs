@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+//Author : Déprez Rémi
+//Version : 1.0
+//
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -31,6 +36,8 @@ namespace RentTogether.Api.Controllers
             _customEncoder = customEncoder;
             _userService = userService;
         }
+
+        //Get Picture from Building By PictureId
         [Route("api/BuildingPictures/{buildingPictureId}")]
         [HttpGet]
         public async Task<IActionResult> Get(int buildingPictureId)
@@ -68,6 +75,12 @@ namespace RentTogether.Api.Controllers
             }
             return StatusCode(401, "Invalid authorization.");
         }
+
+        /// <summary>
+        /// Gets the building pictures.
+        /// </summary>
+        /// <returns>The building pictures.</returns>
+        /// <param name="buildingId">Building identifier.</param>
         [Route("api/Building/{buildingId}/BuildingPictures")]
         [HttpGet]
         public async Task<IActionResult> GetBuildingPictures(int buildingId)
@@ -103,6 +116,12 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid authorization.");
         }
 
+        /// <summary>
+        /// Post the specified file for buildingId.
+        /// </summary>
+        /// <returns>The post.</returns>
+        /// <param name="file">File.</param>
+        /// <param name="buildingId">Building identifier.</param>
         [Route("api/BuildingPictures")]
         [HttpPost]
         public async Task<IActionResult> Post(IFormFile file, int buildingId)
@@ -132,10 +151,18 @@ namespace RentTogether.Api.Controllers
                                 return StatusCode(400, "Unable to create building picture.");
                             }
 
-                            byte[] fileBytes = Convert.FromBase64String(buildingPictureApiDto.FileToBase64);
-                            var f = File(fileBytes, "image/png");
+                            //byte[] fileBytes = Convert.FromBase64String(buildingPictureApiDto.FileToBase64);
+                            //var f = File(fileBytes, "image/png");
 
-                            return f;
+                            //return f;
+
+                            var pictureInformation = new BuildingPictureInformationApiDto()
+                            {
+                                BuildingId = buildingPictureApiDto.BuildingId,
+                                BuildingPictureId = buildingPictureApiDto.BuildingPictureId
+                            };
+
+                            return Ok(pictureInformation);
                         }
                         return StatusCode(401, "Invalid token.");
                     }
@@ -146,6 +173,11 @@ namespace RentTogether.Api.Controllers
             return StatusCode(401, "Invalid authorization.");
         }
 
+        /// <summary>
+        /// Delete the specified buildingPictureId.
+        /// </summary>
+        /// <returns>The delete.</returns>
+        /// <param name="buildingPictureId">Building picture identifier.</param>
         [Route("api/BuildingPictures/{buildingPictureId}")]
         [HttpDelete]
         public async Task<IActionResult> Delete(int buildingPictureId)
