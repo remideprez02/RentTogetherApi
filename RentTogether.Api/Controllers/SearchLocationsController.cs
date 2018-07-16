@@ -63,7 +63,7 @@ namespace RentTogether.Api.Controllers
 
                             if (searchLocationApiDto.Count == 0)
                             {
-                                return StatusCode(400, "Location(s) not found.");
+                                return StatusCode(404, "Location(s) not found.");
                             }
                             return Ok(searchLocationApiDto);
                         }

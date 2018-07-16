@@ -59,7 +59,7 @@ namespace RentTogether.Api.Controllers
 
                             if (buildingPictureApiDto == null)
                             {
-                                return StatusCode(400, "Building Pictures(s) not found.");
+                                return StatusCode(404, "Building Pictures(s) not found.");
                             }
                             byte[] fileBytes = Convert.FromBase64String(buildingPictureApiDto.FileToBase64);
                             var f = File(fileBytes, "image/png");
@@ -102,7 +102,7 @@ namespace RentTogether.Api.Controllers
 
                             if (!buildingPictureApiDtos.Any())
                             {
-                                return StatusCode(400, "Building Pictures Information(s) not found.");
+                                return StatusCode(404, "Building Pictures Information(s) not found.");
                             }
                             return Ok(buildingPictureApiDtos);
                         }
@@ -148,7 +148,7 @@ namespace RentTogether.Api.Controllers
 
                             if (buildingPictureApiDto == null)
                             {
-                                return StatusCode(400, "Unable to create building picture.");
+                                return StatusCode(404, "Unable to create building picture.");
                             }
 
                             //byte[] fileBytes = Convert.FromBase64String(buildingPictureApiDto.FileToBase64);

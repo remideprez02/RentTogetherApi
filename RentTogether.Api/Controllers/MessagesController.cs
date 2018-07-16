@@ -124,7 +124,7 @@ namespace RentTogether.Api.Controllers
 						var messageApiDto = await _messageService.AddMessageAsync(messageDto);
 
 						if(messageApiDto == null){
-							return StatusCode(400, "Unable to create message.");
+							return StatusCode(404, "Unable to create message.");
 						}
 						return Ok(messageApiDto);
                     }

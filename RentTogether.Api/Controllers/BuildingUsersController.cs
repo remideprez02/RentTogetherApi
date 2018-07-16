@@ -59,7 +59,7 @@ namespace RentTogether.Api.Controllers
 
                             if (buildingApiDto == null)
                             {
-                                return StatusCode(400, "Unable to create building user.");
+                                return StatusCode(404, "Unable to create building user.");
                             }
                             return Ok(buildingApiDto);
                         }

@@ -55,7 +55,7 @@ namespace RentTogether.Api.Controllers
 
                             if (buildingApiDtos == null)
                             {
-                                return StatusCode(400, "Building(s) not found.");
+                                return StatusCode(404, "Building(s) not found.");
                             }
                             return Ok(buildingApiDtos);
                         }
@@ -95,7 +95,7 @@ namespace RentTogether.Api.Controllers
 
                             if (favoriteBuildingApiDto == null)
                             {
-                                return StatusCode(400, "Unable to create favorite building.");
+                                return StatusCode(404, "Unable to create favorite building.");
                             }
                             return Ok(favoriteBuildingApiDto);
                         }

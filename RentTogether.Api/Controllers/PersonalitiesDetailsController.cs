@@ -100,7 +100,7 @@ namespace RentTogether.Api.Controllers
 
                             if (detailPersonalityApiDto == null)
                             {
-                                return StatusCode(400, "Unable to create referencial personality.");
+                                return StatusCode(404, "Unable to create referencial personality.");
                             }
                             return Ok(detailPersonalityApiDto);
                         }

@@ -95,7 +95,7 @@ namespace RentTogether.Api.Controllers
 
                         if (personalityApiValueDtos == null || personalityApiValueDtos.Count <= 0)
                         {
-                            return StatusCode(400, "Unable to create personality values.");
+                            return StatusCode(404, "Unable to create personality values.");
                         }
                         return Ok(personalityApiValueDtos);
                     }

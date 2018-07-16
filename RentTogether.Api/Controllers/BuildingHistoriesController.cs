@@ -54,7 +54,7 @@ namespace RentTogether.Api.Controllers
 
                             if (buildingHistoriesApiDto == null)
                             {
-                                return StatusCode(400, "Building(s) History not found.");
+                                return StatusCode(404, "Building(s) History not found.");
                             }
                             return Ok(buildingHistoriesApiDto);
                         }
@@ -93,7 +93,7 @@ namespace RentTogether.Api.Controllers
 
                             if (buildingHistoryApiDto == null)
                             {
-                                return StatusCode(400, "Unable to create building history.");
+                                return StatusCode(404, "Unable to create building history.");
                             }
                             return Ok(buildingHistoryApiDto);
                         }

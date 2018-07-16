@@ -58,7 +58,7 @@ namespace RentTogether.Api.Controllers
                     var userApiDto = await _userService.GetUserByBasicAuthenticationAsync(userLoginDto);
                     if (userApiDto == null)
                     {
-                        return StatusCode(404, "LogIn Not Found.");
+                        return StatusCode(400, "LogIn Not Found.");
                     }
                     return Json(userApiDto);
                 }

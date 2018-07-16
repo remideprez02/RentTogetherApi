@@ -84,7 +84,7 @@ namespace RentTogether.Api.Controllers
 							var conversations = await _conversationService.GetAllConversationsAsync();
                             if (conversations == null)
                             {
-                                return StatusCode(404);
+                                return StatusCode(404, "Unable to retrieve conversation(s).");
                             }
                             return Ok(conversations);
                         }

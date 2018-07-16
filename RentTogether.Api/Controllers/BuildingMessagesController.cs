@@ -56,7 +56,7 @@ namespace RentTogether.Api.Controllers
 
                             if (!buildingMessageApiDtos.Any())
                             {
-                                return StatusCode(400, "Building Message(s) not found.");
+                                return StatusCode(404, "Building Message(s) not found.");
                             }
                             return Ok(buildingMessageApiDtos);
                         }
@@ -96,7 +96,7 @@ namespace RentTogether.Api.Controllers
 
                             if (buildingMessageApiDto == null)
                             {
-                                return StatusCode(400, "Unable to create building message.");
+                                return StatusCode(404, "Unable to create building message.");
                             }
                             return Ok(buildingMessageApiDto);
                         }

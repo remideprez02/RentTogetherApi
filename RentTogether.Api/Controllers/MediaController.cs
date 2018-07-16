@@ -61,7 +61,7 @@ namespace RentTogether.Api.Controllers
 
 						if (fileApiDto == null)
                         {
-                            return StatusCode(400, "Unable to upload UserPicture.");
+                            return StatusCode(404, "Unable to upload UserPicture.");
                         }
 
 						byte[] fileBytes = Convert.FromBase64String(fileApiDto.FileToBase64);

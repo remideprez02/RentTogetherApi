@@ -126,7 +126,7 @@ namespace RentTogether.Api.Controllers
 						var participantApiDto = await _participantService.PostAsyncParticipantToExistingConversation(participantDto);
 						if (participantApiDto == null)
                         {
-                            return StatusCode(400, "Unable to add participant(s) to existing conversation.");
+                            return StatusCode(404, "Unable to add participant(s) to existing conversation.");
                         }
 						return Ok(participantApiDto);
                     }
