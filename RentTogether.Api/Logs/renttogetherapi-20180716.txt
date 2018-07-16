@@ -1,0 +1,631 @@
+2018-07-16T10:36:17.9762750+02:00 0HLFAUSP7GSFI:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/   (ca22a1cb)
+2018-07-16T10:36:18.3344380+02:00 0HLFAUSP7GSFI:00000001 [INF] Request finished in 364.276ms 404  (791a596a)
+2018-07-16T12:30:05.1316750+02:00 0HLFB0SBRKU1S:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/   (ca22a1cb)
+2018-07-16T12:30:05.4675810+02:00 0HLFB0SBRKU1S:00000001 [INF] Request finished in 344.74ms 404  (791a596a)
+2018-07-16T12:31:02.9959680+02:00 0HLFB0SBRKU1S:00000002 [INF] Request starting HTTP/1.1 GET http://localhost:5000/publicchat   (ca22a1cb)
+2018-07-16T12:31:03.0190900+02:00 0HLFB0SBRKU1S:00000002 [INF] Request finished in 23.07ms 400 text/plain (791a596a)
+2018-07-16T12:56:49.2285810+02:00  [FTL] Application startup exception (6c57a5ba)
+System.ArgumentException: The path in 'value' must start with '/'.
+Parameter name: value
+   at Microsoft.AspNetCore.Http.PathString..ctor(String value)
+   at Microsoft.AspNetCore.Http.PathString.op_Implicit(String s)
+   at RentTogether.Startup.<>c.<Configure>b__5_0(HubRouteBuilder routes) in /Users/remi/Documents/ProjetsESGI/Core/RentTogether.Api/Startup.cs:line 137
+   at Microsoft.AspNetCore.Builder.SignalRAppBuilderExtensions.<>c__DisplayClass0_0.<UseSignalR>b__0(ConnectionsRouteBuilder routes)
+   at Microsoft.AspNetCore.Builder.ConnectionsAppBuilderExtensions.UseConnections(IApplicationBuilder app, Action`1 configure)
+   at Microsoft.AspNetCore.Builder.SignalRAppBuilderExtensions.UseSignalR(IApplicationBuilder app, Action`1 configure)
+   at RentTogether.Startup.Configure(IApplicationBuilder app, IHostingEnvironment env, RentTogetherModelBuilder rentTogetherModelBuilder, ILoggerFactory loggerFactory) in /Users/remi/Documents/ProjetsESGI/Core/RentTogether.Api/Startup.cs:line 135
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Hosting.ConventionBasedStartup.Configure(IApplicationBuilder app)
+   at Microsoft.AspNetCore.HostFilteringStartupFilter.<>c__DisplayClass0_0.<Configure>b__0(IApplicationBuilder app)
+   at Microsoft.AspNetCore.Hosting.Internal.AutoRequestServicesStartupFilter.<>c__DisplayClass0_0.<Configure>b__0(IApplicationBuilder builder)
+   at Microsoft.AspNetCore.Hosting.Internal.WebHost.BuildApplication()
+   at Microsoft.AspNetCore.Hosting.Internal.WebHost.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.WebHostExtensions.RunAsync(IWebHost host, CancellationToken token, String shutdownMessage)
+2018-07-16T12:59:14.1802000+02:00  [FTL] Application startup exception (6c57a5ba)
+System.ArgumentException: The path in 'value' must start with '/'.
+Parameter name: value
+   at Microsoft.AspNetCore.Http.PathString..ctor(String value)
+   at Microsoft.AspNetCore.Http.PathString.op_Implicit(String s)
+   at RentTogether.Startup.<>c.<Configure>b__5_0(HubRouteBuilder routes) in /Users/remi/Documents/ProjetsESGI/Core/RentTogether.Api/Startup.cs:line 137
+   at Microsoft.AspNetCore.Builder.SignalRAppBuilderExtensions.<>c__DisplayClass0_0.<UseSignalR>b__0(ConnectionsRouteBuilder routes)
+   at Microsoft.AspNetCore.Builder.ConnectionsAppBuilderExtensions.UseConnections(IApplicationBuilder app, Action`1 configure)
+   at Microsoft.AspNetCore.Builder.SignalRAppBuilderExtensions.UseSignalR(IApplicationBuilder app, Action`1 configure)
+   at RentTogether.Startup.Configure(IApplicationBuilder app, IHostingEnvironment env, RentTogetherModelBuilder rentTogetherModelBuilder, ILoggerFactory loggerFactory) in /Users/remi/Documents/ProjetsESGI/Core/RentTogether.Api/Startup.cs:line 135
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Hosting.ConventionBasedStartup.Configure(IApplicationBuilder app)
+   at Microsoft.AspNetCore.HostFilteringStartupFilter.<>c__DisplayClass0_0.<Configure>b__0(IApplicationBuilder app)
+   at Microsoft.AspNetCore.Hosting.Internal.AutoRequestServicesStartupFilter.<>c__DisplayClass0_0.<Configure>b__0(IApplicationBuilder builder)
+   at Microsoft.AspNetCore.Hosting.Internal.WebHost.BuildApplication()
+   at Microsoft.AspNetCore.Hosting.Internal.WebHost.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.WebHostExtensions.RunAsync(IWebHost host, CancellationToken token, String shutdownMessage)
+2018-07-16T13:00:06.0535320+02:00  [FTL] Unable to start Kestrel. (fc6a528d)
+System.IO.IOException: Failed to bind to address http://127.0.0.1:5000: address already in use. ---> Microsoft.AspNetCore.Connections.AddressInUseException: Address already in use ---> System.Net.Sockets.SocketException: Address already in use
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransport.BindAsync()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransport.BindAsync()
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer.<>c__DisplayClass22_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(IServerAddressesFeature addresses, KestrelServerOptions serverOptions, ILogger logger, Func`2 createBinding)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServer.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.Internal.WebHost.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.WebHostExtensions.RunAsync(IWebHost host, CancellationToken token, String shutdownMessage)
+2018-07-16T13:15:39.0698710+02:00 0HLFB1LQJOLSQ:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/   (ca22a1cb)
+2018-07-16T13:15:39.0691240+02:00 0HLFB1LQJOLSU:00000001 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5000/api/PublicChat/negotiate   (ca22a1cb)
+2018-07-16T13:15:39.1801200+02:00 0HLFB1LQJOLSU:00000001 [INF] Request finished in 116.834ms 405 text/plain (791a596a)
+2018-07-16T13:15:39.3810820+02:00 0HLFB1LQJOLSQ:00000001 [INF] Request finished in 318.542ms 404  (791a596a)
+2018-07-16T13:15:39.8560780+02:00 0HLFB1LQJOLSQ:00000002 [INF] Request starting HTTP/1.1 GET http://localhost:5000/   (ca22a1cb)
+2018-07-16T13:15:39.8573800+02:00 0HLFB1LQJOLSQ:00000002 [INF] Request finished in 1.348ms 404  (791a596a)
+2018-07-16T13:16:53.4733110+02:00 0HLFB1LQJOLSQ:00000003 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/PublicChat/negotiate   (ca22a1cb)
+2018-07-16T13:16:53.4737080+02:00 0HLFB1LQJOLSQ:00000003 [INF] Request finished in 0.408ms 405 text/plain (791a596a)
+2018-07-16T13:18:21.8815530+02:00 0HLFB1LQJOLSU:00000002 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5000/api/PublicChat/negotiate   (ca22a1cb)
+2018-07-16T13:18:21.8817950+02:00 0HLFB1LQJOLSU:00000002 [INF] Request finished in 0.292ms 405 text/plain (791a596a)
+2018-07-16T13:22:08.7798300+02:00 0HLFB1LQJOLT0:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/   (ca22a1cb)
+2018-07-16T13:22:08.7857420+02:00 0HLFB1LQJOLT0:00000001 [INF] Request finished in 1.714ms 404  (791a596a)
+2018-07-16T13:22:28.4429350+02:00 0HLFB1LQJOLSU:00000003 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5000/api/PublicChat/negotiate   (ca22a1cb)
+2018-07-16T13:22:28.4440490+02:00 0HLFB1LQJOLSU:00000003 [INF] Request finished in 1.19ms 405 text/plain (791a596a)
+2018-07-16T13:36:12.2676460+02:00 0HLFB21A6DD96:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/   (ca22a1cb)
+2018-07-16T13:36:12.7081280+02:00 0HLFB21A6DD96:00000001 [INF] Request finished in 449.194ms 404  (791a596a)
+2018-07-16T15:27:47.8339940+02:00 0HLFB3VLK5TQI:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/   (ca22a1cb)
+2018-07-16T15:27:48.2404180+02:00 0HLFB3VLK5TQI:00000001 [INF] Request finished in 415.849ms 404  (791a596a)
+2018-07-16T15:27:57.0767790+02:00 0HLFB3VLK5TQI:00000002 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/PublicChat   (ca22a1cb)
+2018-07-16T15:27:57.1009290+02:00 0HLFB3VLK5TQI:00000002 [INF] Request finished in 24.321ms 400 text/plain (791a596a)
+2018-07-16T15:34:43.1434490+02:00 0HLFB3VLK5TQK:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/   (ca22a1cb)
+2018-07-16T15:34:43.1788140+02:00 0HLFB3VLK5TQK:00000001 [INF] Request finished in 36.058ms 404  (791a596a)
+2018-07-16T15:34:57.7924390+02:00 0HLFB3VLK5TQL:00000001 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5000/api/PublicChat/negotiate   (ca22a1cb)
+2018-07-16T15:34:57.8037020+02:00 0HLFB3VLK5TQL:00000001 [INF] Request finished in 11.266ms 405 text/plain (791a596a)
+2018-07-16T15:41:52.6564100+02:00 0HLFB3VLK5TQR:00000001 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5000/api/PublicChat/negotiate   (ca22a1cb)
+2018-07-16T15:41:52.6580630+02:00 0HLFB3VLK5TQR:00000001 [INF] Request finished in 2.244ms 405 text/plain (791a596a)
+2018-07-16T15:42:04.5516480+02:00 0HLFB3VLK5TQS:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/api/PublicChat/negotiate   (ca22a1cb)
+2018-07-16T15:42:04.5519560+02:00 0HLFB3VLK5TQS:00000001 [INF] Request finished in 25.502ms 405 text/plain (791a596a)
+2018-07-16T15:45:12.2697030+02:00 0HLFB3VLK5TQR:00000002 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5000/api/PublicChat/negotiate   (ca22a1cb)
+2018-07-16T15:45:12.2712700+02:00 0HLFB3VLK5TQR:00000002 [INF] Request finished in 35.415ms 405 text/plain (791a596a)
+2018-07-16T16:15:20.3613990+02:00 0HLFB3VLK5TQT:00000001 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5000/api/PublicChat/negotiate   (ca22a1cb)
+2018-07-16T16:15:20.3647540+02:00 0HLFB3VLK5TQT:00000001 [INF] Request finished in 33.59ms 405 text/plain (791a596a)
+2018-07-16T16:18:41.4211380+02:00 0HLFB4S3M3J1M:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/   (ca22a1cb)
+2018-07-16T16:18:41.6735560+02:00 0HLFB4S3M3J1M:00000001 [INF] Request finished in 258.787ms 404  (791a596a)
+2018-07-16T16:19:02.0990270+02:00 0HLFB4S3M3J1N:00000001 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5000/api/PublicChat/negotiate   (ca22a1cb)
+2018-07-16T16:19:02.1441670+02:00 0HLFB4S3M3J1N:00000001 [INF] Request finished in 45.129ms 405 text/plain (791a596a)
+2018-07-16T16:31:52.5554730+02:00 0HLFB53FERUOQ:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/   (ca22a1cb)
+2018-07-16T16:31:52.8938720+02:00 0HLFB53FERUOQ:00000001 [INF] Request finished in 343.957ms 404  (791a596a)
+2018-07-16T16:32:03.3075910+02:00 0HLFB53FERUOS:00000001 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5000/api/PublicChatHub/negotiate   (ca22a1cb)
+2018-07-16T16:32:03.3483250+02:00 0HLFB53FERUOS:00000001 [INF] Request finished in 40.717ms 405 text/plain (791a596a)
+2018-07-16T16:42:32.4900630+02:00 0HLFB59E4AGEG:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/   (ca22a1cb)
+2018-07-16T16:42:32.8537170+02:00 0HLFB59E4AGEG:00000001 [INF] Request finished in 373.853ms 404  (791a596a)
+2018-07-16T16:53:19.6029820+02:00 0HLFB59E4AGEI:00000001 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5000/PublicChatHub/negotiate   (ca22a1cb)
+2018-07-16T16:53:19.6107990+02:00 0HLFB59E4AGEI:00000001 [INF] Request finished in 7.763ms 405 text/plain (791a596a)
+2018-07-16T17:04:41.8506660+02:00 0HLFB5LQAPIJA:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/   (ca22a1cb)
+2018-07-16T17:04:42.2253900+02:00 0HLFB5LQAPIJA:00000001 [INF] Request finished in 397.282ms 404  (791a596a)
+2018-07-16T18:19:31.5848380+02:00 0HLFB6VKBK76I:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/   (ca22a1cb)
+2018-07-16T18:19:31.8816180+02:00 0HLFB6VKBK76I:00000001 [INF] Request finished in 303.798ms 404  (791a596a)
+2018-07-16T18:20:22.4683310+02:00 0HLFB6VKBK76K:00000001 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5000/chat/negotiate   (ca22a1cb)
+2018-07-16T18:20:22.4711710+02:00 0HLFB6VKBK76K:00000001 [INF] Policy execution successful. (0204925d)
+2018-07-16T18:20:22.4727900+02:00 0HLFB6VKBK76K:00000001 [INF] Request finished in 4.757ms 204  (791a596a)
+2018-07-16T18:20:22.4754730+02:00 0HLFB6VKBK76I:00000002 [INF] Request starting HTTP/1.1 POST http://localhost:5000/chat/negotiate text/plain;charset=UTF-8 0 (ca22a1cb)
+2018-07-16T18:20:22.4756490+02:00 0HLFB6VKBK76I:00000002 [INF] Policy execution successful. (0204925d)
+2018-07-16T18:20:22.4961680+02:00 0HLFB6VKBK76I:00000002 [INF] Request finished in 20.701ms 200 application/json (791a596a)
+2018-07-16T18:20:22.5446790+02:00 0HLFB6VKBK76L:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/chat?id=dVc3lzOW1fS_h-GcPO9AHA   (ca22a1cb)
+2018-07-16T18:20:22.5447420+02:00 0HLFB6VKBK76L:00000001 [INF] Policy execution successful. (0204925d)
+2018-07-16T18:20:22.7228470+02:00 0HLFB6VKBK76L:00000001 [INF] Completed connection handshake. Using HubProtocol '"json"'. (421947a1)
+2018-07-16T18:20:48.2358460+02:00 0HLFB6VKBK76L:00000001 [INF] Entity Framework Core "2.1.1-rtm-30846" initialized '"RentTogetherDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2018-07-16T18:20:54.8013640+02:00 0HLFB6VKBK76L:00000001 [ERR] An error occurred using the connection to database '"RentTogetherBdd"' on server '"tcp:renttogether.database.windows.net,1433"'. (5fc3407c)
+System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnectionAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+2018-07-16T18:20:54.8616130+02:00 0HLFB6VKBK76L:00000001 [ERR] An exception occurred in the database while iterating the results of a query for context type '"RentTogether.Entities.RentTogetherDbContext"'."
+""System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnectionAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.BufferlessMoveNext(DbContext _, Boolean buffer, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.FirstOrDefault_[TSource](IAsyncEnumerable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.TaskResultAsyncEnumerable`1.Enumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.SelectEnumerableAsyncIterator`2.MoveNextCore(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.AsyncIterator`1.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)" (64e2593c)
+System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnectionAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.BufferlessMoveNext(DbContext _, Boolean buffer, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.FirstOrDefault_[TSource](IAsyncEnumerable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.TaskResultAsyncEnumerable`1.Enumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.SelectEnumerableAsyncIterator`2.MoveNextCore(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.AsyncIterator`1.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+2018-07-16T18:20:54.8926660+02:00 0HLFB6VKBK76L:00000001 [ERR] An exception occurred in the database while iterating the results of a query for context type '"RentTogether.Entities.RentTogetherDbContext"'."
+""System.ObjectDisposedException: Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'.
+   at Microsoft.EntityFrameworkCore.Internal.ConcurrencyDetector.AsyncDisposer.Dispose()
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteSingletonAsyncQuery[TResult](QueryContext queryContext, Func`2 compiledQuery, IDiagnosticsLogger`1 logger, Type contextType)" (64e2593c)
+System.ObjectDisposedException: Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'.
+   at Microsoft.EntityFrameworkCore.Internal.ConcurrencyDetector.AsyncDisposer.Dispose()
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteSingletonAsyncQuery[TResult](QueryContext queryContext, Func`2 compiledQuery, IDiagnosticsLogger`1 logger, Type contextType)
+2018-07-16T18:20:55.5450570+02:00 0HLFB6VKBK76L:00000001 [ERR] Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'. (84fd1405)
+System.ObjectDisposedException: Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'.
+   at Microsoft.EntityFrameworkCore.Internal.ConcurrencyDetector.AsyncDisposer.Dispose()
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteSingletonAsyncQuery[TResult](QueryContext queryContext, Func`2 compiledQuery, IDiagnosticsLogger`1 logger, Type contextType)
+   at RentTogether.Dal.SqlService.GetUserAsyncById(Int32 id) in /Users/remi/Documents/ProjetsESGI/Core/RentTogether.Dal/SqlService.cs:line 101
+2018-07-16T18:29:26.6341290+02:00 0HLFB755M3T82:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/   (ca22a1cb)
+2018-07-16T18:29:27.3935840+02:00 0HLFB755M3T82:00000001 [INF] Request finished in 774.59ms 404  (791a596a)
+2018-07-16T18:31:13.2924090+02:00 0HLFB755M3T84:00000001 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5000/chat/negotiate   (ca22a1cb)
+2018-07-16T18:31:13.2946810+02:00 0HLFB755M3T84:00000001 [INF] Policy execution successful. (0204925d)
+2018-07-16T18:31:13.2960060+02:00 0HLFB755M3T84:00000001 [INF] Request finished in 3.561ms 204  (791a596a)
+2018-07-16T18:31:13.2996500+02:00 0HLFB755M3T82:00000002 [INF] Request starting HTTP/1.1 POST http://localhost:5000/chat/negotiate text/plain;charset=UTF-8 0 (ca22a1cb)
+2018-07-16T18:31:13.2998760+02:00 0HLFB755M3T82:00000002 [INF] Policy execution successful. (0204925d)
+2018-07-16T18:31:13.3224610+02:00 0HLFB755M3T82:00000002 [INF] Request finished in 22.805ms 200 application/json (791a596a)
+2018-07-16T18:31:13.3516540+02:00 0HLFB755M3T85:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/chat?id=azIQ9tmYjzU3sPP2qeoswQ   (ca22a1cb)
+2018-07-16T18:31:13.3517530+02:00 0HLFB755M3T85:00000001 [INF] Policy execution successful. (0204925d)
+2018-07-16T18:31:13.5188950+02:00 0HLFB755M3T85:00000001 [INF] Completed connection handshake. Using HubProtocol '"json"'. (421947a1)
+2018-07-16T18:31:21.4209670+02:00 0HLFB755M3T85:00000001 [INF] Entity Framework Core "2.1.1-rtm-30846" initialized '"RentTogetherDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2018-07-16T18:32:17.6971380+02:00 0HLFB76OM73JK:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/   (ca22a1cb)
+2018-07-16T18:32:17.9959730+02:00 0HLFB76OM73JK:00000001 [INF] Request finished in 306.377ms 404  (791a596a)
+2018-07-16T18:32:41.7015100+02:00 0HLFB76OM73JM:00000001 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5000/chat/negotiate   (ca22a1cb)
+2018-07-16T18:32:41.7055420+02:00 0HLFB76OM73JM:00000001 [INF] Policy execution successful. (0204925d)
+2018-07-16T18:32:41.7068770+02:00 0HLFB76OM73JM:00000001 [INF] Request finished in 5.417ms 204  (791a596a)
+2018-07-16T18:32:41.7132480+02:00 0HLFB76OM73JK:00000002 [INF] Request starting HTTP/1.1 POST http://localhost:5000/chat/negotiate text/plain;charset=UTF-8 0 (ca22a1cb)
+2018-07-16T18:32:41.7137480+02:00 0HLFB76OM73JK:00000002 [INF] Policy execution successful. (0204925d)
+2018-07-16T18:32:41.7325730+02:00 0HLFB76OM73JK:00000002 [INF] Request finished in 19.269ms 200 application/json (791a596a)
+2018-07-16T18:32:41.7642190+02:00 0HLFB76OM73JN:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/chat?id=ChMbhMiHk3irzd-Ati6krQ   (ca22a1cb)
+2018-07-16T18:32:41.7642860+02:00 0HLFB76OM73JN:00000001 [INF] Policy execution successful. (0204925d)
+2018-07-16T18:32:41.8911550+02:00 0HLFB76OM73JN:00000001 [INF] Completed connection handshake. Using HubProtocol '"json"'. (421947a1)
+2018-07-16T18:32:52.3519610+02:00 0HLFB76OM73JN:00000001 [INF] Entity Framework Core "2.1.1-rtm-30846" initialized '"RentTogetherDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2018-07-16T18:33:08.5985440+02:00 0HLFB76OM73JN:00000001 [ERR] An error occurred using the connection to database '"RentTogetherBdd"' on server '"tcp:renttogether.database.windows.net,1433"'. (5fc3407c)
+System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnectionAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+2018-07-16T18:33:08.6423370+02:00 0HLFB76OM73JN:00000001 [ERR] An exception occurred in the database while iterating the results of a query for context type '"RentTogether.Entities.RentTogetherDbContext"'."
+""System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnectionAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.BufferlessMoveNext(DbContext _, Boolean buffer, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.FirstOrDefault_[TSource](IAsyncEnumerable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.TaskResultAsyncEnumerable`1.Enumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.SelectEnumerableAsyncIterator`2.MoveNextCore(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.AsyncIterator`1.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)" (64e2593c)
+System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnectionAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.BufferlessMoveNext(DbContext _, Boolean buffer, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.FirstOrDefault_[TSource](IAsyncEnumerable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.TaskResultAsyncEnumerable`1.Enumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.SelectEnumerableAsyncIterator`2.MoveNextCore(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.AsyncIterator`1.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+2018-07-16T18:33:08.6510370+02:00 0HLFB76OM73JN:00000001 [ERR] An exception occurred in the database while iterating the results of a query for context type '"RentTogether.Entities.RentTogetherDbContext"'."
+""System.ObjectDisposedException: Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'.
+   at Microsoft.EntityFrameworkCore.Internal.ConcurrencyDetector.AsyncDisposer.Dispose()
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteSingletonAsyncQuery[TResult](QueryContext queryContext, Func`2 compiledQuery, IDiagnosticsLogger`1 logger, Type contextType)" (64e2593c)
+System.ObjectDisposedException: Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'.
+   at Microsoft.EntityFrameworkCore.Internal.ConcurrencyDetector.AsyncDisposer.Dispose()
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteSingletonAsyncQuery[TResult](QueryContext queryContext, Func`2 compiledQuery, IDiagnosticsLogger`1 logger, Type contextType)
+2018-07-16T18:33:09.2453550+02:00 0HLFB76OM73JN:00000001 [ERR] Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'. (84fd1405)
+System.ObjectDisposedException: Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'.
+   at Microsoft.EntityFrameworkCore.Internal.ConcurrencyDetector.AsyncDisposer.Dispose()
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteSingletonAsyncQuery[TResult](QueryContext queryContext, Func`2 compiledQuery, IDiagnosticsLogger`1 logger, Type contextType)
+   at RentTogether.Dal.SqlService.GetUserAsyncById(Int32 id) in /Users/remi/Documents/ProjetsESGI/Core/RentTogether.Dal/SqlService.cs:line 101
+2018-07-16T18:35:38.2781230+02:00 0HLFB78KFVLA6:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/   (ca22a1cb)
+2018-07-16T18:35:38.5669990+02:00 0HLFB78KFVLA6:00000001 [INF] Request finished in 295.816ms 404  (791a596a)
+2018-07-16T18:35:51.0263610+02:00 0HLFB78KFVLA8:00000001 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5000/chat/negotiate   (ca22a1cb)
+2018-07-16T18:35:51.0334910+02:00 0HLFB78KFVLA8:00000001 [INF] Policy execution successful. (0204925d)
+2018-07-16T18:35:51.0344350+02:00 0HLFB78KFVLA8:00000001 [INF] Request finished in 8.173ms 204  (791a596a)
+2018-07-16T18:35:51.0388030+02:00 0HLFB78KFVLA6:00000002 [INF] Request starting HTTP/1.1 POST http://localhost:5000/chat/negotiate text/plain;charset=UTF-8 0 (ca22a1cb)
+2018-07-16T18:35:51.0390110+02:00 0HLFB78KFVLA6:00000002 [INF] Policy execution successful. (0204925d)
+2018-07-16T18:35:51.0657230+02:00 0HLFB78KFVLA6:00000002 [INF] Request finished in 26.972ms 200 application/json (791a596a)
+2018-07-16T18:35:51.0977710+02:00 0HLFB78KFVLA9:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/chat?id=F4cMIqqW6dh5HUDeHJWZ0g   (ca22a1cb)
+2018-07-16T18:35:51.0978300+02:00 0HLFB78KFVLA9:00000001 [INF] Policy execution successful. (0204925d)
+2018-07-16T18:35:51.2158800+02:00 0HLFB78KFVLA9:00000001 [INF] Completed connection handshake. Using HubProtocol '"json"'. (421947a1)
+2018-07-16T18:35:59.9605830+02:00 0HLFB78KFVLA9:00000001 [INF] Entity Framework Core "2.1.1-rtm-30846" initialized '"RentTogetherDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2018-07-16T18:36:09.3940570+02:00 0HLFB78KFVLA9:00000001 [ERR] An error occurred using the connection to database '"RentTogetherBdd"' on server '"tcp:renttogether.database.windows.net,1433"'. (5fc3407c)
+System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnectionAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+2018-07-16T18:36:09.4300630+02:00 0HLFB78KFVLA9:00000001 [ERR] An exception occurred in the database while iterating the results of a query for context type '"RentTogether.Entities.RentTogetherDbContext"'."
+""System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnectionAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.BufferlessMoveNext(DbContext _, Boolean buffer, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.FirstOrDefault_[TSource](IAsyncEnumerable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.TaskResultAsyncEnumerable`1.Enumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.SelectEnumerableAsyncIterator`2.MoveNextCore(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.AsyncIterator`1.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)" (64e2593c)
+System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnectionAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.BufferlessMoveNext(DbContext _, Boolean buffer, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.FirstOrDefault_[TSource](IAsyncEnumerable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.TaskResultAsyncEnumerable`1.Enumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.SelectEnumerableAsyncIterator`2.MoveNextCore(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.AsyncIterator`1.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+2018-07-16T18:36:09.4387300+02:00 0HLFB78KFVLA9:00000001 [ERR] An exception occurred in the database while iterating the results of a query for context type '"RentTogether.Entities.RentTogetherDbContext"'."
+""System.ObjectDisposedException: Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'.
+   at Microsoft.EntityFrameworkCore.Internal.ConcurrencyDetector.AsyncDisposer.Dispose()
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteSingletonAsyncQuery[TResult](QueryContext queryContext, Func`2 compiledQuery, IDiagnosticsLogger`1 logger, Type contextType)" (64e2593c)
+System.ObjectDisposedException: Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'.
+   at Microsoft.EntityFrameworkCore.Internal.ConcurrencyDetector.AsyncDisposer.Dispose()
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteSingletonAsyncQuery[TResult](QueryContext queryContext, Func`2 compiledQuery, IDiagnosticsLogger`1 logger, Type contextType)
+2018-07-16T18:36:10.0353200+02:00 0HLFB78KFVLA9:00000001 [ERR] Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'. (84fd1405)
+System.ObjectDisposedException: Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'.
+   at Microsoft.EntityFrameworkCore.Internal.ConcurrencyDetector.AsyncDisposer.Dispose()
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteSingletonAsyncQuery[TResult](QueryContext queryContext, Func`2 compiledQuery, IDiagnosticsLogger`1 logger, Type contextType)
+   at RentTogether.Dal.SqlService.GetUserAsyncById(Int32 id) in /Users/remi/Documents/ProjetsESGI/Core/RentTogether.Dal/SqlService.cs:line 101
+2018-07-16T18:36:45.6591370+02:00 0HLFB78KFVLA9:00000001 [INF] Entity Framework Core "2.1.1-rtm-30846" initialized '"RentTogetherDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2018-07-16T18:36:58.2048370+02:00 0HLFB78KFVLA9:00000001 [ERR] An error occurred using the connection to database '"RentTogetherBdd"' on server '"tcp:renttogether.database.windows.net,1433"'. (5fc3407c)
+System.Data.SqlClient.SqlException (0x80131904): The client was unable to establish a connection because of an error during connection initialization process before login. Possible causes include the following:  the client tried to connect to an unsupported version of SQL Server; the server was too busy to accept new connections; or there was a resource limitation (insufficient memory or maximum allowed connections) on the server. (provider: TCP Provider, error: 35 - An internal exception was caught) ---> System.IO.IOException: Unable to write data to the transport connection: Broken pipe. ---> System.Net.Sockets.SocketException: Broken pipe
+   at System.Net.Sockets.NetworkStream.Write(Byte[] buffer, Int32 offset, Int32 size)
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.NetworkStream.Write(Byte[] buffer, Int32 offset, Int32 size)
+   at System.Data.SqlClient.SNI.SNITCPHandle.Send(SNIPacket packet)
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.WaitForPendingOpen()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnectionAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.BufferlessMoveNext(DbContext _, Boolean buffer, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+ClientConnectionId:8b3fb256-39fb-4413-98e1-534eee7db45c
+2018-07-16T18:36:58.4311670+02:00 0HLFB78KFVLA9:00000001 [ERR] An exception occurred in the database while iterating the results of a query for context type '"RentTogether.Entities.RentTogetherDbContext"'."
+""System.Data.SqlClient.SqlException (0x80131904): The client was unable to establish a connection because of an error during connection initialization process before login. Possible causes include the following:  the client tried to connect to an unsupported version of SQL Server; the server was too busy to accept new connections; or there was a resource limitation (insufficient memory or maximum allowed connections) on the server. (provider: TCP Provider, error: 35 - An internal exception was caught) ---> System.IO.IOException: Unable to write data to the transport connection: Broken pipe. ---> System.Net.Sockets.SocketException: Broken pipe
+   at System.Net.Sockets.NetworkStream.Write(Byte[] buffer, Int32 offset, Int32 size)
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.NetworkStream.Write(Byte[] buffer, Int32 offset, Int32 size)
+   at System.Data.SqlClient.SNI.SNITCPHandle.Send(SNIPacket packet)
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.WaitForPendingOpen()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnectionAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.BufferlessMoveNext(DbContext _, Boolean buffer, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.FirstOrDefault_[TSource](IAsyncEnumerable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.TaskResultAsyncEnumerable`1.Enumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.SelectEnumerableAsyncIterator`2.MoveNextCore(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.AsyncIterator`1.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+ClientConnectionId:8b3fb256-39fb-4413-98e1-534eee7db45c" (64e2593c)
+System.Data.SqlClient.SqlException (0x80131904): The client was unable to establish a connection because of an error during connection initialization process before login. Possible causes include the following:  the client tried to connect to an unsupported version of SQL Server; the server was too busy to accept new connections; or there was a resource limitation (insufficient memory or maximum allowed connections) on the server. (provider: TCP Provider, error: 35 - An internal exception was caught) ---> System.IO.IOException: Unable to write data to the transport connection: Broken pipe. ---> System.Net.Sockets.SocketException: Broken pipe
+   at System.Net.Sockets.NetworkStream.Write(Byte[] buffer, Int32 offset, Int32 size)
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.NetworkStream.Write(Byte[] buffer, Int32 offset, Int32 size)
+   at System.Data.SqlClient.SNI.SNITCPHandle.Send(SNIPacket packet)
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.WaitForPendingOpen()
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnectionAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.BufferlessMoveNext(DbContext _, Boolean buffer, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.FirstOrDefault_[TSource](IAsyncEnumerable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.TaskResultAsyncEnumerable`1.Enumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.SelectEnumerableAsyncIterator`2.MoveNextCore(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.AsyncIterator`1.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+ClientConnectionId:8b3fb256-39fb-4413-98e1-534eee7db45c
+2018-07-16T18:36:58.4376690+02:00 0HLFB78KFVLA9:00000001 [ERR] An exception occurred in the database while iterating the results of a query for context type '"RentTogether.Entities.RentTogetherDbContext"'."
+""System.ObjectDisposedException: Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'.
+   at Microsoft.EntityFrameworkCore.Internal.ConcurrencyDetector.AsyncDisposer.Dispose()
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteSingletonAsyncQuery[TResult](QueryContext queryContext, Func`2 compiledQuery, IDiagnosticsLogger`1 logger, Type contextType)" (64e2593c)
+System.ObjectDisposedException: Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'.
+   at Microsoft.EntityFrameworkCore.Internal.ConcurrencyDetector.AsyncDisposer.Dispose()
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteSingletonAsyncQuery[TResult](QueryContext queryContext, Func`2 compiledQuery, IDiagnosticsLogger`1 logger, Type contextType)
+   at RentTogether.Dal.SqlService.GetUserAsyncById(Int32 id) in /Users/remi/Documents/ProjetsESGI/Core/RentTogether.Dal/SqlService.cs:line 101
+2018-07-16T18:36:58.9073250+02:00 0HLFB78KFVLA9:00000001 [ERR] Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'. (84fd1405)
+System.ObjectDisposedException: Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'.
+   at Microsoft.EntityFrameworkCore.Internal.ConcurrencyDetector.AsyncDisposer.Dispose()
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteSingletonAsyncQuery[TResult](QueryContext queryContext, Func`2 compiledQuery, IDiagnosticsLogger`1 logger, Type contextType)
+   at RentTogether.Dal.SqlService.GetUserAsyncById(Int32 id) in /Users/remi/Documents/ProjetsESGI/Core/RentTogether.Dal/SqlService.cs:line 101
+2018-07-16T18:37:14.5244260+02:00 0HLFB78KFVLA9:00000001 [INF] Entity Framework Core "2.1.1-rtm-30846" initialized '"RentTogetherDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2018-07-16T18:37:18.2874380+02:00 0HLFB78KFVLA9:00000001 [ERR] An error occurred using the connection to database '"RentTogetherBdd"' on server '"tcp:renttogether.database.windows.net,1433"'. (5fc3407c)
+System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnectionAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+2018-07-16T18:37:18.3011730+02:00 0HLFB78KFVLA9:00000001 [ERR] An exception occurred in the database while iterating the results of a query for context type '"RentTogether.Entities.RentTogetherDbContext"'."
+""System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnectionAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.BufferlessMoveNext(DbContext _, Boolean buffer, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.FirstOrDefault_[TSource](IAsyncEnumerable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.TaskResultAsyncEnumerable`1.Enumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.SelectEnumerableAsyncIterator`2.MoveNextCore(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.AsyncIterator`1.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)" (64e2593c)
+System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenDbConnectionAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.BufferlessMoveNext(DbContext _, Boolean buffer, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.FirstOrDefault_[TSource](IAsyncEnumerable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.TaskResultAsyncEnumerable`1.Enumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.SelectEnumerableAsyncIterator`2.MoveNextCore(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.AsyncIterator`1.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+2018-07-16T18:37:18.3283090+02:00 0HLFB78KFVLA9:00000001 [ERR] An exception occurred in the database while iterating the results of a query for context type '"RentTogether.Entities.RentTogetherDbContext"'."
+""System.ObjectDisposedException: Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'.
+   at Microsoft.EntityFrameworkCore.Internal.ConcurrencyDetector.AsyncDisposer.Dispose()
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteSingletonAsyncQuery[TResult](QueryContext queryContext, Func`2 compiledQuery, IDiagnosticsLogger`1 logger, Type contextType)" (64e2593c)
+System.ObjectDisposedException: Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'.
+   at Microsoft.EntityFrameworkCore.Internal.ConcurrencyDetector.AsyncDisposer.Dispose()
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteSingletonAsyncQuery[TResult](QueryContext queryContext, Func`2 compiledQuery, IDiagnosticsLogger`1 logger, Type contextType)
+   at RentTogether.Dal.SqlService.GetUserAsyncById(Int32 id) in /Users/remi/Documents/ProjetsESGI/Core/RentTogether.Dal/SqlService.cs:line 101
+2018-07-16T18:37:18.7715080+02:00 0HLFB78KFVLA9:00000001 [ERR] Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'. (84fd1405)
+System.ObjectDisposedException: Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'.
+   at Microsoft.EntityFrameworkCore.Internal.ConcurrencyDetector.AsyncDisposer.Dispose()
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteSingletonAsyncQuery[TResult](QueryContext queryContext, Func`2 compiledQuery, IDiagnosticsLogger`1 logger, Type contextType)
+   at RentTogether.Dal.SqlService.GetUserAsyncById(Int32 id) in /Users/remi/Documents/ProjetsESGI/Core/RentTogether.Dal/SqlService.cs:line 101
+2018-07-16T18:38:17.8136830+02:00 0HLFB78KFVLA9:00000001 [INF] Entity Framework Core "2.1.1-rtm-30846" initialized '"RentTogetherDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2018-07-16T18:38:22.9306610+02:00 0HLFB78KFVLA9:00000001 [INF] Executed DbCommand ("5,052"ms) [Parameters=["@__id_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [x].[UserId], [x].[City], [x].[CreateDate], [x].[Description], [x].[DesiredPersonalityFk], [x].[Email], [x].[FavoriteUserId], [x].[FirstName], [x].[IsActive], [x].[IsAdmin], [x].[IsOwner], [x].[IsRoomer], [x].[IsValideUser], [x].[LastName], [x].[MatchFk], [x].[Password], [x].[PersonalityFk], [x].[PhoneNumber], [x].[PostalCode], [x].[Token], [x].[TokenExpirationDate], [x].[UserPictureFk], [x].[Vote1Fk], [x].[Vote2Fk]
+FROM [Users] AS [x]
+WHERE [x].[UserId] = @__id_0" (0723d8ff)
+2018-07-16T18:38:23.1674330+02:00 0HLFB78KFVLA9:00000001 [ERR] An exception occurred in the database while iterating the results of a query for context type '"RentTogether.Entities.RentTogetherDbContext"'."
+""System.InvalidOperationException: Invalid attempt to call ReadAsync when reader is closed.
+   at System.Data.Common.ADP.ExceptionWithStackTrace(Exception e)
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.BufferlessMoveNext(DbContext _, Boolean buffer, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.FirstOrDefault_[TSource](IAsyncEnumerable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.TaskResultAsyncEnumerable`1.Enumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.SelectEnumerableAsyncIterator`2.MoveNextCore(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.AsyncIterator`1.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)" (64e2593c)
+System.InvalidOperationException: Invalid attempt to call ReadAsync when reader is closed.
+   at System.Data.Common.ADP.ExceptionWithStackTrace(Exception e)
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.BufferlessMoveNext(DbContext _, Boolean buffer, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncQueryingEnumerable`1.AsyncEnumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.FirstOrDefault_[TSource](IAsyncEnumerable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.TaskResultAsyncEnumerable`1.Enumerator.MoveNext(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.SelectEnumerableAsyncIterator`2.MoveNextCore(CancellationToken cancellationToken)
+   at System.Linq.AsyncEnumerable.AsyncIterator`1.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+2018-07-16T18:38:23.1734150+02:00 0HLFB78KFVLA9:00000001 [ERR] An exception occurred in the database while iterating the results of a query for context type '"RentTogether.Entities.RentTogetherDbContext"'."
+""System.ObjectDisposedException: Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'.
+   at Microsoft.EntityFrameworkCore.Internal.ConcurrencyDetector.AsyncDisposer.Dispose()
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteSingletonAsyncQuery[TResult](QueryContext queryContext, Func`2 compiledQuery, IDiagnosticsLogger`1 logger, Type contextType)" (64e2593c)
+System.ObjectDisposedException: Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'.
+   at Microsoft.EntityFrameworkCore.Internal.ConcurrencyDetector.AsyncDisposer.Dispose()
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteSingletonAsyncQuery[TResult](QueryContext queryContext, Func`2 compiledQuery, IDiagnosticsLogger`1 logger, Type contextType)
+   at RentTogether.Dal.SqlService.GetUserAsyncById(Int32 id) in /Users/remi/Documents/ProjetsESGI/Core/RentTogether.Dal/SqlService.cs:line 101
+2018-07-16T18:38:23.7581430+02:00 0HLFB78KFVLA9:00000001 [ERR] Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'. (84fd1405)
+System.ObjectDisposedException: Cannot access a disposed object. A common cause of this error is disposing a context that was resolved from dependency injection and then later trying to use the same context instance elsewhere in your application. This may occur if you are calling Dispose() on the context, or wrapping the context in a using statement. If you are using dependency injection, you should let the dependency injection container take care of disposing context instances.
+Object name: 'AsyncDisposer'.
+   at Microsoft.EntityFrameworkCore.Internal.ConcurrencyDetector.AsyncDisposer.Dispose()
+   at Microsoft.EntityFrameworkCore.Query.Internal.AsyncLinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteSingletonAsyncQuery[TResult](QueryContext queryContext, Func`2 compiledQuery, IDiagnosticsLogger`1 logger, Type contextType)
+   at RentTogether.Dal.SqlService.GetUserAsyncById(Int32 id) in /Users/remi/Documents/ProjetsESGI/Core/RentTogether.Dal/SqlService.cs:line 101
+2018-07-16T18:52:19.4118080+02:00 0HLFB7HUPMTP0:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/   (ca22a1cb)
+2018-07-16T18:52:20.1503050+02:00 0HLFB7HUPMTP0:00000001 [INF] Request finished in 750.016ms 404  (791a596a)
+2018-07-16T18:52:29.5045340+02:00 0HLFB7HUPMTP3:00000001 [INF] Request starting HTTP/1.1 POST http://localhost:5000/api/BuildingMessages application/json 85 (ca22a1cb)
+2018-07-16T18:52:29.5926570+02:00 0HLFB7HUPMTP3:00000001 [INF] Failed to validate the token. (616bef97)
+Microsoft.IdentityModel.Tokens.SecurityTokenInvalidAudienceException: IDX10208: Unable to validate audience. validationParameters.ValidAudience is null or whitespace and validationParameters.ValidAudiences is null.
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateAudience(IEnumerable`1 audiences, SecurityToken securityToken, TokenValidationParameters validationParameters) in C:\agent2\_work\15\s\src\Microsoft.IdentityModel.Tokens\Validators.cs:line 108
+   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ValidateTokenPayload(JwtSecurityToken jwtToken, TokenValidationParameters validationParameters) in C:\agent2\_work\15\s\src\System.IdentityModel.Tokens.Jwt\JwtSecurityTokenHandler.cs:line 765
+   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ValidateToken(String token, TokenValidationParameters validationParameters, SecurityToken& validatedToken) in C:\agent2\_work\15\s\src\System.IdentityModel.Tokens.Jwt\JwtSecurityTokenHandler.cs:line 747
+   at Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerHandler.HandleAuthenticateAsync()
+2018-07-16T18:52:29.5932690+02:00 0HLFB7HUPMTP3:00000001 [INF] "Bearer" was not authenticated. Failure message: "IDX10208: Unable to validate audience. validationParameters.ValidAudience is null or whitespace and validationParameters.ValidAudiences is null." (48071232)
+2018-07-16T18:52:29.6799400+02:00 0HLFB7HUPMTP3:00000001 [INF] Route matched with "{action = \"Post\", controller = \"BuildingMessages\"}". Executing action "RentTogether.Api.Controllers.BuildingMessagesController.Post (RentTogether.Api)" (a44c0341)
+2018-07-16T18:52:29.7517350+02:00 0HLFB7HUPMTP3:00000001 [INF] Executing action method "RentTogether.Api.Controllers.BuildingMessagesController.Post (RentTogether.Api)" with arguments (["RentTogether.Entities.Dto.BuildingMessage.BuildingMessageDto"]) - Validation state: Valid (4e3479ed)
+2018-07-16T18:52:29.7615320+02:00 0HLFB7HUPMTP3:00000001 [INF] Entity Framework Core "2.1.1-rtm-30846" initialized '"RentTogetherDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2018-07-16T18:52:30.7200120+02:00 0HLFB7HUPMTP3:00000001 [INF] Executed DbCommand ("76"ms) [Parameters=["@__token_0='?' (Size = 4000)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(2) [x].[UserId], [x].[City], [x].[CreateDate], [x].[Description], [x].[DesiredPersonalityFk], [x].[Email], [x].[FavoriteUserId], [x].[FirstName], [x].[IsActive], [x].[IsAdmin], [x].[IsOwner], [x].[IsRoomer], [x].[IsValideUser], [x].[LastName], [x].[MatchFk], [x].[Password], [x].[PersonalityFk], [x].[PhoneNumber], [x].[PostalCode], [x].[Token], [x].[TokenExpirationDate], [x].[UserPictureFk], [x].[Vote1Fk], [x].[Vote2Fk]
+FROM [Users] AS [x]
+WHERE [x].[Token] = @__token_0" (0723d8ff)
+2018-07-16T18:52:30.9064810+02:00 0HLFB7HUPMTP3:00000001 [INF] Executed DbCommand ("66"ms) [Parameters=["@__token_0='?' (Size = 4000)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(2) [x].[UserId], [x].[City], [x].[CreateDate], [x].[Description], [x].[DesiredPersonalityFk], [x].[Email], [x].[FavoriteUserId], [x].[FirstName], [x].[IsActive], [x].[IsAdmin], [x].[IsOwner], [x].[IsRoomer], [x].[IsValideUser], [x].[LastName], [x].[MatchFk], [x].[Password], [x].[PersonalityFk], [x].[PhoneNumber], [x].[PostalCode], [x].[Token], [x].[TokenExpirationDate], [x].[UserPictureFk], [x].[Vote1Fk], [x].[Vote2Fk]
+FROM [Users] AS [x]
+WHERE [x].[Token] = @__token_0" (0723d8ff)
+2018-07-16T18:52:30.9988310+02:00 0HLFB7HUPMTP3:00000001 [INF] Executed DbCommand ("68"ms) [Parameters=["@__buildingMessageDto_BuildingId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(2) [x].[BuildingId], [x].[Address], [x].[Address2], [x].[Area], [x].[City], [x].[City2], [x].[Description], [x].[FavoriteBuildingId], [x].[IsRent], [x].[NbMaxRenters], [x].[NbPiece], [x].[NbRenters], [x].[NbRoom], [x].[OwnerUserId], [x].[Parking], [x].[PostalCode], [x].[Price], [x].[Title], [x].[Type]
+FROM [Buildings] AS [x]
+WHERE [x].[BuildingId] = @__buildingMessageDto_BuildingId_0" (0723d8ff)
+2018-07-16T18:52:31.0868160+02:00 0HLFB7HUPMTP3:00000001 [INF] Executed DbCommand ("57"ms) [Parameters=["@__buildingMessageDto_UserId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(2) [x].[UserId], [x].[City], [x].[CreateDate], [x].[Description], [x].[DesiredPersonalityFk], [x].[Email], [x].[FavoriteUserId], [x].[FirstName], [x].[IsActive], [x].[IsAdmin], [x].[IsOwner], [x].[IsRoomer], [x].[IsValideUser], [x].[LastName], [x].[MatchFk], [x].[Password], [x].[PersonalityFk], [x].[PhoneNumber], [x].[PostalCode], [x].[Token], [x].[TokenExpirationDate], [x].[UserPictureFk], [x].[Vote1Fk], [x].[Vote2Fk]
+FROM [Users] AS [x]
+WHERE [x].[UserId] = @__buildingMessageDto_UserId_0" (0723d8ff)
+2018-07-16T18:52:31.3086080+02:00 0HLFB7HUPMTP3:00000001 [INF] Executed DbCommand ("52"ms) [Parameters=["@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 4000), @p4='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SET NOCOUNT ON;
+INSERT INTO [BuildingMessages] ([BuildingId], [CreatedDate], [IsReport], [MessageText], [WriterUserId])
+VALUES (@p0, @p1, @p2, @p3, @p4);
+SELECT [BuildingMessageId]
+FROM [BuildingMessages]
+WHERE @@ROWCOUNT = 1 AND [BuildingMessageId] = scope_identity();" (0723d8ff)
+2018-07-16T18:52:31.3851410+02:00 0HLFB7HUPMTP3:00000001 [INF] Executed action method "RentTogether.Api.Controllers.BuildingMessagesController.Post (RentTogether.Api)", returned result "Microsoft.AspNetCore.Mvc.OkObjectResult" in 1630.525ms. (50a9e262)
+2018-07-16T18:52:31.4322350+02:00 0HLFB7HUPMTP3:00000001 [INF] Executing ObjectResult, writing value of type '"RentTogether.Entities.Dto.BuildingMessage.BuildingMessageApiDto"'. (8a1b66c8)
+2018-07-16T18:52:31.4539820+02:00 0HLFB7HUPMTP3:00000001 [INF] Executed action "RentTogether.Api.Controllers.BuildingMessagesController.Post (RentTogether.Api)" in 1771.041ms (afa2e885)
+2018-07-16T18:52:31.4612630+02:00 0HLFB7HUPMTP3:00000001 [INF] Request finished in 1956.73ms 200 application/json; charset=utf-8 (791a596a)
+2018-07-16T18:52:34.3808620+02:00 0HLFB7HUPMTP3:00000002 [INF] Request starting HTTP/1.1 POST http://localhost:5000/api/BuildingMessages application/json 85 (ca22a1cb)
+2018-07-16T18:52:34.3813830+02:00 0HLFB7HUPMTP3:00000002 [INF] Failed to validate the token. (616bef97)
+Microsoft.IdentityModel.Tokens.SecurityTokenInvalidAudienceException: IDX10208: Unable to validate audience. validationParameters.ValidAudience is null or whitespace and validationParameters.ValidAudiences is null.
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateAudience(IEnumerable`1 audiences, SecurityToken securityToken, TokenValidationParameters validationParameters) in C:\agent2\_work\15\s\src\Microsoft.IdentityModel.Tokens\Validators.cs:line 108
+   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ValidateTokenPayload(JwtSecurityToken jwtToken, TokenValidationParameters validationParameters) in C:\agent2\_work\15\s\src\System.IdentityModel.Tokens.Jwt\JwtSecurityTokenHandler.cs:line 765
+   at System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ValidateToken(String token, TokenValidationParameters validationParameters, SecurityToken& validatedToken) in C:\agent2\_work\15\s\src\System.IdentityModel.Tokens.Jwt\JwtSecurityTokenHandler.cs:line 747
+   at Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerHandler.HandleAuthenticateAsync()
+2018-07-16T18:52:34.3814500+02:00 0HLFB7HUPMTP3:00000002 [INF] "Bearer" was not authenticated. Failure message: "IDX10208: Unable to validate audience. validationParameters.ValidAudience is null or whitespace and validationParameters.ValidAudiences is null." (48071232)
+2018-07-16T18:52:34.3819020+02:00 0HLFB7HUPMTP3:00000002 [INF] Route matched with "{action = \"Post\", controller = \"BuildingMessages\"}". Executing action "RentTogether.Api.Controllers.BuildingMessagesController.Post (RentTogether.Api)" (a44c0341)
+2018-07-16T18:52:34.3923880+02:00 0HLFB7HUPMTP3:00000002 [INF] Executing action method "RentTogether.Api.Controllers.BuildingMessagesController.Post (RentTogether.Api)" with arguments (["RentTogether.Entities.Dto.BuildingMessage.BuildingMessageDto"]) - Validation state: Valid (4e3479ed)
+2018-07-16T18:52:34.3931700+02:00 0HLFB7HUPMTP3:00000002 [INF] Entity Framework Core "2.1.1-rtm-30846" initialized '"RentTogetherDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2018-07-16T18:52:34.4899270+02:00 0HLFB7HUPMTP3:00000002 [INF] Executed DbCommand ("74"ms) [Parameters=["@__token_0='?' (Size = 4000)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(2) [x].[UserId], [x].[City], [x].[CreateDate], [x].[Description], [x].[DesiredPersonalityFk], [x].[Email], [x].[FavoriteUserId], [x].[FirstName], [x].[IsActive], [x].[IsAdmin], [x].[IsOwner], [x].[IsRoomer], [x].[IsValideUser], [x].[LastName], [x].[MatchFk], [x].[Password], [x].[PersonalityFk], [x].[PhoneNumber], [x].[PostalCode], [x].[Token], [x].[TokenExpirationDate], [x].[UserPictureFk], [x].[Vote1Fk], [x].[Vote2Fk]
+FROM [Users] AS [x]
+WHERE [x].[Token] = @__token_0" (0723d8ff)
+2018-07-16T18:52:34.6868830+02:00 0HLFB7HUPMTP3:00000002 [INF] Executed DbCommand ("80"ms) [Parameters=["@__token_0='?' (Size = 4000)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(2) [x].[UserId], [x].[City], [x].[CreateDate], [x].[Description], [x].[DesiredPersonalityFk], [x].[Email], [x].[FavoriteUserId], [x].[FirstName], [x].[IsActive], [x].[IsAdmin], [x].[IsOwner], [x].[IsRoomer], [x].[IsValideUser], [x].[LastName], [x].[MatchFk], [x].[Password], [x].[PersonalityFk], [x].[PhoneNumber], [x].[PostalCode], [x].[Token], [x].[TokenExpirationDate], [x].[UserPictureFk], [x].[Vote1Fk], [x].[Vote2Fk]
+FROM [Users] AS [x]
+WHERE [x].[Token] = @__token_0" (0723d8ff)
+2018-07-16T18:52:34.7447080+02:00 0HLFB7HUPMTP3:00000002 [INF] Executed DbCommand ("57"ms) [Parameters=["@__buildingMessageDto_BuildingId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(2) [x].[BuildingId], [x].[Address], [x].[Address2], [x].[Area], [x].[City], [x].[City2], [x].[Description], [x].[FavoriteBuildingId], [x].[IsRent], [x].[NbMaxRenters], [x].[NbPiece], [x].[NbRenters], [x].[NbRoom], [x].[OwnerUserId], [x].[Parking], [x].[PostalCode], [x].[Price], [x].[Title], [x].[Type]
+FROM [Buildings] AS [x]
+WHERE [x].[BuildingId] = @__buildingMessageDto_BuildingId_0" (0723d8ff)
+2018-07-16T18:52:34.8091080+02:00 0HLFB7HUPMTP3:00000002 [INF] Executed DbCommand ("63"ms) [Parameters=["@__buildingMessageDto_UserId_0='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(2) [x].[UserId], [x].[City], [x].[CreateDate], [x].[Description], [x].[DesiredPersonalityFk], [x].[Email], [x].[FavoriteUserId], [x].[FirstName], [x].[IsActive], [x].[IsAdmin], [x].[IsOwner], [x].[IsRoomer], [x].[IsValideUser], [x].[LastName], [x].[MatchFk], [x].[Password], [x].[PersonalityFk], [x].[PhoneNumber], [x].[PostalCode], [x].[Token], [x].[TokenExpirationDate], [x].[UserPictureFk], [x].[Vote1Fk], [x].[Vote2Fk]
+FROM [Users] AS [x]
+WHERE [x].[UserId] = @__buildingMessageDto_UserId_0" (0723d8ff)
+2018-07-16T18:52:35.0443370+02:00 0HLFB7HUPMTP3:00000002 [INF] Executed DbCommand ("169"ms) [Parameters=["@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (Size = 4000), @p4='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SET NOCOUNT ON;
+INSERT INTO [BuildingMessages] ([BuildingId], [CreatedDate], [IsReport], [MessageText], [WriterUserId])
+VALUES (@p0, @p1, @p2, @p3, @p4);
+SELECT [BuildingMessageId]
+FROM [BuildingMessages]
+WHERE @@ROWCOUNT = 1 AND [BuildingMessageId] = scope_identity();" (0723d8ff)
+2018-07-16T18:52:35.1638860+02:00 0HLFB7HUPMTP3:00000002 [INF] Executed action method "RentTogether.Api.Controllers.BuildingMessagesController.Post (RentTogether.Api)", returned result "Microsoft.AspNetCore.Mvc.OkObjectResult" in 771.31ms. (50a9e262)
+2018-07-16T18:52:35.1649460+02:00 0HLFB7HUPMTP3:00000002 [INF] Executing ObjectResult, writing value of type '"RentTogether.Entities.Dto.BuildingMessage.BuildingMessageApiDto"'. (8a1b66c8)
+2018-07-16T18:52:35.1655070+02:00 0HLFB7HUPMTP3:00000002 [INF] Executed action "RentTogether.Api.Controllers.BuildingMessagesController.Post (RentTogether.Api)" in 783.521ms (afa2e885)
+2018-07-16T18:52:35.1657730+02:00 0HLFB7HUPMTP3:00000002 [INF] Request finished in 784.952ms 200 application/json; charset=utf-8 (791a596a)
+2018-07-16T20:59:49.1414830+02:00 0HLFB9P6K5JU6:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/   (ca22a1cb)
+2018-07-16T20:59:49.5237630+02:00 0HLFB9P6K5JU6:00000001 [INF] Request finished in 387.508ms 404  (791a596a)
+2018-07-16T21:00:00.5951540+02:00 0HLFB9P6K5JU9:00000001 [INF] Request starting HTTP/1.1 POST http://localhost:5000/api/users/ application/json 179 (ca22a1cb)
+2018-07-16T21:00:00.6513390+02:00 0HLFB9P6K5JU9:00000001 [INF] Route matched with "{action = \"Post\", controller = \"Users\"}". Executing action "RentTogether.Api.Controllers.UsersController.Post (RentTogether.Api)" (a44c0341)
+2018-07-16T21:00:00.7478290+02:00 0HLFB9P6K5JU9:00000001 [INF] Executing action method "RentTogether.Api.Controllers.UsersController.Post (RentTogether.Api)" with arguments (["RentTogether.Entities.Dto.UserRegisterDto"]) - Validation state: Valid (4e3479ed)
+2018-07-16T21:00:00.7620440+02:00 0HLFB9P6K5JU9:00000001 [INF] Entity Framework Core "2.1.1-rtm-30846" initialized '"RentTogetherDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2018-07-16T21:00:03.3519880+02:00 0HLFB9P6K5JU9:00000001 [INF] Executed DbCommand ("68"ms) [Parameters=["@__newUser_Email_0='?' (Size = 4000)"], CommandType='Text', CommandTimeout='30']"
+""SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Users] AS [x]
+        WHERE [x].[Email] = @__newUser_Email_0)
+    THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT)
+END" (0723d8ff)
+2018-07-16T21:00:03.8316150+02:00 0HLFB9P6K5JU9:00000001 [INF] Executed DbCommand ("71"ms) [Parameters=["@p0='?' (Size = 4000), @p1='?' (DbType = DateTime2), @p2='?' (Size = 4000), @p3='?' (DbType = Int32), @p4='?' (Size = 4000), @p5='?' (DbType = Int32), @p6='?' (Size = 4000), @p7='?' (DbType = Int32), @p8='?' (DbType = Int32), @p9='?' (DbType = Int32), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32), @p12='?' (Size = 4000), @p13='?' (DbType = Int32), @p14='?' (Size = 4000), @p15='?' (DbType = Int32), @p16='?' (Size = 4000), @p17='?' (Size = 4000), @p18='?' (Size = 4000), @p19='?' (DbType = DateTime2), @p20='?' (DbType = Int32), @p21='?' (DbType = Int32), @p22='?' (DbType = Int32)"], CommandType='Text', CommandTimeout='30']"
+""SET NOCOUNT ON;
+INSERT INTO [Users] ([City], [CreateDate], [Description], [DesiredPersonalityFk], [Email], [FavoriteUserId], [FirstName], [IsActive], [IsAdmin], [IsOwner], [IsRoomer], [IsValideUser], [LastName], [MatchFk], [Password], [PersonalityFk], [PhoneNumber], [PostalCode], [Token], [TokenExpirationDate], [UserPictureFk], [Vote1Fk], [Vote2Fk])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15, @p16, @p17, @p18, @p19, @p20, @p21, @p22);
+SELECT [UserId]
+FROM [Users]
+WHERE @@ROWCOUNT = 1 AND [UserId] = scope_identity();" (0723d8ff)
+2018-07-16T21:00:03.9130780+02:00 0HLFB9P6K5JU9:00000001 [INF] Executed action method "RentTogether.Api.Controllers.UsersController.Post (RentTogether.Api)", returned result "Microsoft.AspNetCore.Mvc.OkObjectResult" in 3161.814ms. (50a9e262)
+2018-07-16T21:00:03.9652460+02:00 0HLFB9P6K5JU9:00000001 [INF] Executing ObjectResult, writing value of type '"RentTogether.Entities.Dto.UserApiDto"'. (8a1b66c8)
+2018-07-16T21:00:03.9818380+02:00 0HLFB9P6K5JU9:00000001 [INF] Executed action "RentTogether.Api.Controllers.UsersController.Post (RentTogether.Api)" in 3327.423ms (afa2e885)
+2018-07-16T21:00:03.9899850+02:00 0HLFB9P6K5JU9:00000001 [INF] Request finished in 3394.86ms 200 application/json; charset=utf-8 (791a596a)
+2018-07-16T21:01:07.7386100+02:00 0HLFB9P6K5JU9:00000002 [INF] Request starting HTTP/1.1 POST http://localhost:5000/Users application/json 181 (ca22a1cb)
+2018-07-16T21:01:07.7388540+02:00 0HLFB9P6K5JU9:00000002 [INF] Request finished in 0.282ms 404  (791a596a)
+2018-07-16T21:01:07.7487130+02:00  [INF] Connection id ""0HLFB9P6K5JU9"", Request id ""0HLFB9P6K5JU9:00000002"": the application completed without reading the entire request body. (54ac9468)
+2018-07-16T21:01:20.0240770+02:00 0HLFB9P6K5JU9:00000003 [INF] Request starting HTTP/1.1 POST http://localhost:5000/api/Users application/json 181 (ca22a1cb)
+2018-07-16T21:01:20.0246970+02:00 0HLFB9P6K5JU9:00000003 [INF] Route matched with "{action = \"Post\", controller = \"Users\"}". Executing action "RentTogether.Api.Controllers.UsersController.Post (RentTogether.Api)" (a44c0341)
+2018-07-16T21:01:20.0545760+02:00 0HLFB9P6K5JU9:00000003 [INF] Executing action method "RentTogether.Api.Controllers.UsersController.Post (RentTogether.Api)" with arguments (["RentTogether.Entities.Dto.UserRegisterDto"]) - Validation state: Valid (4e3479ed)
+2018-07-16T21:01:20.0553070+02:00 0HLFB9P6K5JU9:00000003 [INF] Entity Framework Core "2.1.1-rtm-30846" initialized '"RentTogetherDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2018-07-16T21:01:20.1160060+02:00 0HLFB9P6K5JU9:00000003 [INF] Executed DbCommand ("53"ms) [Parameters=["@__newUser_Email_0='?' (Size = 4000)"], CommandType='Text', CommandTimeout='30']"
+""SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Users] AS [x]
+        WHERE [x].[Email] = @__newUser_Email_0)
+    THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT)
+END" (0723d8ff)
+2018-07-16T21:01:21.5559420+02:00 0HLFB9P6K5JU9:00000003 [INF] Executed action "RentTogether.Api.Controllers.UsersController.Post (RentTogether.Api)" in 1531.169ms (afa2e885)
+2018-07-16T21:01:22.5254420+02:00 0HLFB9P6K5JU9:00000003 [ERR] An unhandled exception has occurred while executing the request. (48a46595)
+System.Exception: Exception of type 'System.Exception' was thrown.
+   at RentTogether.Business.Services.UserService.CreateUserAsync(UserRegisterDto userRegisterDto) in /Users/remi/Documents/ProjetsESGI/Core/RentTogether.Business/Services/UserService.cs:line 50
+   at RentTogether.Api.Controllers.UsersController.Post(UserRegisterDto userRegisterDto) in /Users/remi/Documents/ProjetsESGI/Core/RentTogether.Api/Controllers/UsersController.cs:line 129
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at RentTogether.Startup.<>c.<<Configure>b__5_2>d.MoveNext() in /Users/remi/Documents/ProjetsESGI/Core/RentTogether.Api/Startup.cs:line 161
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIIndexMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Cors.Infrastructure.CorsMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2018-07-16T21:01:22.6269420+02:00 0HLFB9P6K5JU9:00000003 [INF] Request finished in 2602.872ms 500 text/html; charset=utf-8 (791a596a)
+2018-07-16T21:01:27.2249140+02:00 0HLFB9P6K5JU9:00000004 [INF] Request starting HTTP/1.1 POST http://localhost:5000/api/Users application/json 181 (ca22a1cb)
+2018-07-16T21:01:27.2251310+02:00 0HLFB9P6K5JU9:00000004 [INF] Route matched with "{action = \"Post\", controller = \"Users\"}". Executing action "RentTogether.Api.Controllers.UsersController.Post (RentTogether.Api)" (a44c0341)
+2018-07-16T21:01:27.2328070+02:00 0HLFB9P6K5JU9:00000004 [INF] Executing action method "RentTogether.Api.Controllers.UsersController.Post (RentTogether.Api)" with arguments (["RentTogether.Entities.Dto.UserRegisterDto"]) - Validation state: Valid (4e3479ed)
+2018-07-16T21:02:36.3387990+02:00 0HLFB9P6K5JU9:00000004 [INF] Entity Framework Core "2.1.1-rtm-30846" initialized '"RentTogetherDbContext"' using provider '"Microsoft.EntityFrameworkCore.SqlServer"' with options: "None" (9958f5bb)
+2018-07-16T21:02:36.6236250+02:00 0HLFB9P6K5JU9:00000004 [INF] Executed DbCommand ("259"ms) [Parameters=["@__newUser_Email_0='?' (Size = 4000)"], CommandType='Text', CommandTimeout='30']"
+""SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Users] AS [x]
+        WHERE [x].[Email] = @__newUser_Email_0)
+    THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT)
+END" (0723d8ff)

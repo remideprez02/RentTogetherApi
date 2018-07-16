@@ -20,12 +20,15 @@ namespace RentTogether.Business.Services
         private readonly IDal _dal;
         private readonly IMapperHelper _mapperHelper;
         private readonly IAuthenticationService _authenticationService;
+        private readonly ICustomEncoder _customEncoder;
 
-        public UserService(IDal dal, IMapperHelper mapperHelper, IAuthenticationService authenticationService)
+        public UserService(IDal dal, IMapperHelper mapperHelper, IAuthenticationService authenticationService,
+                           ICustomEncoder customEncoder)
         {
             _dal = dal;
             _mapperHelper = mapperHelper;
             _authenticationService = authenticationService;
+            _customEncoder = customEncoder;
         }
 
         /// <summary>
@@ -41,13 +44,14 @@ namespace RentTogether.Business.Services
             {
 
                 var userApiDto = _authenticationService.RequestToken(user);
+                user.Password = _customEncoder.Base64Encode(user.Password);
                 user.Token = userApiDto.Token;
                 user.TokenExpirationDate = userApiDto.TokenExpirationDate;
 
                 await _dal.CreateUserAsync(user);
                 return user;
             }
-            throw new Exception();
+                return null;
         }
 
         /// <summary>

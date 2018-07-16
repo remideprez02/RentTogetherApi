@@ -9,6 +9,7 @@ using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNet.OData.Formatter;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
+using RentTogether.Api.Hubs;
 using RentTogether.Business.Services;
 using RentTogether.Common.Helpers;
 using RentTogether.Common.Mapper;
@@ -51,9 +53,6 @@ namespace RentTogether
             //ssl
             //services.Configure<MvcOptions>(options => options.Filters.Add(new RequireHttpsAttribute();
 
-            //SignalR
-            services.AddSignalR();
-
             //CORS
             services.AddCors(options =>
             {
@@ -63,6 +62,9 @@ namespace RentTogether
                 .AllowAnyHeader()
                 .AllowCredentials());
             });
+
+            //SignalR
+            services.AddSignalR();
 
             //Dependency Injection
             services.AddTransient<IDal, SqlService>();
@@ -125,21 +127,27 @@ namespace RentTogether
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors("CorsPolicy");
+
 			app.UseStaticFiles();
 
+            //Logger
             loggerFactory.AddFile("Logs/renttogetherapi.txt");
 
             //SignalR
-            //app.UseSignalR();
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<PublicChatHub>("/chat");
+            });
 
             //ssl
             //var options = new RewriteOptions().AddRedirectToHttps();
             //app.UseRewriter(options);
 
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            //Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
             
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+            //Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "RentTogether API V1");
@@ -153,7 +161,7 @@ namespace RentTogether
                 await next();
             });
 
-            app.UseCors("CorsPolicy");
+
             app.UseAuthentication();
 
 			//ODATA

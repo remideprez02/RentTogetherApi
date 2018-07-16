@@ -132,7 +132,7 @@ namespace RentTogether.Api.Controllers
                     var userApiDto = _mapperHelper.MapUserToUserApiDto(user);
                     return Ok(userApiDto);
                 }
-                return StatusCode(404, "Unable to create user.");
+                return StatusCode(404, "Unable to create user, duplicate values.");
             }
             return StatusCode(404, isValid.Item2);
         }

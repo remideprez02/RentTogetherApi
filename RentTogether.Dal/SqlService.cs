@@ -37,12 +37,15 @@ namespace RentTogether.Dal
         private readonly RentTogetherDbContext _rentTogetherDbContext;
         private readonly IMapperHelper _mapperHelper;
         private readonly ILogger<SqlService> _logger;
+        private readonly ICustomEncoder _customEncoder;
 
-        public SqlService(RentTogetherDbContext rentTogetherDbContext, IMapperHelper mapperHelper, ILogger<SqlService> logger)
+        public SqlService(RentTogetherDbContext rentTogetherDbContext, IMapperHelper mapperHelper,
+                          ILogger<SqlService> logger, ICustomEncoder customEncoder)
         {
             _rentTogetherDbContext = rentTogetherDbContext;
             _mapperHelper = mapperHelper;
             _logger = logger;
+            _customEncoder = customEncoder;
         }
 
         #region Users
@@ -118,9 +121,10 @@ namespace RentTogether.Dal
         {
             try
             {
+                var pw = _customEncoder.Base64Encode(userLoginDto.Password);
                 var user = await _rentTogetherDbContext
                         .Users
-                        .FirstOrDefaultAsync(x => x.Email == userLoginDto.Email && x.Password == userLoginDto.Password);
+                        .FirstOrDefaultAsync(x => x.Email == userLoginDto.Email && x.Password == pw);
                 if (user != null)
                 {
                     return user;
@@ -1992,12 +1996,6 @@ namespace RentTogether.Dal
             try
             {
                 var building = await _rentTogetherDbContext.Buildings
-                                                             .Include(x => x.BuildingPictures)
-                                                             .ThenInclude(xx => xx.Building)
-                                                             .Include(x => x.BuildingUsers)
-                                                             .Include(x => x.BuildingMessages)
-                                                             .ThenInclude(xx => xx.Writer)
-                                                             .Include(x => x.Owner)
                                                              .SingleOrDefaultAsync(x => x.BuildingId == buildingMessageDto.BuildingId);
 
                 var user = await _rentTogetherDbContext.Users
